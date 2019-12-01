@@ -1,0 +1,771 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18954ED5238E507D0059434B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED4238E507D0059434B /* UserInfo.swift */; };
+		18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED6238E98B30059434B /* HGgameoverController.swift */; };
+		73A8425F30CFACB3DFB13DFF /* Pods_HalliGalli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */; };
+		C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129B89238D460B0053AEA0 /* AppDelegate.swift */; };
+		C6129B8F238D460B0053AEA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6129B8D238D460B0053AEA0 /* Main.storyboard */; };
+		C6129B91238D460D0053AEA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6129B90238D460D0053AEA0 /* Assets.xcassets */; };
+		C6129B94238D460D0053AEA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6129B92238D460D0053AEA0 /* LaunchScreen.storyboard */; };
+		C6129B9F238D460D0053AEA0 /* HalliGalliTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129B9E238D460D0053AEA0 /* HalliGalliTests.swift */; };
+		C6129BAA238D460D0053AEA0 /* HalliGalliUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BA9238D460D0053AEA0 /* HalliGalliUITests.swift */; };
+		C6129BBB238D49220053AEA0 /* HGHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BBA238D49220053AEA0 /* HGHomeViewController.swift */; };
+		C6129BBD238D49300053AEA0 /* HGRoomListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BBC238D49300053AEA0 /* HGRoomListController.swift */; };
+		C6129BBF238D49400053AEA0 /* HGGamingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BBE238D49400053AEA0 /* HGGamingController.swift */; };
+		C6129BC2238D49E50053AEA0 /* HGNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BC1238D49E50053AEA0 /* HGNavigationController.swift */; };
+		C6129BC5238D4B4F0053AEA0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BC4238D4B4F0053AEA0 /* UIColor+Extension.swift */; };
+		C6129BC7238D4B9C0053AEA0 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */; };
+		C6129BCA238D4BF20053AEA0 /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BC9238D4BF20053AEA0 /* CommonDefine.swift */; };
+		C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */; };
+		C6129BD0238D52BB0053AEA0 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */; };
+		C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */; };
+		C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C6129B9B238D460D0053AEA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6129B7E238D460B0053AEA0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6129B85238D460B0053AEA0;
+			remoteInfo = HalliGalli;
+		};
+		C6129BA6238D460D0053AEA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6129B7E238D460B0053AEA0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6129B85238D460B0053AEA0;
+			remoteInfo = HalliGalli;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		18954ED4238E507D0059434B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		18954ED6238E98B30059434B /* HGgameoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGgameoverController.swift; sourceTree = "<group>"; };
+		18BBDC18238E386300D12F9C /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = "<group>"; };
+		9054A6C4989F75FF50C07883 /* Pods-HalliGalli.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HalliGalli.release.xcconfig"; path = "Target Support Files/Pods-HalliGalli/Pods-HalliGalli.release.xcconfig"; sourceTree = "<group>"; };
+		C6129B86238D460B0053AEA0 /* HalliGalli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HalliGalli.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6129B89238D460B0053AEA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C6129B8E238D460B0053AEA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C6129B90238D460D0053AEA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C6129B93238D460D0053AEA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C6129B95238D460D0053AEA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6129B9A238D460D0053AEA0 /* HalliGalliTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HalliGalliTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6129B9E238D460D0053AEA0 /* HalliGalliTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalliGalliTests.swift; sourceTree = "<group>"; };
+		C6129BA0238D460D0053AEA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6129BA5238D460D0053AEA0 /* HalliGalliUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HalliGalliUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6129BA9238D460D0053AEA0 /* HalliGalliUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalliGalliUITests.swift; sourceTree = "<group>"; };
+		C6129BAB238D460D0053AEA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6129BBA238D49220053AEA0 /* HGHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGHomeViewController.swift; sourceTree = "<group>"; };
+		C6129BBC238D49300053AEA0 /* HGRoomListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGRoomListController.swift; sourceTree = "<group>"; };
+		C6129BBE238D49400053AEA0 /* HGGamingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGGamingController.swift; sourceTree = "<group>"; };
+		C6129BC1238D49E50053AEA0 /* HGNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGNavigationController.swift; sourceTree = "<group>"; };
+		C6129BC4238D4B4F0053AEA0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		C6129BC9238D4BF20053AEA0 /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
+		C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGRoomWaitController.swift; sourceTree = "<group>"; };
+		C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
+		C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGGamingView.swift; sourceTree = "<group>"; };
+		C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HalliGalli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF2F6A552C41DC026F457D75 /* Pods-HalliGalli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HalliGalli.debug.xcconfig"; path = "Target Support Files/Pods-HalliGalli/Pods-HalliGalli.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C6129B83238D460B0053AEA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A8425F30CFACB3DFB13DFF /* Pods_HalliGalli.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6129B97238D460D0053AEA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6129BA2238D460D0053AEA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2D598526C7238D8C01681E18 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18BBDC18238E386300D12F9C /* Pods */,
+				C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4039F3744253DB4515749654 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FF2F6A552C41DC026F457D75 /* Pods-HalliGalli.debug.xcconfig */,
+				9054A6C4989F75FF50C07883 /* Pods-HalliGalli.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C6129B7D238D460B0053AEA0 = {
+			isa = PBXGroup;
+			children = (
+				C6129B88238D460B0053AEA0 /* HalliGalli */,
+				C6129B9D238D460D0053AEA0 /* HalliGalliTests */,
+				C6129BA8238D460D0053AEA0 /* HalliGalliUITests */,
+				C6129B87238D460B0053AEA0 /* Products */,
+				4039F3744253DB4515749654 /* Pods */,
+				2D598526C7238D8C01681E18 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C6129B87238D460B0053AEA0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C6129B86238D460B0053AEA0 /* HalliGalli.app */,
+				C6129B9A238D460D0053AEA0 /* HalliGalliTests.xctest */,
+				C6129BA5238D460D0053AEA0 /* HalliGalliUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6129B88238D460B0053AEA0 /* HalliGalli */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BB7238D48F50053AEA0 /* Classes */,
+				C6129BB9238D49050053AEA0 /* Support */,
+				C6129B89238D460B0053AEA0 /* AppDelegate.swift */,
+				C6129B95238D460D0053AEA0 /* Info.plist */,
+			);
+			path = HalliGalli;
+			sourceTree = "<group>";
+		};
+		C6129B9D238D460D0053AEA0 /* HalliGalliTests */ = {
+			isa = PBXGroup;
+			children = (
+				C6129B9E238D460D0053AEA0 /* HalliGalliTests.swift */,
+				C6129BA0238D460D0053AEA0 /* Info.plist */,
+			);
+			path = HalliGalliTests;
+			sourceTree = "<group>";
+		};
+		C6129BA8238D460D0053AEA0 /* HalliGalliUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BA9238D460D0053AEA0 /* HalliGalliUITests.swift */,
+				C6129BAB238D460D0053AEA0 /* Info.plist */,
+			);
+			path = HalliGalliUITests;
+			sourceTree = "<group>";
+		};
+		C6129BB7238D48F50053AEA0 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BC8238D4BE40053AEA0 /* CommonDefine */,
+				C6129BC3238D4B3C0053AEA0 /* Extension */,
+				C6129BC0238D49CA0053AEA0 /* Base */,
+				C6129BCD238D529A0053AEA0 /* Controller */,
+				C6129BCE238D52A90053AEA0 /* Model */,
+				C6129BD3238D5EBF0053AEA0 /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		C6129BB9238D49050053AEA0 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				C6129B90238D460D0053AEA0 /* Assets.xcassets */,
+				C6129B92238D460D0053AEA0 /* LaunchScreen.storyboard */,
+				C6129B8D238D460B0053AEA0 /* Main.storyboard */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		C6129BC0238D49CA0053AEA0 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BC1238D49E50053AEA0 /* HGNavigationController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C6129BC3238D4B3C0053AEA0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BC4238D4B4F0053AEA0 /* UIColor+Extension.swift */,
+				C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */,
+				C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		C6129BC8238D4BE40053AEA0 /* CommonDefine */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BC9238D4BF20053AEA0 /* CommonDefine.swift */,
+			);
+			path = CommonDefine;
+			sourceTree = "<group>";
+		};
+		C6129BCD238D529A0053AEA0 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BBA238D49220053AEA0 /* HGHomeViewController.swift */,
+				C6129BBC238D49300053AEA0 /* HGRoomListController.swift */,
+				C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */,
+				C6129BBE238D49400053AEA0 /* HGGamingController.swift */,
+				18954ED6238E98B30059434B /* HGgameoverController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C6129BCE238D52A90053AEA0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */,
+				18954ED4238E507D0059434B /* UserInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C6129BD3238D5EBF0053AEA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C6129B85238D460B0053AEA0 /* HalliGalli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6129BAE238D460D0053AEA0 /* Build configuration list for PBXNativeTarget "HalliGalli" */;
+			buildPhases = (
+				E87CE6F51C335B55B79BCF55 /* [CP] Check Pods Manifest.lock */,
+				C6129B82238D460B0053AEA0 /* Sources */,
+				C6129B83238D460B0053AEA0 /* Frameworks */,
+				C6129B84238D460B0053AEA0 /* Resources */,
+				EBC4BDA1C0774BF2C7D99F4D /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HalliGalli;
+			productName = HalliGalli;
+			productReference = C6129B86238D460B0053AEA0 /* HalliGalli.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C6129B99238D460D0053AEA0 /* HalliGalliTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6129BB1238D460D0053AEA0 /* Build configuration list for PBXNativeTarget "HalliGalliTests" */;
+			buildPhases = (
+				C6129B96238D460D0053AEA0 /* Sources */,
+				C6129B97238D460D0053AEA0 /* Frameworks */,
+				C6129B98238D460D0053AEA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6129B9C238D460D0053AEA0 /* PBXTargetDependency */,
+			);
+			name = HalliGalliTests;
+			productName = HalliGalliTests;
+			productReference = C6129B9A238D460D0053AEA0 /* HalliGalliTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C6129BA4238D460D0053AEA0 /* HalliGalliUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6129BB4238D460D0053AEA0 /* Build configuration list for PBXNativeTarget "HalliGalliUITests" */;
+			buildPhases = (
+				C6129BA1238D460D0053AEA0 /* Sources */,
+				C6129BA2238D460D0053AEA0 /* Frameworks */,
+				C6129BA3238D460D0053AEA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6129BA7238D460D0053AEA0 /* PBXTargetDependency */,
+			);
+			name = HalliGalliUITests;
+			productName = HalliGalliUITests;
+			productReference = C6129BA5238D460D0053AEA0 /* HalliGalliUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C6129B7E238D460B0053AEA0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = HalliGalli;
+				TargetAttributes = {
+					C6129B85238D460B0053AEA0 = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					C6129B99238D460D0053AEA0 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = C6129B85238D460B0053AEA0;
+					};
+					C6129BA4238D460D0053AEA0 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = C6129B85238D460B0053AEA0;
+					};
+				};
+			};
+			buildConfigurationList = C6129B81238D460B0053AEA0 /* Build configuration list for PBXProject "HalliGalli" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C6129B7D238D460B0053AEA0;
+			productRefGroup = C6129B87238D460B0053AEA0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C6129B85238D460B0053AEA0 /* HalliGalli */,
+				C6129B99238D460D0053AEA0 /* HalliGalliTests */,
+				C6129BA4238D460D0053AEA0 /* HalliGalliUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C6129B84238D460B0053AEA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6129B94238D460D0053AEA0 /* LaunchScreen.storyboard in Resources */,
+				C6129B91238D460D0053AEA0 /* Assets.xcassets in Resources */,
+				C6129B8F238D460B0053AEA0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6129B98238D460D0053AEA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6129BA3238D460D0053AEA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E87CE6F51C335B55B79BCF55 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HalliGalli-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EBC4BDA1C0774BF2C7D99F4D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HalliGalli/Pods-HalliGalli-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HalliGalli/Pods-HalliGalli-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HalliGalli/Pods-HalliGalli-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C6129B82238D460B0053AEA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18954ED5238E507D0059434B /* UserInfo.swift in Sources */,
+				C6129BC5238D4B4F0053AEA0 /* UIColor+Extension.swift in Sources */,
+				C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */,
+				C6129BC2238D49E50053AEA0 /* HGNavigationController.swift in Sources */,
+				18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */,
+				C6129BBD238D49300053AEA0 /* HGRoomListController.swift in Sources */,
+				C6129BC7238D4B9C0053AEA0 /* UIImage+Extension.swift in Sources */,
+				C6129BD0238D52BB0053AEA0 /* RoomInfo.swift in Sources */,
+				C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */,
+				C6129BCA238D4BF20053AEA0 /* CommonDefine.swift in Sources */,
+				C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */,
+				C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */,
+				C6129BBF238D49400053AEA0 /* HGGamingController.swift in Sources */,
+				C6129BBB238D49220053AEA0 /* HGHomeViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6129B96238D460D0053AEA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6129B9F238D460D0053AEA0 /* HalliGalliTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6129BA1238D460D0053AEA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6129BAA238D460D0053AEA0 /* HalliGalliUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C6129B9C238D460D0053AEA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6129B85238D460B0053AEA0 /* HalliGalli */;
+			targetProxy = C6129B9B238D460D0053AEA0 /* PBXContainerItemProxy */;
+		};
+		C6129BA7238D460D0053AEA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6129B85238D460B0053AEA0 /* HalliGalli */;
+			targetProxy = C6129BA6238D460D0053AEA0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C6129B8D238D460B0053AEA0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6129B8E238D460B0053AEA0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C6129B92238D460D0053AEA0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6129B93238D460D0053AEA0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C6129BAC238D460D0053AEA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C6129BAD238D460D0053AEA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C6129BAF238D460D0053AEA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF2F6A552C41DC026F457D75 /* Pods-HalliGalli.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HalliGalli/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalli;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C6129BB0238D460D0053AEA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9054A6C4989F75FF50C07883 /* Pods-HalliGalli.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HalliGalli/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalli;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C6129BB2238D460D0053AEA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HalliGalliTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalliTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HalliGalli.app/HalliGalli";
+			};
+			name = Debug;
+		};
+		C6129BB3238D460D0053AEA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HalliGalliTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalliTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HalliGalli.app/HalliGalli";
+			};
+			name = Release;
+		};
+		C6129BB5238D460D0053AEA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HalliGalliUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalliUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HalliGalli;
+			};
+			name = Debug;
+		};
+		C6129BB6238D460D0053AEA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HalliGalliUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalliUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HalliGalli;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C6129B81238D460B0053AEA0 /* Build configuration list for PBXProject "HalliGalli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6129BAC238D460D0053AEA0 /* Debug */,
+				C6129BAD238D460D0053AEA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6129BAE238D460D0053AEA0 /* Build configuration list for PBXNativeTarget "HalliGalli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6129BAF238D460D0053AEA0 /* Debug */,
+				C6129BB0238D460D0053AEA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6129BB1238D460D0053AEA0 /* Build configuration list for PBXNativeTarget "HalliGalliTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6129BB2238D460D0053AEA0 /* Debug */,
+				C6129BB3238D460D0053AEA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6129BB4238D460D0053AEA0 /* Build configuration list for PBXNativeTarget "HalliGalliUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6129BB5238D460D0053AEA0 /* Debug */,
+				C6129BB6238D460D0053AEA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C6129B7E238D460B0053AEA0 /* Project object */;
+}
