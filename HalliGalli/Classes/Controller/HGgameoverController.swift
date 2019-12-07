@@ -4,14 +4,14 @@
 //
 //  Created by apple on 2019/11/27.
 //  Copyright © 2019 HalliGalli. All rights reserved.
-//
+//  淘汰界面
 
 import Foundation
 import UIKit
 
 class HGgameoverController:UIViewController{
     
-    fileprivate lazy var createRoomButton: UIButton = {
+    fileprivate lazy var createRoomButton: UIButton = {//按钮
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("你已被淘汰，单击此处返回游戏起始页", for: UIControl.State.normal);
         object.setTitle("你已被淘汰，单击此处返回游戏起始页", for: UIControl.State.highlighted);
@@ -26,7 +26,7 @@ class HGgameoverController:UIViewController{
         return object;
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {
+    fileprivate lazy var backgroundImageView: UIImageView = {//背景图片
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
@@ -58,6 +58,7 @@ class HGgameoverController:UIViewController{
         }
     }
     
+    //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
         if sender == createRoomButton {
             let roomController = HGHomeViewController()

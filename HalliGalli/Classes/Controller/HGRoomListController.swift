@@ -4,7 +4,7 @@
 //
 //  Created by apple on 2019/11/26.
 //  Copyright © 2019 HalliGalli. All rights reserved.
-//
+//  房间列表页面
 
 import UIKit
 
@@ -31,7 +31,7 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var joinButton: UIButton = {
+    fileprivate lazy var joinButton: UIButton = {//“加入”按钮的属性设置
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("加入", for: UIControl.State.normal);
         object.setTitle("加入", for: UIControl.State.highlighted);
@@ -47,7 +47,7 @@ class HGRoomListController: UIViewController {
         return object;
     }()
     
-    fileprivate lazy var listTitleL: UILabel = {
+    fileprivate lazy var listTitleL: UILabel = {//一个简单的label“房间列表”
         let object = UILabel()
         object.text = "房间列表"
         object.textAlignment = .center
@@ -56,7 +56,7 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var cancelButton: UIButton = {
+    fileprivate lazy var cancelButton: UIButton = {//“取消“按钮的属性设置
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("取消", for: UIControl.State.normal);
         object.setTitle("取消", for: UIControl.State.highlighted);
@@ -71,7 +71,7 @@ class HGRoomListController: UIViewController {
         return object;
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {
+    fileprivate lazy var backgroundImageView: UIImageView = {//背景图片
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
@@ -81,13 +81,14 @@ class HGRoomListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         userinfo=UserInfo(Username: "孙楚涛", status: 0)
+        //房间列表的数据源，各个房间信息
         dataSource = [
-            RoomInfo(roomID: 1, count: 121),
-            RoomInfo(roomID: 2, count: 122),
-            RoomInfo(roomID: 3, count: 123),
-            RoomInfo(roomID: 4, count: 124),
-            RoomInfo(roomID: 5, count: 125),
-            RoomInfo(roomID: 6, count: 126)]
+            RoomInfo(isstarted:false,roomID: 1, count: 121),
+            RoomInfo(isstarted:false,roomID: 2, count: 122),
+            RoomInfo(isstarted:false,roomID: 3, count: 123),
+            RoomInfo(isstarted:false,roomID: 4, count: 124),
+            RoomInfo(isstarted:false,roomID: 5, count: 125),
+            RoomInfo(isstarted:false,roomID: 6, count: 126)]
         setupUI()
     }
 
@@ -98,6 +99,8 @@ class HGRoomListController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(joinButton)
         view.addSubview(cancelButton)
+        
+        //用snp约束对UI组件进行布局
         backgroundImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
@@ -126,13 +129,15 @@ class HGRoomListController: UIViewController {
         }
     }
     
+    
+    //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
-        if sender ==  joinButton {
+        if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
             let roomController = HGRoomWaitController()
             roomController.userinfo=userinfo
             roomController.roomInfo = selectedRoomInfo
             navigationController?.pushViewController(roomController, animated: true)
-        } else if sender == cancelButton {
+        } else if sender == cancelButton {//点击取消按钮则回到上一页
             navigationController?.popViewController(animated: true)
         }
     }
@@ -157,8 +162,8 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "UITableViewCell")
         }
-        let currentInfo = dataSource[indexPath.row]
-        cell.textLabel?.text = "房间\(currentInfo.roomID ?? 1)"
+        let currentInfo = dataSource[indexPath.row]//当前点击的行数，即要选择加入的房间
+        cell.textLabel?.text = "房间\(currentInfo.roomID ?? 1)" //cell的文本名称标注房间名（房间ID）
         if selectedRoomInfo != nil && currentInfo.roomID == selectedRoomInfo?.roomID {
             cell.textLabel?.textColor = kMainThemeColor
         } else {
@@ -169,8 +174,8 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedRoomInfo = dataSource[indexPath.row]
-        joinButton.isEnabled = true
+        selectedRoomInfo = dataSource[indexPath.row]//当前点击的行数，即要选择加入的房间
+        joinButton.isEnabled = true//选择好房间后让加入按钮亮起变成可点击状态
         tableView.reloadData()
     }
 }
