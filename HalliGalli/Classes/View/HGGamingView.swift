@@ -19,7 +19,7 @@ class HGGamingView: UIView {
         setupUI()
     }
     
-    /// 随机
+    /// 牌的五个位置随机显示五个水果（或者不显示），imageviews0-4分别表示左上、右上、中、左下，右下五个位置显示的水果。
     @discardableResult
     public func random() -> String {
         var result: String = ""
@@ -46,31 +46,31 @@ class HGGamingView: UIView {
             addSubview(item)
             if let index = imageViews.firstIndex(of: item) {
                 if index == 0 {
-                    item.snp.makeConstraints { (make) in
+                    item.snp.makeConstraints { (make) in //左上角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
                         make.top.left.equalTo(0)
                     }
                 } else if index == 1 {
-                    item.snp.makeConstraints { (make) in
+                    item.snp.makeConstraints { (make) in //右上角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
                         make.top.right.equalTo(0)
                     }
                 } else if index == 2 {
-                    item.snp.makeConstraints { (make) in
+                    item.snp.makeConstraints { (make) in //中间的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
                         make.center.equalTo(self)
                     }
                 } else if index == 3 {
-                    item.snp.makeConstraints { (make) in
+                    item.snp.makeConstraints { (make) in //左下角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
                         make.bottom.left.equalTo(0)
                     }
                 } else if index == 4 {
-                    item.snp.makeConstraints { (make) in
+                    item.snp.makeConstraints { (make) in //右下角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
                         make.bottom.right.equalTo(0)

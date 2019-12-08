@@ -4,7 +4,7 @@
 //
 //  Created by apple on 2019/11/26.
 //  Copyright © 2019 HalliGalli. All rights reserved.
-//
+//  游戏主页（起始页面）
 
 import UIKit
 import SnapKit
@@ -14,7 +14,7 @@ class HGHomeViewController: UIViewController {
     /// 玩家信息
     public var userinfo: UserInfo?
     
-    fileprivate lazy var joinRoomButton: UIButton = {
+    fileprivate lazy var joinRoomButton: UIButton = { //“加入房间”按钮的属性设置
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("加入房间", for: UIControl.State.normal);
         object.setTitle("加入房间", for: UIControl.State.highlighted);
@@ -29,7 +29,7 @@ class HGHomeViewController: UIViewController {
         return object;
     }()
     
-    fileprivate lazy var createRoomButton: UIButton = {
+    fileprivate lazy var createRoomButton: UIButton = { //”创建房间“按钮的属性设置
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("创建房间", for: UIControl.State.normal);
         object.setTitle("创建房间", for: UIControl.State.highlighted);
@@ -44,7 +44,7 @@ class HGHomeViewController: UIViewController {
         return object;
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {
+    fileprivate lazy var backgroundImageView: UIImageView = { //背景图片
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
@@ -53,7 +53,7 @@ class HGHomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userinfo=UserInfo(Username: "孙楚涛", status: 0)
+        userinfo=UserInfo(Username: "孙楚涛", status: 0) //设置当前页面里的玩家信息即player
         setupUI()
     }
     
@@ -68,6 +68,7 @@ class HGHomeViewController: UIViewController {
         view.addSubview(joinRoomButton)
         view.addSubview(createRoomButton)
         
+        //用snp约束设置各个UI组件的布局
         backgroundImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
@@ -86,13 +87,13 @@ class HGHomeViewController: UIViewController {
     }
     
     @objc fileprivate func doAction(sender: UIButton) {
-        if sender == joinRoomButton {
+        if sender == joinRoomButton {//如果点击的是加入房间按钮，则跳转到HGRoomList房间列表页面
             navigationController?.pushViewController(HGRoomListController(), animated: true)
-        } else if sender == createRoomButton {
-            userinfo?.status=1
+        } else if sender == createRoomButton {//如果点击的是创建房间按钮，则跳转到HGRoomWait等待界面（还需要在服务器那边更新房间列表数据源，增加一个房间以供玩家加入，不知道怎么弄）
+            userinfo?.status=1 //则把该用户身份转变为房主
             let roomController = HGRoomWaitController()
             roomController.userinfo=UserInfo(Username: "孙楚涛", status: 1)
-            roomController.roomInfo = RoomInfo(roomID: 10, count: 1)
+            roomController.roomInfo = RoomInfo(isstarted:false, roomID: 10, count: 1)
             navigationController?.pushViewController(roomController, animated: true)
         }
     }
