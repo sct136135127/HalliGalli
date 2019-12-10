@@ -10,10 +10,9 @@ import UIKit
 
 class HGRoomListController: UIViewController {
 
+    //MARK: 需要修改
     /// 数据源
     public var dataSource: [RoomInfo] = []
-    /// 玩家信息
-    public var userinfo: UserInfo?
     
     /// 选中的房间
     fileprivate var selectedRoomInfo: RoomInfo?
@@ -80,15 +79,16 @@ class HGRoomListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //userinfo=UserInfo(Username: "孙楚涛", status: 0)
+        
         //房间列表的数据源，各个房间信息
-        dataSource = [
-            RoomInfo(isstarted:false,roomID: 1, count: 121),
-            RoomInfo(isstarted:false,roomID: 2, count: 122),
-            RoomInfo(isstarted:false,roomID: 3, count: 123),
-            RoomInfo(isstarted:false,roomID: 4, count: 124),
-            RoomInfo(isstarted:false,roomID: 5, count: 125),
-            RoomInfo(isstarted:false,roomID: 6, count: 126)]
+        dataSource = [RoomInfo(roomID: "RUA"+"的房间", roomAddress: "1.0.0.0", roomCount: 3)]
+//        dataSource = [
+//            RoomInfo(isstarted:false,roomID: 1, count: 121),
+//            RoomInfo(isstarted:false,roomID: 2, count: 122),
+//            RoomInfo(isstarted:false,roomID: 3, count: 123),
+//            RoomInfo(isstarted:false,roomID: 4, count: 124),
+//            RoomInfo(isstarted:false,roomID: 5, count: 125),
+//            RoomInfo(isstarted:false,roomID: 6, count: 126)]
         setupUI()
     }
 
@@ -134,7 +134,6 @@ class HGRoomListController: UIViewController {
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
             let roomController = HGRoomWaitController()
-            roomController.userinfo=userinfo
             roomController.roomInfo = selectedRoomInfo
             navigationController?.pushViewController(roomController, animated: true)
         } else if sender == cancelButton {//点击取消按钮则回到上一页
@@ -163,7 +162,7 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
             cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "UITableViewCell")
         }
         let currentInfo = dataSource[indexPath.row]//当前点击的行数，即要选择加入的房间
-        cell.textLabel?.text = "房间\(currentInfo.roomID ?? 1)" //cell的文本名称标注房间名（房间ID）
+        cell.textLabel?.text = "房间\(currentInfo.roomID ?? "error")" //cell的文本名称标注房间名（房间ID）
         if selectedRoomInfo != nil && currentInfo.roomID == selectedRoomInfo?.roomID {
             cell.textLabel?.textColor = kMainThemeColor
         } else {

@@ -23,12 +23,12 @@
 		C6129BC7238D4B9C0053AEA0 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */; };
 		C6129BCA238D4BF20053AEA0 /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BC9238D4BF20053AEA0 /* CommonDefine.swift */; };
 		C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */; };
-		C6129BD0238D52BB0053AEA0 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */; };
 		C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */; };
 		C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */; };
 		F52DD5532393C2C200889255 /* Pods_HalliGalli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */; };
 		F53065D8239DE72E0067EE05 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53065D7239DE72E0067EE05 /* Player.swift */; };
 		F53065DA239DEDAB0067EE05 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53065D9239DEDAB0067EE05 /* Server.swift */; };
+		F56A3DE0239F841C00238A87 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56A3DDF239F841C00238A87 /* RoomInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,12 +73,12 @@
 		C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C6129BC9238D4BF20053AEA0 /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
 		C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGRoomWaitController.swift; sourceTree = "<group>"; };
-		C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
 		C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGGamingView.swift; sourceTree = "<group>"; };
 		C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HalliGalli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F53065D7239DE72E0067EE05 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		F53065D9239DEDAB0067EE05 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		F56A3DDF239F841C00238A87 /* RoomInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
 		FF2F6A552C41DC026F457D75 /* Pods-HalliGalli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HalliGalli.debug.xcconfig"; path = "Target Support Files/Pods-HalliGalli/Pods-HalliGalli.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -229,11 +229,9 @@
 		C6129BCD238D529A0053AEA0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C6129BBA238D49220053AEA0 /* HGHomeViewController.swift */,
-				C6129BBC238D49300053AEA0 /* HGRoomListController.swift */,
-				C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */,
-				C6129BBE238D49400053AEA0 /* HGGamingController.swift */,
-				18954ED6238E98B30059434B /* HGgameoverController.swift */,
+				F56A3DE1239F8B9A00238A87 /* P1 */,
+				F56A3DE4239F8C0300238A87 /* P2 */,
+				F56A3DE5239F8C2700238A87 /* P3 */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -241,7 +239,7 @@
 		C6129BCE238D52A90053AEA0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */,
+				F56A3DDF239F841C00238A87 /* RoomInfo.swift */,
 				18954ED4238E507D0059434B /* UserInfo.swift */,
 				F53065D7239DE72E0067EE05 /* Player.swift */,
 				F53065D9239DEDAB0067EE05 /* Server.swift */,
@@ -255,6 +253,32 @@
 				C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F56A3DE1239F8B9A00238A87 /* P1 */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BBA238D49220053AEA0 /* HGHomeViewController.swift */,
+				C6129BBC238D49300053AEA0 /* HGRoomListController.swift */,
+				C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */,
+			);
+			path = P1;
+			sourceTree = "<group>";
+		};
+		F56A3DE4239F8C0300238A87 /* P2 */ = {
+			isa = PBXGroup;
+			children = (
+				C6129BBE238D49400053AEA0 /* HGGamingController.swift */,
+			);
+			path = P2;
+			sourceTree = "<group>";
+		};
+		F56A3DE5239F8C2700238A87 /* P3 */ = {
+			isa = PBXGroup;
+			children = (
+				18954ED6238E98B30059434B /* HGgameoverController.swift */,
+			);
+			path = P3;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -434,12 +458,12 @@
 			files = (
 				18954ED5238E507D0059434B /* UserInfo.swift in Sources */,
 				C6129BC5238D4B4F0053AEA0 /* UIColor+Extension.swift in Sources */,
+				F56A3DE0239F841C00238A87 /* RoomInfo.swift in Sources */,
 				C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */,
 				C6129BC2238D49E50053AEA0 /* HGNavigationController.swift in Sources */,
 				18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */,
 				C6129BBD238D49300053AEA0 /* HGRoomListController.swift in Sources */,
 				C6129BC7238D4B9C0053AEA0 /* UIImage+Extension.swift in Sources */,
-				C6129BD0238D52BB0053AEA0 /* RoomInfo.swift in Sources */,
 				C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */,
 				C6129BCA238D4BF20053AEA0 /* CommonDefine.swift in Sources */,
 				C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */,
@@ -625,13 +649,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = S4JU4SSYFB;
 				INFOPLIST_FILE = HalliGalli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalli;
+				PRODUCT_BUNDLE_IDENTIFIER = "https---github.com-sct136135127-HalliGalli";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -645,13 +670,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = S4JU4SSYFB;
 				INFOPLIST_FILE = HalliGalli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.HalliGalli;
+				PRODUCT_BUNDLE_IDENTIFIER = "https---github.com-sct136135127-HalliGalli";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

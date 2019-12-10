@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//MARK: 第三阶段
 class HGgameoverController:UIViewController{
     
     fileprivate lazy var createRoomButton: UIButton = {//按钮
@@ -26,7 +27,8 @@ class HGgameoverController:UIViewController{
         return object;
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {//背景图片
+    ///背景图片
+    fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
@@ -62,7 +64,6 @@ class HGgameoverController:UIViewController{
     @objc fileprivate func doAction(sender: UIButton) {
         if sender == createRoomButton {
             let roomController = HGHomeViewController()
-            roomController.userinfo=UserInfo(Username: "孙楚涛", status: 1)
             navigationController?.pushViewController(roomController, animated: true)
         }
     }

@@ -8,18 +8,18 @@
 
 import UIKit
 
-class RoomInfo: Codable {
+class RoomInfo:Codable{
     
     /// 房间ID
-    var roomID: Int?
-    /// 房间是否开始
-    var isstarted:Bool
+    var roomID: String?
+    /// 房间ip
+    var roomAddress:String?
     /// 当前人数
-    var count: Int?
+    var roomCount: Int?
     
-    init(isstarted:Bool,roomID: Int, count: Int) {
-        self.isstarted = isstarted
+    init(roomID:String,roomAddress: String, roomCount: Int) {
         self.roomID = roomID
-        self.count = count
+        self.roomAddress = roomAddress
+        self.roomCount = roomCount
     }
 }

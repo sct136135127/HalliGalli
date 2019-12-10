@@ -8,12 +8,13 @@
 
 import UIKit
 
+//MARK:第二阶段
 class HGGamingController: UIViewController {
 
     /// 玩家信息
     public var userinfo: UserInfo?
     //  游戏进行所在的房间
-    public var roominfo:RoomInfo?
+    public var roominfo: RoomInfo?
     //玩家手上的牌数
     public var cardcnt:Int?
     
@@ -47,8 +48,8 @@ class HGGamingController: UIViewController {
         return object;
     }()
     
-    
-    fileprivate lazy var remainingL: UILabel = {//显示剩余牌数的label
+    ///显示剩余牌数的label
+    fileprivate lazy var remainingL: UILabel = {
         let object = UILabel()
         object.textAlignment = .center
         object.textColor = UIColor.black
@@ -56,7 +57,8 @@ class HGGamingController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var userL: UILabel = {//显示用户名的label
+    ///显示用户名的label
+    fileprivate lazy var userL: UILabel = {
         let object = UILabel()
         object.textAlignment = .center
         object.textColor = UIColor.black
@@ -64,7 +66,8 @@ class HGGamingController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var gamingView: HGGamingView = {//显示牌的label
+    ///显示牌的label
+    fileprivate lazy var gamingView: HGGamingView = {
         let object = HGGamingView()
         object.layer.cornerRadius = 5
         object.layer.masksToBounds = true
@@ -88,7 +91,7 @@ class HGGamingController: UIViewController {
         view.addSubview(userL)
         
         remainingL.text = "剩余牌: \(cardcnt ?? 0)"
-        userL.text = userinfo?.Username
+        //userL.text = userinfo?.Username
         
         gamingView.snp.makeConstraints { (make) in
             make.left.equalTo(60)
@@ -126,34 +129,34 @@ class HGGamingController: UIViewController {
     
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
-        if sender ==  successButton {//如果点击抢答成功
-            let controller = UIAlertController(title: "温馨提示", message: "\(userinfo?.Username ?? "你") 抢答成功", preferredStyle: UIAlertController.Style.alert)
-            controller.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (action) in //确定抢答成功后的行为（该玩家牌数增加，并要使房间里其他玩家牌减少）
-                self.cardcnt = self.cardcnt! + 1 //实际上应该是加目前桌子上的牌或者从每人那边取一张牌
-                self.remainingL.text = "剩余牌: \(self.cardcnt ?? 0)"
-            }))
-            
-            controller.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.destructive, handler: { (action) in
-                
-            }))
-            present(controller, animated: true, completion: nil)
-        } else if sender == failureButton {//如果点击抢答失败
-            let controller = UIAlertController(title: "温馨提示", message: "\(userinfo?.Username ?? "你")  抢答失败", preferredStyle: UIAlertController.Style.alert)
-            controller.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (action) in //确定抢答失败后的行为
-                self.cardcnt = self.cardcnt! - 1
-                if self.cardcnt ?? 0 <= 0{//如果该玩家没牌了，判断其淘汰，进入淘汰界面
-                    self.roominfo?.count=(self.roominfo?.count)!-1 //房间玩家数减1
-                    self.navigationController?.pushViewController(HGgameoverController(), animated: true)
-                }else{
-                self.remainingL.text = "剩余牌: \(self.cardcnt ?? 0)"
-                }
-            }))
-            
-            controller.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.destructive, handler: { (action) in
-                
-            }))
-            present(controller, animated: true, completion: nil)
-        }
+//        if sender ==  successButton {//如果点击抢答成功
+//            let controller = UIAlertController(title: "温馨提示", message: "\(userinfo?.Username ?? "你") 抢答成功", preferredStyle: UIAlertController.Style.alert)
+//            controller.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (action) in //确定抢答成功后的行为（该玩家牌数增加，并要使房间里其他玩家牌减少）
+//                self.cardcnt = self.cardcnt! + 1 //实际上应该是加目前桌子上的牌或者从每人那边取一张牌
+//                self.remainingL.text = "剩余牌: \(self.cardcnt ?? 0)"
+//            }))
+//
+//            controller.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.destructive, handler: { (action) in
+//
+//            }))
+//            present(controller, animated: true, completion: nil)
+//        } else if sender == failureButton {//如果点击抢答失败
+//            let controller = UIAlertController(title: "温馨提示", message: "\(userinfo?.Username ?? "你")  抢答失败", preferredStyle: UIAlertController.Style.alert)
+//            controller.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (action) in //确定抢答失败后的行为
+//                self.cardcnt = self.cardcnt! - 1
+//                if self.cardcnt ?? 0 <= 0{//如果该玩家没牌了，判断其淘汰，进入淘汰界面
+//                    self.roominfo?.count=(self.roominfo?.count)!-1 //房间玩家数减1
+//                    self.navigationController?.pushViewController(HGgameoverController(), animated: true)
+//                }else{
+//                self.remainingL.text = "剩余牌: \(self.cardcnt ?? 0)"
+//                }
+//            }))
+//
+//            controller.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.destructive, handler: { (action) in
+//
+//            }))
+//            present(controller, animated: true, completion: nil)
+//        }
     }
 
     override var canEdgePanBack: Bool {

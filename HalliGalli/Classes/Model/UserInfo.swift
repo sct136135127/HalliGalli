@@ -9,26 +9,104 @@
 import Foundation
 import UIKit
 
-class UserInfo: Codable {
+struct UserInfo {
     /// 用户id
     var ID: String?
     
     /// IP地址（类型可能需要更改）
     var ip_address: String?
-    /// MAC地址 （类型可能需要更改）
-    var mac_address: String?
-    /// 子网掩码（类型可能需要更改）
+    /// 识别码
+    var identifier: String?
+    /// 子网掩码（类型可能需要更改），可能不需要
     var net_mask: String?
     
     /// 牌堆
     var cards:[String]?
+   
+
+//MARK: - 获取信息
     
-    init() {
-        
+    //待理解
+    ///获取本机IP地址
+    mutating func GetIPAddresses(){
+    
+        var addresses:[String] = []
+        var ifaddr: UnsafeMutablePointer<ifaddrs>? = nil
+    
+           if getifaddrs(&ifaddr) == 0 {
+               var ptr = ifaddr
+    
+               while (ptr != nil) {
+                   let flags = Int32(ptr!.pointee.ifa_flags)
+                   var addr = ptr!.pointee.ifa_addr.pointee
+                   if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
+                    
+                       if addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) {
+                           var hostname = [CChar](repeating:0,count:Int(NI_MAXHOST))
+                        
+                           if (getnameinfo(&addr, socklen_t(addr.sa_len), &hostname, socklen_t(hostname.count),nil, socklen_t(0), NI_NUMERICHOST) == 0) {
+                               if let address = String(validatingUTF8:hostname) {
+                                   addresses.append(address)
+                               }
+                           }
+                       }
+                   }
+                   ptr = ptr!.pointee.ifa_next
+               }
+               freeifaddrs(ifaddr)
+           }
+           ip_address = addresses.first
+       }
+
+    //待理解
+    ///获取本机子网掩码
+    mutating func GetIfaNetmask()
+    {
+        var ifaNetmask = ""
+        // Get list of all interfaces on the local machine:
+        var ifaddr : UnsafeMutablePointer<ifaddrs>? = nil
+        if getifaddrs(&ifaddr) == 0 {
+            
+            var ptr = ifaddr;
+            while ptr != nil {
+                let name = String.init(utf8String: ptr!.pointee.ifa_name)   //[NSString stringWithUTF8String:ptr->ifa_name];
+                if (name == "en0")
+                {
+                    let flags = Int32((ptr?.pointee.ifa_flags)!)
+                    var addr = ptr?.pointee.ifa_addr.pointee
+                    
+                    // Check for running IPv4, IPv6 interfaces. Skip the loopback interface.
+                    if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
+                        if addr?.sa_family == UInt8(AF_INET) || addr?.sa_family == UInt8(AF_INET6) {
+                            
+                            // Convert interface address to a human readable string:
+                            var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                            if (getnameinfo(&addr!, socklen_t((addr?.sa_len)!), &hostname, socklen_t(hostname.count),
+                                            nil, socklen_t(0), NI_NUMERICHOST) == 0) {
+                                if let address = String.init(validatingUTF8:hostname) {
+                                    
+                                    var net = ptr?.pointee.ifa_netmask.pointee
+                                    var netmaskName = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                                    getnameinfo(&net!, socklen_t((net?.sa_len)!), &netmaskName, socklen_t(netmaskName.count),
+                                                nil, socklen_t(0), NI_NUMERICHOST)// == 0
+                                    if let netmask = String.init(validatingUTF8:netmaskName) {
+                                        print("address= \(address),netmask\(netmask)")
+                                        ifaNetmask = netmask
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ptr = ptr?.pointee.ifa_next
+            }
+            freeifaddrs(ifaddr)
+        }
+        net_mask = ifaNetmask
     }
     
-    ///获得本机基本网络信息
-    func Update_User_NetInfo(){
-        
+    ///获取本机UUID（唯一标志码）
+    mutating func GetIdentifier(){
+        identifier = UIDevice.current.identifierForVendor?.uuidString
     }
 }

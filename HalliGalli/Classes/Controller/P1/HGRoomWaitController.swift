@@ -9,12 +9,6 @@
 import UIKit
 
 class HGRoomWaitController: UIViewController {
-
-    /// 房间信息
-    public var roomInfo: RoomInfo?
-    
-    /// 玩家信息
-    public var userinfo: UserInfo?
     
     fileprivate lazy var startButton: UIButton = {//“开始“按钮的属性设置
         let object = UIButton(type: UIButton.ButtonType.custom)
@@ -75,7 +69,9 @@ class HGRoomWaitController: UIViewController {
         view.addSubview(countL)
         if Player.status == false {//如果当前用户身份是普通玩家，不能点击开始
             startButton.isEnabled=false
-            countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是玩家，请等待房主开始游戏"
+            
+            //countL.text = "已加入人数: \(roomInfo?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
+            countL.text = "已加入人数: \(2)  你是玩家，请等待房主开始游戏"
             /*我觉得应该在某个地方让server给各个普通玩家发送信息，并随时刷新。如果该房间游戏已经开始的话就进入游戏。
             if roomInfo?.isstarted==true {
                 let gamecontroller=HGGamingController()
@@ -84,7 +80,9 @@ class HGRoomWaitController: UIViewController {
             }*/
         }else{//如果当前用户身份是房主，可以点击开始
             startButton.isEnabled=true
-            countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是房主"
+            
+            //countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是房主"
+            countL.text = "已加入人数: \(3)  你是房主"
         }
         
         //snp布置布局
@@ -115,10 +113,7 @@ class HGRoomWaitController: UIViewController {
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  startButton {//如果房主点击开始则进入游戏界面,并使其房间开始标志置1
-            roomInfo?.isstarted=true
             let gamecontroller=HGGamingController()
-            gamecontroller.userinfo=userinfo
-            gamecontroller.roominfo=roomInfo
             navigationController?.pushViewController(gamecontroller, animated: true)
         } else if sender == leaveButton {//点击离开则回到前一页
             navigationController?.popToRootViewController(animated: true)
