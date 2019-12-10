@@ -16,8 +16,10 @@ class HGNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // 侧滑返回
         self.interactivePopGestureRecognizer?.delegate = self
+        
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {

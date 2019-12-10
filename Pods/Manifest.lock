@@ -1,16 +1,20 @@
 PODS:
+  - CocoaAsyncSocket (7.6.3)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
+  - CocoaAsyncSocket
   - SnapKit
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+    - CocoaAsyncSocket
     - SnapKit
 
 SPEC CHECKSUMS:
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 90d7d9d27d076492509f5484e7be9166a529b3e1
+PODFILE CHECKSUM: 3a00de8c0802c38d2800e6619c84ae962fe387a3
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

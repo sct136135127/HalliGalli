@@ -73,7 +73,7 @@ class HGRoomWaitController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(leaveButton)
         view.addSubview(countL)
-        if userinfo?.status==0 {//如果当前用户身份是普通玩家，不能点击开始
+        if Player.status == false {//如果当前用户身份是普通玩家，不能点击开始
             startButton.isEnabled=false
             countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是玩家，请等待房主开始游戏"
             /*我觉得应该在某个地方让server给各个普通玩家发送信息，并随时刷新。如果该房间游戏已经开始的话就进入游戏。
@@ -82,7 +82,7 @@ class HGRoomWaitController: UIViewController {
                 gamecontroller.userinfo=userinfo
                 navigationController?.pushViewController(gamecontroller, animated: true)
             }*/
-        }else if userinfo?.status==1{//如果当前用户身份是房主，可以点击开始
+        }else{//如果当前用户身份是房主，可以点击开始
             startButton.isEnabled=true
             countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是房主"
         }

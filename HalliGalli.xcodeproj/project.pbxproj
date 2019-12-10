@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		18954ED5238E507D0059434B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED4238E507D0059434B /* UserInfo.swift */; };
 		18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED6238E98B30059434B /* HGgameoverController.swift */; };
-		73A8425F30CFACB3DFB13DFF /* Pods_HalliGalli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */; };
 		C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129B89238D460B0053AEA0 /* AppDelegate.swift */; };
 		C6129B8F238D460B0053AEA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6129B8D238D460B0053AEA0 /* Main.storyboard */; };
 		C6129B91238D460D0053AEA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6129B90238D460D0053AEA0 /* Assets.xcassets */; };
@@ -27,6 +26,9 @@
 		C6129BD0238D52BB0053AEA0 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */; };
 		C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */; };
 		C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */; };
+		F52DD5532393C2C200889255 /* Pods_HalliGalli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */; };
+		F53065D8239DE72E0067EE05 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53065D7239DE72E0067EE05 /* Player.swift */; };
+		F53065DA239DEDAB0067EE05 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53065D9239DEDAB0067EE05 /* Server.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGGamingView.swift; sourceTree = "<group>"; };
 		C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HalliGalli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F53065D7239DE72E0067EE05 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		F53065D9239DEDAB0067EE05 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		FF2F6A552C41DC026F457D75 /* Pods-HalliGalli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HalliGalli.debug.xcconfig"; path = "Target Support Files/Pods-HalliGalli/Pods-HalliGalli.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73A8425F30CFACB3DFB13DFF /* Pods_HalliGalli.framework in Frameworks */,
+				F52DD5532393C2C200889255 /* Pods_HalliGalli.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +243,8 @@
 			children = (
 				C6129BCF238D52BB0053AEA0 /* RoomInfo.swift */,
 				18954ED4238E507D0059434B /* UserInfo.swift */,
+				F53065D7239DE72E0067EE05 /* Player.swift */,
+				F53065D9239DEDAB0067EE05 /* Server.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -439,6 +445,8 @@
 				C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */,
 				C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */,
 				C6129BBF238D49400053AEA0 /* HGGamingController.swift in Sources */,
+				F53065D8239DE72E0067EE05 /* Player.swift in Sources */,
+				F53065DA239DEDAB0067EE05 /* Server.swift in Sources */,
 				C6129BBB238D49220053AEA0 /* HGHomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -616,6 +624,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
 				INFOPLIST_FILE = HalliGalli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -635,6 +644,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
 				INFOPLIST_FILE = HalliGalli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -80,7 +80,7 @@ class HGRoomListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userinfo=UserInfo(Username: "孙楚涛", status: 0)
+        //userinfo=UserInfo(Username: "孙楚涛", status: 0)
         //房间列表的数据源，各个房间信息
         dataSource = [
             RoomInfo(isstarted:false,roomID: 1, count: 121),

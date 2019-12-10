@@ -53,7 +53,7 @@ class HGHomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userinfo=UserInfo(Username: "孙楚涛", status: 0) //设置当前页面里的玩家信息即player
+        //userinfo=UserInfo(Username: "孙楚涛", status: 0) //设置当前页面里的玩家信息即player
         setupUI()
     }
     
@@ -90,9 +90,9 @@ class HGHomeViewController: UIViewController {
         if sender == joinRoomButton {//如果点击的是加入房间按钮，则跳转到HGRoomList房间列表页面
             navigationController?.pushViewController(HGRoomListController(), animated: true)
         } else if sender == createRoomButton {//如果点击的是创建房间按钮，则跳转到HGRoomWait等待界面（还需要在服务器那边更新房间列表数据源，增加一个房间以供玩家加入，不知道怎么弄）
-            userinfo?.status=1 //则把该用户身份转变为房主
+            //userinfo?.status=1 //则把该用户身份转变为房主
             let roomController = HGRoomWaitController()
-            roomController.userinfo=UserInfo(Username: "孙楚涛", status: 1)
+            //roomController.userinfo=UserInfo(Username: "孙楚涛", status: 1)
             roomController.roomInfo = RoomInfo(isstarted:false, roomID: 10, count: 1)
             navigationController?.pushViewController(roomController, animated: true)
         }
