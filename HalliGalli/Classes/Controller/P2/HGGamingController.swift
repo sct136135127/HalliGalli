@@ -62,6 +62,7 @@ class HGGamingController: UIViewController {
         let object = UILabel()
         object.textAlignment = .center
         object.textColor = UIColor.black
+        object.text="\(Player.userinfo.ID ?? "")"
         object.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)
         return object
     }()
