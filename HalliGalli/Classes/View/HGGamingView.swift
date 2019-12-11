@@ -49,13 +49,13 @@ class HGGamingView: UIView {
                     item.snp.makeConstraints { (make) in //左上角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
-                        make.top.left.equalTo(0)
+                        make.top.left.equalTo(5)
                     }
                 } else if index == 1 {
                     item.snp.makeConstraints { (make) in //右上角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
-                        make.top.right.equalTo(0)
+                        make.top.right.equalTo(-5)
                     }
                 } else if index == 2 {
                     item.snp.makeConstraints { (make) in //中间的水果
@@ -67,13 +67,13 @@ class HGGamingView: UIView {
                     item.snp.makeConstraints { (make) in //左下角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
-                        make.bottom.left.equalTo(0)
+                        make.bottom.left.equalTo(5)
                     }
                 } else if index == 4 {
                     item.snp.makeConstraints { (make) in //右下角的水果
                         make.width.equalTo(self.snp.width).dividedBy(3)
                         make.height.equalTo(self.snp.height).dividedBy(2)
-                        make.bottom.right.equalTo(0)
+                        make.bottom.right.equalTo(-5)
                     }
                 }
             }

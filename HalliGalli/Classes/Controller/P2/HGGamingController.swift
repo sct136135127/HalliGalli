@@ -95,10 +95,10 @@ class HGGamingController: UIViewController {
         //userL.text = userinfo?.Username
         
         gamingView.snp.makeConstraints { (make) in
-            make.left.equalTo(60)
-            make.top.equalTo(8)
-            make.bottom.equalTo(-8)
-            make.width.equalTo(gamingView.snp.height).multipliedBy(1.5)
+            make.left.equalTo(30)
+            make.right.equalTo(successButton.snp.left).offset(-10)
+            make.top.equalTo(10)
+            make.bottom.equalTo(-10)
         }
         
         remainingL.snp.makeConstraints { (make) in
