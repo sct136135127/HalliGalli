@@ -134,7 +134,7 @@ class HGRoomListController: UIViewController {
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
             let roomController = HGRoomWaitController()
-            roomController.roomInfo = selectedRoomInfo
+            //roomController.roomInfo = selectedRoomInfo
             navigationController?.pushViewController(roomController, animated: true)
         } else if sender == cancelButton {//点击取消按钮则回到上一页
             navigationController?.popViewController(animated: true)
@@ -159,10 +159,20 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell")
         if cell == nil {
-            cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "UITableViewCell")
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "UITableViewCell")
         }
         let currentInfo = dataSource[indexPath.row]//当前点击的行数，即要选择加入的房间
-        cell.textLabel?.text = "房间\(currentInfo.roomID ?? "error")" //cell的文本名称标注房间名（房间ID）
+        cell.textLabel?.numberOfLines=0
+        cell.textLabel?.text = """
+        \(currentInfo.roomID ?? "error")
+        \(currentInfo.roomAddress ?? "error")
+        """ //cell的文本名称标注房间名（房间ID）
+        cell.detailTextLabel?.snp.makeConstraints { (make) in
+            make.centerX.equalTo(cell.textLabel!).offset(250)
+            make.centerY.equalTo(cell.textLabel!)
+        }
+        cell.detailTextLabel?.font=UIFont.monospacedDigitSystemFont(ofSize: 25, weight: .heavy)
+        cell.detailTextLabel?.text="\(currentInfo.roomCount ?? 0)/6"
         if selectedRoomInfo != nil && currentInfo.roomID == selectedRoomInfo?.roomID {
             cell.textLabel?.textColor = kMainThemeColor
         } else {
