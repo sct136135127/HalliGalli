@@ -72,7 +72,7 @@ class HGGamingController: UIViewController {
         let object = HGGamingView()
         object.layer.cornerRadius = 5
         object.layer.masksToBounds = true
-        object.backgroundColor = UIColor(hex: 0xCCCCCC)
+        object.backgroundColor = UIColor(hex: 0xF7FAFA)
         return object
     }()
 
@@ -81,6 +81,10 @@ class HGGamingController: UIViewController {
         super.viewDidLoad()
         cardcnt=16//暂自定义初始每人16张，后面需要改，由server发牌决定
         setupUI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        StatusBarManager.hideStatusBar()
     }
     
     fileprivate func setupUI() {
@@ -95,10 +99,10 @@ class HGGamingController: UIViewController {
         //userL.text = userinfo?.Username
         
         gamingView.snp.makeConstraints { (make) in
-            make.left.equalTo(60)
-            make.top.equalTo(8)
-            make.bottom.equalTo(-8)
-            make.width.equalTo(gamingView.snp.height).multipliedBy(1.5)
+            make.left.equalTo(30)
+            make.right.equalTo(successButton.snp.left).offset(-10)
+            make.top.equalTo(10)
+            make.bottom.equalTo(-10)
         }
         
         remainingL.snp.makeConstraints { (make) in

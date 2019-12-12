@@ -10,7 +10,23 @@ import UIKit
 import SnapKit
 
 class HGHomeViewController: UIViewController,UITextFieldDelegate {
+    private var statusBarStyle:UIStatusBarStyle = .lightContent{
+        didSet{
+            self.setNeedsStatusBarAppearanceUpdate();
+        }
+    }
+    override var preferredStatusBarStyle:UIStatusBarStyle{
+        return statusBarStyle;
+    }
+
+    override var prefersStatusBarHidden:Bool{
+        return false
+    }
     
+    /// 状态栏动画
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .slide
+    }
     fileprivate lazy var idtextfield:UITextField = {//输入用户名的输入框
         let object = UITextField()
         //设置边框样式为圆角矩形
@@ -72,15 +88,24 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
         
         idtextfield.delegate = self
-        
+        self.modalPresentationCapturesStatusBarAppearance = true
         player.Update_User_NetInfo()
-        
+        let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewClick))
+        backgroundImageView.addGestureRecognizer(singleTapGesture)
+        backgroundImageView.isUserInteractionEnabled = true
         setupUI()
     }
-
+    @objc func imageViewClick(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            //print("收回键盘")
+            idtextfield.resignFirstResponder()
+        }
+        sender.cancelsTouchesInView = false
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        StatusBarManager.showStatusBar()
     }
     
     func setupUI() {
@@ -123,11 +148,9 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     @objc fileprivate func doAction(sender: UIButton) {
         if sender == joinRoomButton {//如果点击的是加入房间按钮，则跳转到HGRoomList房间列表页面
             player.status=false //用户身份转变为普通玩家
-            
             navigationController?.pushViewController(HGRoomListController(), animated: true)
         } else if sender == createRoomButton {//如果点击的是创建房间按钮，则跳转到HGRoomWait等待界面（还需要在服务器那边更新房间列表数据源，增加一个房间以供玩家加入，不知道怎么弄）
             player.status=true //用户身份转变为房主
-            
             let roomController = HGRoomWaitController()
             navigationController?.pushViewController(roomController, animated: true)
         }

@@ -11,9 +11,7 @@ import UIKit
 class HGRoomListController: UIViewController {
 
     //MARK: 需要修改
-    /// 数据源
-    public var dataSource: [RoomInfo] = []
-    
+
     /// 选中的房间
     fileprivate var selectedRoomInfo: RoomInfo?
     
@@ -81,14 +79,30 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
+    override var preferredStatusBarStyle:UIStatusBarStyle{
+        return .lightContent;
+    }
+    
+    override var prefersStatusBarHidden:Bool{
+        return false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        StatusBarManager.showStatusBar()
         //开始接收udp信息
         player.Start_UDP_Receive()
         
+        /* 测试
+        dataSource = [
+            RoomInfo(roomID: "1", roomAddress: "1", roomCount: 1),
+            RoomInfo(roomID: "2", roomAddress: "2", roomCount: 2),
+            RoomInfo(roomID: "3", roomAddress: "3", roomCount: 8),
+            RoomInfo(roomID: "4", roomAddress: "4", roomCount: 4),
+            RoomInfo(roomID: "5", roomAddress: "5", roomCount: 5),
+            RoomInfo(roomID: "6", roomAddress: "6", roomCount: 7),]*/
+        
         //每秒更新房间列表
         roomlist_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)
-        
         setupUI()
     }
     
@@ -96,9 +110,12 @@ class HGRoomListController: UIViewController {
     @objc func Update_Roominfo(){
         player.Update_Roomlist_Info()
         dataSource = player.room_list
-        print(dataSource)
+        
         //MARK: 戴
         //dataSource发生变化 更新到tableview⬇️
+        tableView.reloadData()
+        //print(dataSource)
+
         
     }
 
@@ -143,6 +160,7 @@ class HGRoomListController: UIViewController {
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
+            //selectedRoomInfo?.roomCount! += 1//房间人数+1
             roomlist_timer.invalidate()
             //MARK: 待完善
             //建立TCP连接,true则继续，false则不处理
@@ -201,7 +219,13 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedRoomInfo = dataSource[indexPath.row]//当前点击的行数，即要选择加入的房间
-        joinButton.isEnabled = true//选择好房间后让加入按钮亮起变成可点击状态
-        tableView.reloadData()
+        if selectedRoomInfo?.roomCount ?? 0 < 6 {
+            joinButton.isEnabled = true//选择好房间后让加入按钮亮起变成可点击状态
+            tableView.reloadData()
+        }else{
+            joinButton.isEnabled = false//人数大于6的话不能点击加入
+            tableView.reloadData()
+        }
+
     }
 }
