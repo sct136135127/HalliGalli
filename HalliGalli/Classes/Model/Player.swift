@@ -27,7 +27,6 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
     
 //MARK: - 其他
     ///获得本机基本网络信息
-    ///后期考虑一段时间更新一次
     ///提醒打开wifi
     func Update_User_NetInfo(){
         userinfo.GetIPNetmask()
@@ -40,7 +39,6 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
         
     }
     
-    //MARK: 待完善
     ///按照时间差更新房间列表
     func Update_Roomlist_Info(){
         //对超时的房间进行remove处理
@@ -89,7 +87,6 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
         print("监听UDP关闭")
     }
     
-    //MARK: 待完善
     ///UDP接收
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
         let msg:String = String(data: data,encoding: .utf8) ?? "error/error/error/error"
