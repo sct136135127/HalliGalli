@@ -44,6 +44,22 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
     ///按照时间差更新房间列表
     func Update_Roomlist_Info(){
         //对超时的房间进行remove处理
+        var record:[Int] = []
+        
+        for i in 0..<room_list.count {
+            let temp_room_time = room_list[i].rev_time!
+            let timeInterval = -1 * temp_room_time.timeIntervalSinceNow
+            
+            //失联超过1s
+            if timeInterval > 1 {
+                record.append(i)
+            }
+        }
+        
+        //可能出错
+        for i in 0..<record.count {
+            room_list.remove(at: record[i] - i)
+        }
     }
 
 //MARK: - UDP
@@ -76,11 +92,31 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
     //MARK: 待完善
     ///UDP接收
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        print(String(data: data,encoding: .utf8) ?? "error","\n",String(data: address,encoding: .utf8) ?? "error")
+        let msg:String = String(data: data,encoding: .utf8) ?? "error/error/error/error"
         
         //判断是否为指定的接收到的UDP（前缀判断）
-        
-        //更新roominfo的信息和接收时间
+        if msg.split(separator: "/")[0] == "HG"{
+            //更新roominfo的信息和接收时间
+            let temp_time:Date = Date()
+            
+            let temp_roomID = msg.split(separator: "/")[1]
+            let temp_roomAddress = msg.split(separator: "/")[2]
+            let temp_roomNumCount = msg.split(separator: "/")[3]
+            
+            var find_flag = false
+            for room in room_list {
+                if room.roomAddress! == String(temp_roomAddress) {
+                    find_flag = true
+                    room.roomID = String(temp_roomID)
+                    room.roomCount = Int(String(temp_roomNumCount)) ?? 0
+                    room.rev_time = temp_time
+                }
+            }
+            
+            if find_flag == false {
+                room_list.append(RoomInfo(roomID: String(temp_roomID), roomAddress: String(temp_roomAddress), roomCount: Int(String(temp_roomNumCount)) ?? 0))
+            }
+        }
         
     }
     

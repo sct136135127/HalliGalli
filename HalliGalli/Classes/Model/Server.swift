@@ -47,7 +47,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate {
         //let ip = server_info.ip_address
         //let netmask = server_info.net_mask
         
-        //MARK: 待检查和修改
+        //MARK: 之后考虑是否需要处理
         //默认255.255.255.255 如果测试成功则不需要通过ip和netmask计算
         print("broadcast: \(udp_broadcast_address)")
     }
@@ -72,14 +72,14 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate {
     func Start_UDP_Broadcast(){
         //UDP初始化
         udp_socket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.main)
+        do{
+            try udp_socket?.bind(toPort: 2333, interface: udp_error)
+        }catch{
+            if let _ = udp_error{
+                print(udp_error!)
+            }
+        }
         
-        //        do{
-        //            try udp_socket?.bind(toPort: 2333, interface: udp_error)
-        //        }catch{
-        //            if let _ = udp_error{
-        //                print(udp_error!)
-        //            }
-        //        }
         do{
             try udp_socket?.enableBroadcast(true)
         }catch{

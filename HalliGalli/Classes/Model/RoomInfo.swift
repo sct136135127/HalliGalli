@@ -17,7 +17,7 @@ class RoomInfo{
     /// 当前人数
     var roomCount: Int?
     /// 接收时间
-    var rev_time: Timer?
+    var rev_time: Date?
     
     init(roomID:String,roomAddress: String, roomCount: Int) {
         self.roomID = roomID

@@ -86,10 +86,8 @@ class HGRoomListController: UIViewController {
         //开始接收udp信息
         player.Start_UDP_Receive()
         
+        //每秒更新房间列表
         roomlist_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)
-        
-        //房间列表的数据源，各个房间信息
-        //dataSource = [RoomInfo(roomID: "RUA"+"的房间", roomAddress: "1.0.0.0", roomCount: 3)]
         
         setupUI()
     }
@@ -98,6 +96,7 @@ class HGRoomListController: UIViewController {
     @objc func Update_Roominfo(){
         player.Update_Roomlist_Info()
         dataSource = player.room_list
+        print(dataSource)
         //MARK: 戴
         //dataSource发生变化 更新到tableview⬇️
         
