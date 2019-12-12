@@ -151,7 +151,6 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
             navigationController?.pushViewController(HGRoomListController(), animated: true)
         } else if sender == createRoomButton {//如果点击的是创建房间按钮，则跳转到HGRoomWait等待界面（还需要在服务器那边更新房间列表数据源，增加一个房间以供玩家加入，不知道怎么弄）
             player.status=true //用户身份转变为房主
-            
             let roomController = HGRoomWaitController()
             navigationController?.pushViewController(roomController, animated: true)
         }

@@ -72,7 +72,7 @@ class HGGamingController: UIViewController {
         let object = HGGamingView()
         object.layer.cornerRadius = 5
         object.layer.masksToBounds = true
-        object.backgroundColor = UIColor(hex: 0xCCCCCC)
+        object.backgroundColor = UIColor(hex: 0xF7FAFA)
         return object
     }()
 

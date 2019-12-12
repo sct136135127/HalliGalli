@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+
+/// 房间列表数据源
+var dataSource: [RoomInfo] = []
+
 /// 服务器
 var server:Server = Server()
 /// 玩家

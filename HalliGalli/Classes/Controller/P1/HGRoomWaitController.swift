@@ -102,7 +102,7 @@ class HGRoomWaitController: UIViewController {
             startButton.isEnabled=false
             
             //countL.text = "已加入人数: \(roomInfo?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
-            countL.text = "已加入人数: \(2)  你是玩家，请等待房主开始游戏"
+            countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
             /*我觉得应该在某个地方让server给各个普通玩家发送信息，并随时刷新。如果该房间游戏已经开始的话就进入游戏。
             if roomInfo?.isstarted==true {
                 let gamecontroller=HGGamingController()
@@ -110,10 +110,16 @@ class HGRoomWaitController: UIViewController {
                 navigationController?.pushViewController(gamecontroller, animated: true)
             }*/
         }else{//如果当前用户身份是房主，可以点击开始
-            startButton.isEnabled=true
+            if server.room_info?.roomCount ?? 1 < 3{//如果房间人数小于3，不能点开始
+                startButton.isEnabled=true
+                //startButton.isEnabled=false
+            }else{//房间人数大于等于3可以开始
+                startButton.isEnabled=true
+            }
+
             
             //countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是房主"
-            countL.text = "已加入人数: \(3)  你是房主"
+            countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是房主"
         }
         
         //snp布置布局
