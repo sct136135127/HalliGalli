@@ -21,48 +21,50 @@ struct UserInfo {
     var net_mask: String?
     
     /// 牌堆
-    var cards:[String]?
+    var cards:[String] = []
    
 
 //MARK: - 获取信息
     
     //待理解
     ///获取本机IP地址
-    mutating func GetIPAddresses(){
-    
-        var addresses:[String] = []
-        var ifaddr: UnsafeMutablePointer<ifaddrs>? = nil
-    
-           if getifaddrs(&ifaddr) == 0 {
-               var ptr = ifaddr
-    
-               while (ptr != nil) {
-                   let flags = Int32(ptr!.pointee.ifa_flags)
-                   var addr = ptr!.pointee.ifa_addr.pointee
-                   if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
-                    
-                       if addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) {
-                           var hostname = [CChar](repeating:0,count:Int(NI_MAXHOST))
-                        
-                           if (getnameinfo(&addr, socklen_t(addr.sa_len), &hostname, socklen_t(hostname.count),nil, socklen_t(0), NI_NUMERICHOST) == 0) {
-                               if let address = String(validatingUTF8:hostname) {
-                                   addresses.append(address)
-                               }
-                           }
-                       }
-                   }
-                   ptr = ptr!.pointee.ifa_next
-               }
-               freeifaddrs(ifaddr)
-           }
-           ip_address = addresses.first
-       }
+//    mutating func GetIPAddresses(){
+//
+//           var address2: String?
+//           var ifaddr2: UnsafeMutablePointer<ifaddrs>? = nil
+//           guard getifaddrs(&ifaddr2) == 0 else {
+//               return
+//           }
+//           guard let firstAddr = ifaddr2 else {
+//               return
+//           }
+//
+//           for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
+//               let interface = ifptr.pointee
+//               // Check for IPV4 or IPV6 interface
+//               let addrFamily = interface.ifa_addr.pointee.sa_family
+//               if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+//                   // Check interface name
+//                   let name = String(cString: interface.ifa_name)
+//                   if name == "en0" {
+//                       // Convert interface address to a human readable string
+//                       var addr = interface.ifa_addr.pointee
+//                       var hostName = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+//                       getnameinfo(&addr,socklen_t(interface.ifa_addr.pointee.sa_len), &hostName, socklen_t(hostName.count), nil, socklen_t(0), NI_NUMERICHOST)
+//                       address2 = String(cString: hostName)
+//                   }
+//               }
+//           }
+//
+//           freeifaddrs(ifaddr2)
+//           ip_address = address2
+//
+//       }
 
     //待理解
-    ///获取本机子网掩码
-    mutating func GetIfaNetmask()
+    ///获取本机ip和子网掩码
+    mutating func GetIPNetmask()
     {
-        var ifaNetmask = ""
         // Get list of all interfaces on the local machine:
         var ifaddr : UnsafeMutablePointer<ifaddrs>? = nil
         if getifaddrs(&ifaddr) == 0 {
@@ -91,7 +93,9 @@ struct UserInfo {
                                                 nil, socklen_t(0), NI_NUMERICHOST)// == 0
                                     if let netmask = String.init(validatingUTF8:netmaskName) {
                                         print("address= \(address),netmask\(netmask)")
-                                        ifaNetmask = netmask
+                                        
+                                        ip_address = address
+                                        net_mask = netmask
                                     }
                                 }
                             }
@@ -102,7 +106,6 @@ struct UserInfo {
             }
             freeifaddrs(ifaddr)
         }
-        net_mask = ifaNetmask
     }
     
     ///获取本机UUID（唯一标志码）

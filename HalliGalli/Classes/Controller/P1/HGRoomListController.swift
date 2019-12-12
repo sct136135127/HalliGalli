@@ -30,7 +30,8 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var joinButton: UIButton = {//“加入”按钮的属性设置
+    //“加入”按钮的属性设置
+    fileprivate lazy var joinButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("加入", for: UIControl.State.normal);
         object.setTitle("加入", for: UIControl.State.highlighted);
@@ -46,7 +47,8 @@ class HGRoomListController: UIViewController {
         return object;
     }()
     
-    fileprivate lazy var listTitleL: UILabel = {//一个简单的label“房间列表”
+    //一个简单的label“房间列表”
+    fileprivate lazy var listTitleL: UILabel = {
         let object = UILabel()
         object.text = "房间列表"
         object.textAlignment = .center
@@ -55,7 +57,8 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var cancelButton: UIButton = {//“取消“按钮的属性设置
+    //“取消“按钮的属性设置
+    fileprivate lazy var cancelButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("取消", for: UIControl.State.normal);
         object.setTitle("取消", for: UIControl.State.highlighted);
@@ -70,26 +73,41 @@ class HGRoomListController: UIViewController {
         return object;
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {//背景图片
+    //背景图片
+    fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
         return object
     }()
     
+    override var preferredStatusBarStyle:UIStatusBarStyle{
+        return .lightContent;
+    }
+    
+    override var prefersStatusBarHidden:Bool{
+        return false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        StatusBarManager.showStatusBar()
+        //开始接收udp信息
+        player.Start_UDP_Receive()
         
-        //房间列表的数据源，各个房间信息
-        dataSource = [RoomInfo(roomID: "RUA"+"的房间", roomAddress: "1.0.0.0", roomCount: 3)]
-//        dataSource = [
-//            RoomInfo(isstarted:false,roomID: 1, count: 121),
-//            RoomInfo(isstarted:false,roomID: 2, count: 122),
-//            RoomInfo(isstarted:false,roomID: 3, count: 123),
-//            RoomInfo(isstarted:false,roomID: 4, count: 124),
-//            RoomInfo(isstarted:false,roomID: 5, count: 125),
-//            RoomInfo(isstarted:false,roomID: 6, count: 126)]
+        //每秒更新房间列表
+        roomlist_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)
+        
         setupUI()
+    }
+    
+    ///更新房间列表数据源
+    @objc func Update_Roominfo(){
+        player.Update_Roomlist_Info()
+        dataSource = player.room_list
+        print(dataSource)
+        //MARK: 戴
+        //dataSource发生变化 更新到tableview⬇️
+        
     }
 
     fileprivate func setupUI() {
@@ -133,10 +151,17 @@ class HGRoomListController: UIViewController {
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
+            roomlist_timer.invalidate()
+            //MARK: 待完善
+            //建立TCP连接,true则继续，false则不处理
+            
             let roomController = HGRoomWaitController()
-            //roomController.roomInfo = selectedRoomInfo
+            
             navigationController?.pushViewController(roomController, animated: true)
         } else if sender == cancelButton {//点击取消按钮则回到上一页
+            roomlist_timer.invalidate()
+            player.Close_UDP_Receive()
+            
             navigationController?.popViewController(animated: true)
         }
     }

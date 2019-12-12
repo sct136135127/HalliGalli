@@ -62,7 +62,7 @@ class HGGamingController: UIViewController {
         let object = UILabel()
         object.textAlignment = .center
         object.textColor = UIColor.black
-        object.text="\(Player.userinfo.ID ?? "")"
+        object.text="\(player.userinfo.ID ?? "")"
         object.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)
         return object
     }()
@@ -81,6 +81,10 @@ class HGGamingController: UIViewController {
         super.viewDidLoad()
         cardcnt=16//暂自定义初始每人16张，后面需要改，由server发牌决定
         setupUI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        StatusBarManager.hideStatusBar()
     }
     
     fileprivate func setupUI() {

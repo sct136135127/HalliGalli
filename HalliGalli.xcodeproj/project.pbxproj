@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1875E45723A295F700637C64 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1875E45623A295F700637C64 /* StatusBarManager.swift */; };
 		18954ED5238E507D0059434B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED4238E507D0059434B /* UserInfo.swift */; };
 		18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED6238E98B30059434B /* HGgameoverController.swift */; };
 		C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129B89238D460B0053AEA0 /* AppDelegate.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1875E45623A295F700637C64 /* StatusBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarManager.swift; sourceTree = "<group>"; };
 		18954ED4238E507D0059434B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		18954ED6238E98B30059434B /* HGgameoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGgameoverController.swift; sourceTree = "<group>"; };
 		18BBDC18238E386300D12F9C /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				C6129BC4238D4B4F0053AEA0 /* UIColor+Extension.swift */,
 				C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */,
 				C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */,
+				1875E45623A295F700637C64 /* StatusBarManager.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 			files = (
 				18954ED5238E507D0059434B /* UserInfo.swift in Sources */,
 				C6129BC5238D4B4F0053AEA0 /* UIColor+Extension.swift in Sources */,
+				1875E45723A295F700637C64 /* StatusBarManager.swift in Sources */,
 				F56A3DE0239F841C00238A87 /* RoomInfo.swift in Sources */,
 				C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */,
 				C6129BC2238D49E50053AEA0 /* HGNavigationController.swift in Sources */,

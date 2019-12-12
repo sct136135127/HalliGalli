@@ -56,7 +56,9 @@ class HGNavigationController: UINavigationController {
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return self.topViewController?.preferredInterfaceOrientationForPresentation ?? .portrait
     }
-    
+    override var prefersStatusBarHidden:Bool{
+        return self.topViewController?.prefersStatusBarHidden ?? false
+    }
     /// 状态栏样式
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return self.topViewController?.preferredStatusBarStyle ?? .default
@@ -64,7 +66,7 @@ class HGNavigationController: UINavigationController {
     
     /// 隐藏状态栏动画
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return self.topViewController?.preferredStatusBarUpdateAnimation ?? .fade
+        return self.topViewController?.preferredStatusBarUpdateAnimation ?? .none
     }
 }
 
@@ -97,5 +99,12 @@ extension UINavigationController {
             }
         }
         return nil
+    }
+    open override var childForStatusBarStyle: UIViewController? {
+        return self.topViewController
+    }
+    
+    open override var childForStatusBarHidden: UIViewController? {
+        return self.topViewController
     }
 }
