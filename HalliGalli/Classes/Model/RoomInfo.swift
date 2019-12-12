@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoomInfo:Codable{
+class RoomInfo{
     
     /// 房间ID
     var roomID: String?
@@ -16,6 +16,8 @@ class RoomInfo:Codable{
     var roomAddress:String?
     /// 当前人数
     var roomCount: Int?
+    /// 接收时间
+    var rev_time: Timer?
     
     init(roomID:String,roomAddress: String, roomCount: Int) {
         self.roomID = roomID

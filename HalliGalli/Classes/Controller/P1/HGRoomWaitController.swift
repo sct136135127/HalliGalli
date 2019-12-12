@@ -10,7 +10,8 @@ import UIKit
 
 class HGRoomWaitController: UIViewController {
     
-    fileprivate lazy var startButton: UIButton = {//“开始“按钮的属性设置
+    ///“开始“按钮的属性设置
+    fileprivate lazy var startButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("开始", for: UIControl.State.normal);
         object.setTitle("开始", for: UIControl.State.highlighted);
@@ -25,7 +26,8 @@ class HGRoomWaitController: UIViewController {
         return object;
     }()
     
-    fileprivate lazy var leaveButton: UIButton = {//"离开“按钮属性设置
+    ///"离开“按钮属性设置
+    fileprivate lazy var leaveButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("离开", for: UIControl.State.normal);
         object.setTitle("离开", for: UIControl.State.highlighted);
@@ -40,8 +42,8 @@ class HGRoomWaitController: UIViewController {
         return object;
     }()
 
-    
-    fileprivate lazy var countL: UILabel = {//用一个label显示已加入人数以及等待状态（是玩家还是房主）
+    ///用一个label显示已加入人数以及等待状态（是玩家还是房主）
+    fileprivate lazy var countL: UILabel = {
         let object = UILabel()
         object.textAlignment = .center
         object.textColor = kMainThemeColor
@@ -49,7 +51,8 @@ class HGRoomWaitController: UIViewController {
         return object
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {//背景图片
+    //背景图片
+    fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
@@ -58,7 +61,24 @@ class HGRoomWaitController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //玩家停止接收UDP信息
+        if player.status == false {
+            player.Close_UDP_Receive()
+        }else {//房主开始UDP广播房间信息
+            server.Update_Server_NetInfo()
+            server.Start_UDP_Broadcast()
+            
+            //定时广播
+            control_timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(HGRoomWaitController.Udp_Broardcast_send), userInfo: nil, repeats: true)
+        }
+        
         setupUI()
+    }
+    
+    ///发送UDP广播
+    @objc func Udp_Broardcast_send(){
+        server.Udp_Broardcast_send()
     }
     
     fileprivate func setupUI() {
@@ -67,7 +87,7 @@ class HGRoomWaitController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(leaveButton)
         view.addSubview(countL)
-        if Player.status == false {//如果当前用户身份是普通玩家，不能点击开始
+        if player.status == false {//如果当前用户身份是普通玩家，不能点击开始
             startButton.isEnabled=false
             
             //countL.text = "已加入人数: \(roomInfo?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
@@ -113,9 +133,28 @@ class HGRoomWaitController: UIViewController {
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  startButton {//如果房主点击开始则进入游戏界面,并使其房间开始标志置1
+            server.Close_UDP_Broadcast()
+            
+            //MARK: 待完善
+            //发送游戏开始信息（TCP）
+            
+            
             let gamecontroller=HGGamingController()
             navigationController?.pushViewController(gamecontroller, animated: true)
         } else if sender == leaveButton {//点击离开则回到前一页
+            if player.status == true{
+                server.Close_UDP_Broadcast()
+                
+                //MARK: 待完善
+                //发送房间关闭信息（TCP） 玩家接收到关闭信息时也要回到主页
+                
+                
+            }else {
+                //MARK: 待完善
+                //玩家发送离开信息（TCP）
+                
+                
+            }
             navigationController?.popToRootViewController(animated: true)
         }
     }

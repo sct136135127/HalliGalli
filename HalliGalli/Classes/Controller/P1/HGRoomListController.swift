@@ -30,7 +30,8 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var joinButton: UIButton = {//“加入”按钮的属性设置
+    //“加入”按钮的属性设置
+    fileprivate lazy var joinButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("加入", for: UIControl.State.normal);
         object.setTitle("加入", for: UIControl.State.highlighted);
@@ -46,7 +47,8 @@ class HGRoomListController: UIViewController {
         return object;
     }()
     
-    fileprivate lazy var listTitleL: UILabel = {//一个简单的label“房间列表”
+    //一个简单的label“房间列表”
+    fileprivate lazy var listTitleL: UILabel = {
         let object = UILabel()
         object.text = "房间列表"
         object.textAlignment = .center
@@ -55,7 +57,8 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    fileprivate lazy var cancelButton: UIButton = {//“取消“按钮的属性设置
+    //“取消“按钮的属性设置
+    fileprivate lazy var cancelButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("取消", for: UIControl.State.normal);
         object.setTitle("取消", for: UIControl.State.highlighted);
@@ -70,7 +73,8 @@ class HGRoomListController: UIViewController {
         return object;
     }()
 
-    fileprivate lazy var backgroundImageView: UIImageView = {//背景图片
+    //背景图片
+    fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
@@ -79,6 +83,8 @@ class HGRoomListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //开始接收udp信息
+        player.Start_UDP_Receive()
         
         //房间列表的数据源，各个房间信息
         dataSource = [RoomInfo(roomID: "RUA"+"的房间", roomAddress: "1.0.0.0", roomCount: 3)]
@@ -137,6 +143,7 @@ class HGRoomListController: UIViewController {
             //roomController.roomInfo = selectedRoomInfo
             navigationController?.pushViewController(roomController, animated: true)
         } else if sender == cancelButton {//点击取消按钮则回到上一页
+            player.Close_UDP_Receive()
             navigationController?.popViewController(animated: true)
         }
     }

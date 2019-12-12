@@ -71,7 +71,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         idtextfield.delegate = self
-        Player.Update_User_NetInfo()
+        player.Update_User_NetInfo()
         setupUI()
     }
 
@@ -109,19 +109,21 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {//点击软键盘上的return后的行为：更新用户名并收回键盘
-        Player.userinfo.ID=textField.text ?? "user"
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        //点击软键盘上的return后的行为：更新用户名并收回键盘
+        player.userinfo.ID=textField.text ?? "user"
         textField.resignFirstResponder()
         //print("玩家名字是\(Player.userinfo.ID ?? "user")")
         return true
     }
     @objc fileprivate func doAction(sender: UIButton) {
         if sender == joinRoomButton {//如果点击的是加入房间按钮，则跳转到HGRoomList房间列表页面
-            Player.status=false //用户身份转变为普通玩家
+            player.status=false //用户身份转变为普通玩家
             navigationController?.pushViewController(HGRoomListController(), animated: true)
         } else if sender == createRoomButton {//如果点击的是创建房间按钮，则跳转到HGRoomWait等待界面（还需要在服务器那边更新房间列表数据源，增加一个房间以供玩家加入，不知道怎么弄）
             
-            Player.status=true //用户身份转变为房主
+            player.status=true //用户身份转变为房主
             let roomController = HGRoomWaitController()
             navigationController?.pushViewController(roomController, animated: true)
         }
