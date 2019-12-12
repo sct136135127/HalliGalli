@@ -86,16 +86,21 @@ class HGRoomListController: UIViewController {
         //开始接收udp信息
         player.Start_UDP_Receive()
         
+        roomlist_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)
+        
         //房间列表的数据源，各个房间信息
-        dataSource = [RoomInfo(roomID: "RUA"+"的房间", roomAddress: "1.0.0.0", roomCount: 3)]
-//        dataSource = [
-//            RoomInfo(isstarted:false,roomID: 1, count: 121),
-//            RoomInfo(isstarted:false,roomID: 2, count: 122),
-//            RoomInfo(isstarted:false,roomID: 3, count: 123),
-//            RoomInfo(isstarted:false,roomID: 4, count: 124),
-//            RoomInfo(isstarted:false,roomID: 5, count: 125),
-//            RoomInfo(isstarted:false,roomID: 6, count: 126)]
+        //dataSource = [RoomInfo(roomID: "RUA"+"的房间", roomAddress: "1.0.0.0", roomCount: 3)]
+        
         setupUI()
+    }
+    
+    ///更新房间列表数据源
+    @objc func Update_Roominfo(){
+        player.Update_Roomlist_Info()
+        dataSource = player.room_list
+        //MARK: 戴
+        //dataSource发生变化 更新到tableview⬇️
+        
     }
 
     fileprivate func setupUI() {
@@ -139,11 +144,17 @@ class HGRoomListController: UIViewController {
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
+            roomlist_timer.invalidate()
+            //MARK: 待完善
+            //建立TCP连接,true则继续，false则不处理
+            
             let roomController = HGRoomWaitController()
-            //roomController.roomInfo = selectedRoomInfo
+            
             navigationController?.pushViewController(roomController, animated: true)
         } else if sender == cancelButton {//点击取消按钮则回到上一页
+            roomlist_timer.invalidate()
             player.Close_UDP_Receive()
+            
             navigationController?.popViewController(animated: true)
         }
     }

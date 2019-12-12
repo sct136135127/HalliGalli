@@ -70,7 +70,7 @@ class HGRoomWaitController: UIViewController {
             server.Start_UDP_Broadcast()
             
             //定时广播
-            control_timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(HGRoomWaitController.Udp_Broardcast_send), userInfo: nil, repeats: true)
+            control_timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(HGRoomWaitController.Udp_Broardcast_send), userInfo: nil, repeats: true)
         }
         
         setupUI()

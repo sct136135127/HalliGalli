@@ -35,15 +35,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate {
 //        print(userinfo.identifier)
 //        print(userinfo.net_mask)
         
-        //UDP初始化
-        udp_socket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.main)
-//        do{
-//            try udp_socket?.bind(toPort: 2333, interface: udp_error)
-//        }catch{
-//            if let _ = udp_error{
-//                print(udp_error!)
-//            }
-//        }
         //添加房主信息 更新房间信息
         playerinfo_array.append(player.userinfo)
         room_info = RoomInfo(roomID: server_info.ID ?? "error", roomAddress: server_info.ip_address ?? "error", roomCount: 1)
@@ -79,6 +70,16 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate {
     
     ///UDP广播
     func Start_UDP_Broadcast(){
+        //UDP初始化
+        udp_socket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.main)
+        
+        //        do{
+        //            try udp_socket?.bind(toPort: 2333, interface: udp_error)
+        //        }catch{
+        //            if let _ = udp_error{
+        //                print(udp_error!)
+        //            }
+        //        }
         do{
             try udp_socket?.enableBroadcast(true)
         }catch{

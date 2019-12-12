@@ -25,6 +25,7 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
     ///UDP error
     var udp_error:String?
     
+//MARK: - 其他
     ///获得本机基本网络信息
     ///后期考虑一段时间更新一次
     ///提醒打开wifi
@@ -37,6 +38,17 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
 //        print(userinfo.identifier)
 //        print(userinfo.net_mask)
         
+    }
+    
+    //MARK: 待完善
+    ///按照时间差更新房间列表
+    func Update_Roomlist_Info(){
+        //对超时的房间进行remove处理
+    }
+
+//MARK: - UDP
+    ///UDP监听打开
+    func Start_UDP_Receive(){
         //UDP初始化
         udp_socket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.main)
         do{
@@ -46,11 +58,7 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
                 print(udp_error!)
             }
         }
-    }
-
-//MARK: - UDP
-    ///UDP监听打开
-    func Start_UDP_Receive(){
+        
         do{
             try udp_socket?.beginReceiving()
         }catch{
@@ -58,16 +66,25 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
         }
         print("开始监听UDP")
     }
+    
     ///UDP监听关闭
     func Close_UDP_Receive(){
         udp_socket?.close()
         print("监听UDP关闭")
     }
     
+    //MARK: 待完善
+    ///UDP接收
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
         print(String(data: data,encoding: .utf8) ?? "error","\n",String(data: address,encoding: .utf8) ?? "error")
+        
+        //判断是否为指定的接收到的UDP（前缀判断）
+        
+        //更新roominfo的信息和接收时间
+        
     }
     
+    ///UDP关闭
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
         print("udp关闭成功")
     }

@@ -70,8 +70,11 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         idtextfield.delegate = self
+        
         player.Update_User_NetInfo()
+        
         setupUI()
     }
 
@@ -120,10 +123,11 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     @objc fileprivate func doAction(sender: UIButton) {
         if sender == joinRoomButton {//如果点击的是加入房间按钮，则跳转到HGRoomList房间列表页面
             player.status=false //用户身份转变为普通玩家
+            
             navigationController?.pushViewController(HGRoomListController(), animated: true)
         } else if sender == createRoomButton {//如果点击的是创建房间按钮，则跳转到HGRoomWait等待界面（还需要在服务器那边更新房间列表数据源，增加一个房间以供玩家加入，不知道怎么弄）
-            
             player.status=true //用户身份转变为房主
+            
             let roomController = HGRoomWaitController()
             navigationController?.pushViewController(roomController, animated: true)
         }
