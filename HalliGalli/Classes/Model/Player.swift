@@ -10,20 +10,24 @@ import Foundation
 import CocoaAsyncSocket
 
 ///继承 GCDAsyncUdpSocket 和 GCDAsyncSocket
-class Player: NSObject, GCDAsyncUdpSocketDelegate{
+class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
     
     /// 玩家信息
     var userinfo:UserInfo = UserInfo()
     /// true为房主 false为普通玩家
     var status:Bool?
-    /// 服务器地址 (类型更改)
-    var server_ip: String?
+    
     /// 房间列表信息
     var room_list:[RoomInfo] = []
     ///UDP socket
     var udp_socket:GCDAsyncUdpSocket?
     ///UDP error
     var udp_error:String?
+    
+    /// 服务器地址 (类型更改)
+    var server_ip: String?
+    /// TCP socket
+    var tcp_socket:GCDAsyncSocket?
     
 //MARK: - 其他
     ///获得本机基本网络信息
@@ -117,17 +121,58 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
         
     }
     
-    ///UDP关闭
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
         print("udp关闭成功")
     }
    
 //MARK: - TCP
     
-    ///TCP监听打开
+    /// TCP连接
+    func Start_Connect()->Bool{
+        tcp_socket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
+        
+        do{
+            try tcp_socket?.connect(toHost: server_ip!, onPort: 3332)
+        }catch{
+            print("连接失败")
+            return false
+        }
+        
+        print("连接成功")
+        return true
+    }
     
-    ///TCP监听关闭
+    /// TCP断开连接
+    func End_Connect(){
+        tcp_socket?.disconnect()
+    }
     
-    ///发送TCP Socket
+    /// 发送TCP Socket
+    func Send_TCP(socket_data: Data){
+        tcp_socket?.write(socket_data, withTimeout: -1, tag: 0)
+    }
+    
+    //MARK: 待完善
+    /// 接收TCP socket
+    func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
+        //读取和解读信息，处理信息
+        
+        //继续等待和读取服务器的TCP socket
+        tcp_socket?.readData(withTimeout: -1, tag: 0)
+    }
+    
+    func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
+        print("发送TCP成功")
+    }
+    
+    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+        print("断开连接成功")
+        tcp_socket?.delegate = nil
+        tcp_socket = nil
+    }
+    
+    func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
+        print("成功连接到: \(host):\(port)")
+    }
     
 }

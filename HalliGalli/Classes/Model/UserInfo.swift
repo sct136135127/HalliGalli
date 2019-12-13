@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CocoaAsyncSocket
 
 struct UserInfo {
     /// 用户id
@@ -22,6 +23,9 @@ struct UserInfo {
     
     /// 牌堆
     var cards:[String] = []
+    
+    ///TCP Socket存储
+    var tcp_socket:GCDAsyncSocket?
    
 
 //MARK: - 获取信息

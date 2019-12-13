@@ -160,13 +160,24 @@ class HGRoomListController: UIViewController {
     @objc fileprivate func doAction(sender: UIButton) {
         if sender ==  joinButton {
             //选择好房间以后点击加入按钮，跳转到roomwait等待界面
-            roomlist_timer.invalidate()
+            player.server_ip = selectedRoomInfo?.roomAddress
+            guard player.server_ip != nil else {
+                return
+            }
             
             //MARK: 待完善
             //建立TCP连接,true则继续，false则不处理
+            if player.Start_Connect() == true{
+                //连接成功
+                //更新房间信息
+                roomlist_timer.invalidate()
+                
+                let roomController = HGRoomWaitController()
+                navigationController?.pushViewController(roomController, animated: true)
+            }else{
+                //连接失败
+            }
             
-            let roomController = HGRoomWaitController()
-            navigationController?.pushViewController(roomController, animated: true)
         } else if sender == cancelButton {
             //点击取消按钮则回到上一页
             roomlist_timer.invalidate()

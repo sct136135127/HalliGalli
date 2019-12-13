@@ -74,6 +74,7 @@ class HGRoomWaitController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //玩家停止接收UDP信息
         if player.status == false {
             player.Close_UDP_Receive()
