@@ -21,6 +21,7 @@ var player:Player = Player()
 var control_timer: Timer = Timer()
 /// 房间列表刷新时间控制器
 var roomlist_timer: Timer = Timer()
+
 // 横屏是否显示状态栏，使用私有API显示， 崩溃请设置为false
 let kShowStatusBarWhenLandScape: Bool = true
 /// 项目主要颜色

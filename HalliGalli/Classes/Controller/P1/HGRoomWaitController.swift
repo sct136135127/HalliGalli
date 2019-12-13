@@ -66,22 +66,24 @@ class HGRoomWaitController: UIViewController {
     override var prefersStatusBarHidden:Bool{
         return false
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         StatusBarManager.showStatusBar()
-        
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //玩家停止接收UDP信息
         if player.status == false {
             player.Close_UDP_Receive()
-        }else {//房主开始UDP广播房间信息
+        }else {
+            //房主开始UDP广播房间信息
             server.Update_Server_NetInfo()
             server.Start_UDP_Broadcast()
             
             //定时广播
-            control_timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(HGRoomWaitController.Udp_Broardcast_send), userInfo: nil, repeats: true)
+            control_timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(HGRoomWaitController.Udp_Broardcast_send), userInfo: nil, repeats: true)
         }
         
         setupUI()
@@ -101,24 +103,26 @@ class HGRoomWaitController: UIViewController {
         if player.status == false {//如果当前用户身份是普通玩家，不能点击开始
             startButton.isEnabled=false
             
-            //countL.text = "已加入人数: \(roomInfo?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
-            countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
+            //countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
+            //MARK: 待修改
+            countL.text = "已加入人数: \(2)  你是玩家，请等待房主开始游戏"
             /*我觉得应该在某个地方让server给各个普通玩家发送信息，并随时刷新。如果该房间游戏已经开始的话就进入游戏。
             if roomInfo?.isstarted==true {
                 let gamecontroller=HGGamingController()
                 gamecontroller.userinfo=userinfo
                 navigationController?.pushViewController(gamecontroller, animated: true)
             }*/
-        }else{//如果当前用户身份是房主，可以点击开始
-            if server.room_info?.roomCount ?? 1 < 3{//如果房间人数小于3，不能点开始
+        }else{
+            //如果当前用户身份是房主，可以点击开始
+            if (server.room_info?.roomCount)! < 3{//如果房间人数小于3，不能点开始
+                
+                // MARK: debug结束之后修改
                 startButton.isEnabled=true
                 //startButton.isEnabled=false
             }else{//房间人数大于等于3可以开始
                 startButton.isEnabled=true
             }
-
             
-            //countL.text = "已加入人数: \(roomInfo?.count ?? 0)  你是房主"
             countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是房主"
         }
         

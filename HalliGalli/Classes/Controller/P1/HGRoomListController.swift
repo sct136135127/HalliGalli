@@ -28,7 +28,7 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    //“加入”按钮的属性设置
+    ///“加入”按钮的属性设置
     fileprivate lazy var joinButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("加入", for: UIControl.State.normal);
@@ -45,7 +45,7 @@ class HGRoomListController: UIViewController {
         return object;
     }()
     
-    //一个简单的label“房间列表”
+    ///一个简单的label“房间列表”
     fileprivate lazy var listTitleL: UILabel = {
         let object = UILabel()
         object.text = "房间列表"
@@ -55,7 +55,7 @@ class HGRoomListController: UIViewController {
         return object
     }()
     
-    //“取消“按钮的属性设置
+    ///“取消“按钮的属性设置
     fileprivate lazy var cancelButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("取消", for: UIControl.State.normal);
@@ -71,7 +71,7 @@ class HGRoomListController: UIViewController {
         return object;
     }()
 
-    //背景图片
+    ///背景图片
     fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
@@ -86,9 +86,11 @@ class HGRoomListController: UIViewController {
     override var prefersStatusBarHidden:Bool{
         return false
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StatusBarManager.showStatusBar()
+        
         //开始接收udp信息
         player.Start_UDP_Receive()
         
@@ -102,7 +104,8 @@ class HGRoomListController: UIViewController {
             RoomInfo(roomID: "6", roomAddress: "6", roomCount: 7),]*/
         
         //每秒更新房间列表
-        roomlist_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)
+        roomlist_timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)
+        
         setupUI()
     }
     
@@ -110,13 +113,10 @@ class HGRoomListController: UIViewController {
     @objc func Update_Roominfo(){
         player.Update_Roomlist_Info()
         dataSource = player.room_list
-        
-        //MARK: 戴
-        //dataSource发生变化 更新到tableview⬇️
-        tableView.reloadData()
         //print(dataSource)
-
         
+        //dataSource发生变化 更新到tableview
+        tableView.reloadData()
     }
 
     fileprivate func setupUI() {
@@ -156,19 +156,19 @@ class HGRoomListController: UIViewController {
         }
     }
     
-    
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
-        if sender ==  joinButton {//选择好房间以后点击加入按钮，跳转到roomwait等待界面
-            //selectedRoomInfo?.roomCount! += 1//房间人数+1
+        if sender ==  joinButton {
+            //选择好房间以后点击加入按钮，跳转到roomwait等待界面
             roomlist_timer.invalidate()
+            
             //MARK: 待完善
             //建立TCP连接,true则继续，false则不处理
             
             let roomController = HGRoomWaitController()
-            
             navigationController?.pushViewController(roomController, animated: true)
-        } else if sender == cancelButton {//点击取消按钮则回到上一页
+        } else if sender == cancelButton {
+            //点击取消按钮则回到上一页
             roomlist_timer.invalidate()
             player.Close_UDP_Receive()
             
@@ -223,7 +223,7 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
             joinButton.isEnabled = true//选择好房间后让加入按钮亮起变成可点击状态
             tableView.reloadData()
         }else{
-            joinButton.isEnabled = false//人数大于6的话不能点击加入
+            joinButton.isEnabled = false//人数大于等于6的话不能点击加入
             tableView.reloadData()
         }
 

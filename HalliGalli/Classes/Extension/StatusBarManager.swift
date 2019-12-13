@@ -18,7 +18,7 @@ class StatusBarManager: NSObject {
                 guard let _value = UIApplication.shared.keyWindow?.windowScene?.statusBarManager else {
                     return nil
                 }
-                guard let _newStatusValue = _value.perform(NSSelectorFromString("createLocalStatusBar")) as? Unmanaged<AnyObject> else {
+                guard let _newStatusValue = _value.perform(NSSelectorFromString("createLocalStatusBar")) else {
                     return nil
                 }
                 guard let _newStatus = _newStatusValue.takeUnretainedValue() as? UIView else {

@@ -49,7 +49,7 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate{
             let timeInterval = -1 * temp_room_time.timeIntervalSinceNow
             
             //失联超过1s
-            if timeInterval > 1 {
+            if timeInterval > 0.6 {
                 record.append(i)
             }
         }

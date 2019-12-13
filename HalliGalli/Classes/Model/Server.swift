@@ -59,7 +59,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate {
         return self.playerinfo_array.count
     }
     
-    //MARK:待完善
+    //MARK: 戴  待完善
     ///按照人数分发牌 一人16张 6人则每人15张
     func Arrange_Cards_By_Num(){
         //let person_num = Server.Person_Num()
