@@ -20,13 +20,11 @@ struct UserInfo {
     var identifier: String?
     /// 子网掩码（类型可能需要更改），可能不需要
     var net_mask: String?
+    ///TCP Socket存储
+    var tcp_socket:GCDAsyncSocket?
     
     /// 牌堆
     var cards:[String] = []
-    
-    ///TCP Socket存储
-    var tcp_socket:GCDAsyncSocket?
-   
 
 //MARK: - 获取信息
 

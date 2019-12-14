@@ -129,42 +129,62 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         }
     }
     
-    ///TCP监听关闭
-    func Stop_TCP_Listen(){
-        
+    //MARK: 待测试
+    ///房主离开时断开所有连接 游戏结束时断开所有连接
+    func Stop_ALL_TCP(){
+        for i in playerinfo_array {
+            i.tcp_socket?.disconnect()
+        }
+        playerinfo_array.removeAll()
     }
     
     ///发送TCP Socket
-    func Send_TCP_Socket(){
-        
-//        // socket是保存的客户端socket, 表示给这个客户端socket发送消息
-//        - (IBAction)sendMessage:(id)sender
-//        {
-//            if(self.clientSockets == nil) return;
-//            NSData *data = [self.messageTextF.text dataUsingEncoding:NSUTF8StringEncoding];
-//            // withTimeout -1 : 无穷大,一直等
-//            // tag : 消息标记
-//            [self.clientSockets enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                [obj writeData:data withTimeout:-1 tag:0];
-//            }];
-//        }
-        
+    func Send_TCP_Socket(sock: GCDAsyncSocket,socket_data: Data){
+        sock.write(socket_data, withTimeout: -1, tag: 0)
     }
     
+    //MARK: 待测试
     //接收TCP Socket
-    ///接收新用户的加入TCP
+    ///接收新player的加入TCP
     func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         //加入该用户信息
+        var newplayer = UserInfo()
+        newplayer.tcp_socket = sock
+        newplayer.ip_address = sock.connectedHost
+        playerinfo_array.append(newplayer)
         
-        
-        //继续监听改客户端的TCP请求
+        //继续监听该客户端的TCP请求
         newSocket.readData(withTimeout: -1, tag: 0)
+        print("与\(sock.connectedHost!) 建立连接")
     }
     
-    ///接收TCP
+    //MARK: 待完善
+    ///接收已加入player的TCP请求内容
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
         <#code#>
         
+        //继续监听
         sock.readData(withTimeout: -1, tag: 0)
     }
+    
+    //MARK: 待测试
+    ///玩家与服务器断连 包括主动断连和被动断连
+    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+        //清理断连玩家信息
+        let address = sock.connectedHost
+        
+        for i in 0..<playerinfo_array.count {
+            if let temp = playerinfo_array[i].ip_address {
+                if temp == address! {
+                    playerinfo_array.remove(at: i)
+                    break
+                    
+                    //之后需要更新总人数
+                }
+            }
+        }
+        
+        print("与\(sock.connectedHost!)断连")
+    }
+    
 }
