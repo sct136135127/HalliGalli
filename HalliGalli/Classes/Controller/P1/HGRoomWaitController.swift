@@ -8,7 +8,17 @@
 
 import UIKit
 
+///房间当前状态
+var room_status:Int?
+
 class HGRoomWaitController: UIViewController {
+
+    /// UDP广播时间控制器
+    var control_timer = Timer()
+    ///更新label的时间控制器
+    var label_timer = Timer()
+    ///查看房间状态的时间控制器
+    var room_timer = Timer()
     
     ///“开始“按钮的属性设置
     fileprivate lazy var startButton: UIButton = {
@@ -74,6 +84,7 @@ class HGRoomWaitController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        room_status = 0
         
         //玩家停止接收UDP信息
         if player.status == false {
@@ -83,16 +94,54 @@ class HGRoomWaitController: UIViewController {
             server.Update_Server_NetInfo()
             server.Start_UDP_Broadcast()
             
-            //定时广播
+            //定时UDP广播房间信息
             control_timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(HGRoomWaitController.Udp_Broardcast_send), userInfo: nil, repeats: true)
         }
         
+        //定时更新label
+        label_timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(HGRoomWaitController.Update_Room_Label), userInfo: nil, repeats: true)
+        
+        //定时查看房间状态
+        room_timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(HGRoomWaitController.Check_Game_Flag), userInfo: nil, repeats: true)
+        
         setupUI()
+    }
+    
+    ///更新房间人数标签
+    @objc func Update_Room_Label(){
+        if player.status == false {
+            countL.text = "已加入人数: \(player.room_num ?? "wrong")  你是玩家，请等待房主开始游戏"
+        }else{
+            countL.text = "已加入人数: \(player.room_num ?? "wrong")  你是房主"
+        }
+        
     }
     
     ///发送UDP广播
     @objc func Udp_Broardcast_send(){
         server.Udp_Broardcast_send()
+    }
+    
+    ///检查是否游戏开始 -1为房主退出 0为未开始 1为游戏开始
+    @objc func Check_Game_Flag(){
+        if room_status == 0 {
+            
+        }else if room_status == -1 {
+            //房主退出 房间解散 or 玩家退出
+            room_timer.invalidate()
+            label_timer.invalidate()
+            
+            //回到主界面
+            navigationController?.popToRootViewController(animated: true)
+        }else if room_status == 1 {
+            //游戏准备开始
+            room_timer.invalidate()
+            label_timer.invalidate()
+            
+            //进入游戏界面
+            let gamecontroller=HGGamingController()
+            navigationController?.pushViewController(gamecontroller, animated: true)
+        }
     }
     
     fileprivate func setupUI() {
@@ -101,30 +150,20 @@ class HGRoomWaitController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(leaveButton)
         view.addSubview(countL)
-        if player.status == false {//如果当前用户身份是普通玩家，不能点击开始
+        if player.status == false {
+            //如果当前用户身份是普通玩家，不能点击开始
             startButton.isEnabled=false
-            
             //countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是玩家，请等待房主开始游戏"
-            //MARK: 待修改
-            countL.text = "已加入人数: \(2)  你是玩家，请等待房主开始游戏"
-            /*我觉得应该在某个地方让server给各个普通玩家发送信息，并随时刷新。如果该房间游戏已经开始的话就进入游戏。
-            if roomInfo?.isstarted==true {
-                let gamecontroller=HGGamingController()
-                gamecontroller.userinfo=userinfo
-                navigationController?.pushViewController(gamecontroller, animated: true)
-            }*/
         }else{
             //如果当前用户身份是房主，可以点击开始
             if (server.room_info?.roomCount)! < 3{//如果房间人数小于3，不能点开始
-                
                 // MARK: debug结束之后修改
                 startButton.isEnabled=true
                 //startButton.isEnabled=false
             }else{//房间人数大于等于3可以开始
                 startButton.isEnabled=true
             }
-            
-            countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是房主"
+            //countL.text = "已加入人数: \(server.room_info?.roomCount ?? 0)  你是房主"
         }
         
         //snp布置布局
@@ -150,34 +189,36 @@ class HGRoomWaitController: UIViewController {
         }
     }
     
-    
-
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
-        if sender ==  startButton {//如果房主点击开始则进入游戏界面,并使其房间开始标志置1
+        if sender ==  startButton {
+            //房主点击开始
+            //停止UDP广播房间信息
+            control_timer.invalidate()
             server.Close_UDP_Broadcast()
             
-            //MARK: 待完善
-            //发送游戏开始信息（TCP）
-            
-            
-            let gamecontroller=HGGamingController()
-            navigationController?.pushViewController(gamecontroller, animated: true)
+            //发送游戏开始信息（TCP）所有人room_status置 1
+            server.Send_Game_Start()
         } else if sender == leaveButton {//点击离开则回到前一页
             if player.status == true{
+                //房主离开房间
+                //停止UDP广播房间信息
+                control_timer.invalidate()
                 server.Close_UDP_Broadcast()
                 
-                //MARK: 待完善
-                //发送房间关闭信息（TCP） 玩家接收到关闭信息时也要回到主页
-                
-                
+                server.Send_Room_Close()
+                //房主与所有人断连
+                server.Stop_ALL_TCP()
+                player.End_Connect()
+                room_status = -1
             }else {
-                //MARK: 待完善
-                //玩家发送离开信息（TCP）
-                
-                
+                //玩家离开房间
+                //断开TCP连接 room_status置 -1
+                player.Send_Player_Leave()
+                player.End_Connect()
+                room_status = -1
             }
-            navigationController?.popToRootViewController(animated: true)
+            
         }
     }
 

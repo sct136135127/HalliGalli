@@ -10,8 +10,11 @@ import UIKit
 
 class HGRoomListController: UIViewController {
 
-    //MARK: 需要修改
-
+    //MARK: 补充注释
+    
+    /// 房间列表刷新时间控制器
+    var roomlist_timer: Timer = Timer()
+    
     /// 选中的房间
     fileprivate var selectedRoomInfo: RoomInfo?
     
@@ -161,26 +164,31 @@ class HGRoomListController: UIViewController {
         if sender ==  joinButton {
             //选择好房间以后点击加入按钮，跳转到roomwait等待界面
             player.server_ip = selectedRoomInfo?.roomAddress
+            
             guard player.server_ip != nil else {
                 return
             }
             
-            //MARK: 待完善
             //建立TCP连接,true则继续，false则不处理
             if player.Start_Connect() == true{
                 //连接成功
-                //更新房间信息
+                //发送玩家信息
+                player.Send_Player_Info()
+                //停止刷新房间列表
                 roomlist_timer.invalidate()
                 
                 let roomController = HGRoomWaitController()
                 navigationController?.pushViewController(roomController, animated: true)
             }else{
                 //连接失败
+                //MARK: 待添加？ 连接失败弹窗？
             }
             
         } else if sender == cancelButton {
             //点击取消按钮则回到上一页
+            //停止刷新房间列表
             roomlist_timer.invalidate()
+            //关闭UDP接收
             player.Close_UDP_Receive()
             
             navigationController?.popViewController(animated: true)

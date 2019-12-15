@@ -17,12 +17,8 @@ var dataSource: [RoomInfo] = []
 var server:Server = Server()
 /// 玩家
 var player:Player = Player()
-/// UDP广播时间控制器
-var control_timer: Timer = Timer()
-/// 房间列表刷新时间控制器
-var roomlist_timer: Timer = Timer()
 
-// 横屏是否显示状态栏，使用私有API显示， 崩溃请设置为false
+///横屏是否显示状态栏，使用私有API显示， 崩溃请设置为false
 let kShowStatusBarWhenLandScape: Bool = true
 /// 项目主要颜色
 let kMainThemeColor: UIColor = UIColor(hex: 0x0084FB)
@@ -33,17 +29,37 @@ let Cards:[String] = ["000100","000100","000100","001010","001010","001010","001
 //MARK: 待完善
 ///TCP socket信息种类
 enum TCPKIND:String{
-    case Nothing   //不做任何处理
-    case ADD_PLAYER //加入玩家
+    case ADD_PLAYER //加入玩家 (连接成功后发送加入的玩家信息)
     case Update_RoomPlayer_Num //更新等待房间人数信息
+    case GAME_START //游戏开始
     
+    case ROOM_CLOSE //房间解散
+    case PLAYER_LEAVE //玩家离开
+    
+    case CARD_FLOP // 翻牌
+    case CARD_FLOP_BACK // 误触，翻回之前的牌
+    
+    case CALLING_RING // 抢答
+    case ANSWER_RIGHT // 抢答成功
+    case ANSWER_WRONG // 抢答失败
+    
+    case GAME_FAIL // 游戏失败
+    case GAME_WIN // 游戏胜利
 }
 
+// socket格式: HG$@TCP_KIND$@Info
 ///TCP socket定义
 struct TCP_SOCKET{
     let GAMEFLAG = "HG"
     var TCP_KIND:String?
-    
+    var INFO:String?
 }
 
 ///TCP_SOCKET信息转换成DATA
+func Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET)->Data{
+    let content = tcp_socket.GAMEFLAG + "&" + tcp_socket.TCP_KIND! + "&" + tcp_socket.INFO!
+    
+    return content.data(using: .utf8)!
+}
+
+

@@ -43,10 +43,21 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
 //        print(userinfo.net_mask)
         
         //添加房主信息 更新房间信息
-        playerinfo_array.append(player.userinfo)
+        //playerinfo_array.append(player.userinfo)
         room_info = RoomInfo(roomID: server_info.ID ?? "error", roomAddress: server_info.ip_address ?? "error", roomCount: 1)
         //更新局域网广播地址
         Udp_broadcast_address()
+        
+        //打开TCP监听
+        Start_TCP_Listen()
+        //建立服务器与房主自己的TCP连接
+        player.server_ip = server_info.ip_address
+        
+        if player.Start_Connect() == true {
+            print("房主连接自我服务器 成功")
+        }else {
+            print("房主连接失败")
+        }
     }
     
     ///计算UDP广播地址
@@ -63,7 +74,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
 
     ///返回总人数
     func Person_Num()->Int{
-        return self.playerinfo_array.count
+        return playerinfo_array.count
     }
     
     //MARK: 戴 待完善
@@ -96,13 +107,14 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     
     ///发送UDP广播
     func Udp_Broardcast_send(){
+        room_info?.roomCount = Person_Num()
+        
         udp_socket?.send("HG/\(room_info?.roomID ?? "error")/\(room_info?.roomAddress ?? "error")/\(room_info?.roomCount ?? 0)".data(using: .utf8)!, toHost: udp_broadcast_address , port: 2333, withTimeout: -1, tag: 1)
-        print("发送UDP")
+        //print("发送UDP")
     }
     
     ///UDP关闭
     func Close_UDP_Broadcast(){
-        control_timer.invalidate()
         udp_socket?.close()
         print("UDP关闭")
     }
@@ -112,7 +124,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
-        print("UDP发送成功 \(tag)")
+        //print("UDP发送成功 \(tag)")
     }
 
 //MARK: - TCP
@@ -129,13 +141,16 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         }
     }
     
-    //MARK: 待测试
+    //MARK: 待测试 可能会由于房主回到主界面而崩溃！
     ///房主离开时断开所有连接 游戏结束时断开所有连接
     func Stop_ALL_TCP(){
         for i in playerinfo_array {
             i.tcp_socket?.disconnect()
         }
         playerinfo_array.removeAll()
+        
+        tcp_socket?.delegate = nil
+        tcp_socket = nil
     }
     
     ///发送TCP Socket
@@ -149,42 +164,96 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         //加入该用户信息
         var newplayer = UserInfo()
-        newplayer.tcp_socket = sock
-        newplayer.ip_address = sock.connectedHost
+        newplayer.tcp_socket = newSocket
+        newplayer.ip_address = newSocket.connectedHost
         playerinfo_array.append(newplayer)
+        
+        //发送更新房间列表人数的包
+        Send_Room_Num()
         
         //继续监听该客户端的TCP请求
         newSocket.readData(withTimeout: -1, tag: 0)
-        print("与\(sock.connectedHost!) 建立连接")
+        print("与\(newSocket.connectedHost!) 建立连接")
     }
     
     //MARK: 待完善
     ///接收已加入player的TCP请求内容
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-        <#code#>
-        
-        //继续监听
-        sock.readData(withTimeout: -1, tag: 0)
-    }
-    
-    //MARK: 待测试
-    ///玩家与服务器断连 包括主动断连和被动断连
-    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-        //清理断连玩家信息
-        let address = sock.connectedHost
-        
-        for i in 0..<playerinfo_array.count {
-            if let temp = playerinfo_array[i].ip_address {
-                if temp == address! {
-                    playerinfo_array.remove(at: i)
-                    break
-                    
-                    //之后需要更新总人数
+        let content:String = String(data:data,encoding: .utf8) ?? "wrong"
+        if content.split(separator: "&")[0] == "HG" {
+            if content.split(separator: "&")[1] == TCPKIND.ADD_PLAYER.rawValue {
+                //更新player信息
+                let info = String(content.split(separator: "&")[2])
+                
+                let id = info.split(separator: "/")[0]
+                let ip = info.split(separator: "/")[1]
+                let identifier = info.split(separator: "/")[2]
+                
+                for i in 0..<playerinfo_array.count {
+                    if let _ = playerinfo_array[i].ip_address{
+                        if playerinfo_array[i].ip_address! == String(ip) {
+                            playerinfo_array[i].ID = String(id)
+                            playerinfo_array[i].identifier = String(identifier)
+                            
+                            break
+                        }
+                    }
                 }
+            }else if content.split(separator: "&")[1] == TCPKIND.PLAYER_LEAVE.rawValue  {
+                //清理断连玩家信息
+                let identifier = String(content.split(separator: "&")[2].split(separator: "/")[2])
+                
+                for i in 0..<playerinfo_array.count {
+                    if let temp = playerinfo_array[i].identifier {
+                        if temp == identifier {
+                            playerinfo_array.remove(at: i)
+                            break
+                        }
+                    }
+                }
+                
+                Send_Room_Num()
+            }else {
+                
             }
         }
         
-        print("与\(sock.connectedHost!)断连")
+        //继续监听
+        sock.readData(withTimeout: -1, tag: 0)
+        
     }
     
+    //MARK: 待观察
+    ///玩家与服务器断连 包括主动断连和被动断连
+    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+        
+    }
+    
+//MARK: - TCP INFO
+    ///发送房间人数
+    func Send_Room_Num(){
+        let content:Data = Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.Update_RoomPlayer_Num.rawValue, INFO: String(Person_Num())))
+        
+        for i in playerinfo_array {
+            Send_TCP_Socket(sock: i.tcp_socket!, socket_data: content)
+        }
+    }
+    
+    ///发送游戏开始信息
+    func Send_Game_Start(){
+        let content:Data = Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.GAME_START.rawValue, INFO: String(1)))
+        
+        for i in playerinfo_array {
+            Send_TCP_Socket(sock: i.tcp_socket!, socket_data: content)
+        }
+    }
+    
+    ///发送游戏结束信息
+    func Send_Room_Close(){
+        let content:Data = Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.ROOM_CLOSE.rawValue, INFO: String(-1)))
+        
+        for i in playerinfo_array {
+            Send_TCP_Socket(sock: i.tcp_socket!, socket_data: content)
+        }
+    }
 }

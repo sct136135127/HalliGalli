@@ -82,4 +82,10 @@ struct UserInfo {
     mutating func GetIdentifier(){
         identifier = UIDevice.current.identifierForVendor?.uuidString
     }
+    
+    ///将Userinfo合成String输出
+    ///格式 ID/ip/identifier
+    func UserInfo_into_String()->String{
+        return ID!+"/"+ip_address!+"/"+identifier!
+    }
 }

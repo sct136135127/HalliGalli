@@ -12,6 +12,7 @@ import SnapKit
 class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     //MARK: 需要补充注释
+    
     private var statusBarStyle:UIStatusBarStyle = .lightContent{
         didSet{
             self.setNeedsStatusBarAppearanceUpdate();
@@ -46,7 +47,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         object.layer.borderWidth=2.0
         object.layer.cornerRadius=5.0
         object.clearButtonMode = .always
-        object.becomeFirstResponder()
+        //object.becomeFirstResponder()
         object.keyboardType = .default
         object.returnKeyType = UIReturnKeyType.done
         return object
