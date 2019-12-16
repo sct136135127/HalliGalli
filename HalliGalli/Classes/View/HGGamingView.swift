@@ -9,6 +9,7 @@
 import UIKit
 
 class HGGamingView: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -26,10 +27,14 @@ class HGGamingView: UIView {
         for i in 0...4 {
             let random = arc4random() % 5
             result = result + "\(random)"
-            if random == 0 {
-                imageViews[i].image = nil
-            } else {
-                imageViews[i].image = UIImage(named: "image\(random)")
+            UIView.transition(with: self.imageViews[i], duration: 0.25, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: {
+                if random == 0 {
+                    self.imageViews[i].image = nil
+                } else {
+                    self.imageViews[i].image = UIImage(named: "image\(random)")
+                }
+            }) { (flag) in
+                
             }
         }
         

@@ -14,7 +14,6 @@ class StatusBarManager: NSObject {
         //横屏默认会隐藏状态栏, 崩溃请更改kShowStatusBarWhenLandScape为false
         if kShowStatusBarWhenLandScape {
             if #available(iOS 13.0, *) {
-                
                 guard let _value = UIApplication.shared.keyWindow?.windowScene?.statusBarManager else {
                     return nil
                 }
@@ -32,7 +31,6 @@ class StatusBarManager: NSObject {
                 
             } else {
                 return  UIApplication.shared.value(forKey: "statusBar") as? UIView
-                
             }
         } else {
             return nil

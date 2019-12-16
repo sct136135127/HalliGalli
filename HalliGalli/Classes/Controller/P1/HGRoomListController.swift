@@ -135,7 +135,7 @@ class HGRoomListController: UIViewController {
             make.edges.equalTo(0)
         }
         listTitleL.snp.makeConstraints { (make) in
-            make.top.equalTo(10)
+            make.top.equalTo(35)
             make.left.right.equalTo(tableView)
             make.centerX.equalTo(view)
         }

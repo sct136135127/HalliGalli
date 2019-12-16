@@ -26,6 +26,7 @@
 		C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */; };
 		C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */; };
 		C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */; };
+		C6F0E00E23A7439000DE5E1D /* HGPopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F0E00D23A7439000DE5E1D /* HGPopViewController.swift */; };
 		F52DD5532393C2C200889255 /* Pods_HalliGalli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */; };
 		F53065D8239DE72E0067EE05 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53065D7239DE72E0067EE05 /* Player.swift */; };
 		F53065DA239DEDAB0067EE05 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53065D9239DEDAB0067EE05 /* Server.swift */; };
@@ -78,6 +79,7 @@
 		C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		C6129BD4238D5EDF0053AEA0 /* HGGamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGGamingView.swift; sourceTree = "<group>"; };
 		C65AA886E0366B1BFF102594 /* Pods_HalliGalli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HalliGalli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6F0E00D23A7439000DE5E1D /* HGPopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGPopViewController.swift; sourceTree = "<group>"; };
 		F53065D7239DE72E0067EE05 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		F53065D9239DEDAB0067EE05 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		F56A3DDF239F841C00238A87 /* RoomInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				C6129BBA238D49220053AEA0 /* HGHomeViewController.swift */,
 				C6129BBC238D49300053AEA0 /* HGRoomListController.swift */,
 				C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */,
+				C6F0E00D23A7439000DE5E1D /* HGPopViewController.swift */,
 			);
 			path = P1;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				18954ED5238E507D0059434B /* UserInfo.swift in Sources */,
 				C6129BC5238D4B4F0053AEA0 /* UIColor+Extension.swift in Sources */,
 				1875E45723A295F700637C64 /* StatusBarManager.swift in Sources */,
+				C6F0E00E23A7439000DE5E1D /* HGPopViewController.swift in Sources */,
 				F56A3DE0239F841C00238A87 /* RoomInfo.swift in Sources */,
 				C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */,
 				C6129BC2238D49E50053AEA0 /* HGNavigationController.swift in Sources */,

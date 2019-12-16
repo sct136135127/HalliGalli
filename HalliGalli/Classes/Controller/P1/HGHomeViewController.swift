@@ -84,12 +84,25 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
     }()
+    
+    /// 规则说明按钮
+    fileprivate lazy var aboutButton: UIButton = {
+        let object = UIButton(type: UIButton.ButtonType.custom)
+        object.setTitle("游戏规则", for: UIControl.State.normal);
+        object.setTitle("游戏规则", for: UIControl.State.highlighted);
+        object.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+        object.setTitleColor(UIColor.blue, for: UIControl.State.highlighted)
+        object.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.regular)
+        object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
+        return object;
+    }()
+
 
     ///背景图片
     fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
-        object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
+        object.image = UIImage(named: "home_background")
         return object
     }()
     
@@ -127,6 +140,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         view.addSubview(backgroundImageView)
         view.addSubview(joinRoomButton)
         view.addSubview(createRoomButton)
+        view.addSubview(aboutButton)
         view.addSubview(idtextfield)
         //用snap约束设置各个UI组件的布局
         backgroundImageView.snp.makeConstraints { (make) in
@@ -143,6 +157,11 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         createRoomButton.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview().offset(25)
             make.left.equalTo(view.snp.centerX).offset(40)
+        }
+        
+        aboutButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(createRoomButton.snp.bottom).offset(40)
         }
         
         idtextfield.snp.makeConstraints{(make) in
@@ -179,6 +198,8 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
             
             let roomController = HGRoomWaitController()
             navigationController?.pushViewController(roomController, animated: true)
+        } else if sender == self.aboutButton {
+            present(HGPopViewController(), animated: true, completion: nil)
         }
     }
 
