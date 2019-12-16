@@ -18,6 +18,28 @@ class HGGamingController: UIViewController {
     //玩家手上的牌数
     public var cardcnt:Int?
     
+    fileprivate lazy var longPress: UILongPressGestureRecognizer = {
+        let object = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(sender:)))
+        object.minimumPressDuration = 1
+        return object
+    }()
+    
+    fileprivate lazy var tapGesture: UITapGestureRecognizer = {
+        let object = UITapGestureRecognizer(target: self, action: #selector(tapAction(sender:)))
+        return object
+    }()
+    
+    /// 长按事件
+    @objc fileprivate func longPressAction(sender: UILongPressGestureRecognizer) {
+        print("Long Press")
+    }
+    
+    /// 点击事件
+    @objc fileprivate func tapAction(sender: UITapGestureRecognizer) {
+        self.gamingView.random()
+    }
+
+    /*
     fileprivate lazy var successButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
         object.setTitle("抢答成功", for: UIControl.State.normal);
@@ -32,18 +54,20 @@ class HGGamingController: UIViewController {
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
     }()
+ */
     
-    fileprivate lazy var failureButton: UIButton = {
+    fileprivate lazy var answerButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
-        object.setTitle("抢答失败", for: UIControl.State.normal);
-        object.setTitle("抢答失败", for: UIControl.State.highlighted);
-        object.setTitleColor(UIColor.white, for: UIControl.State.normal)
-        object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
-        object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
-        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
-        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
-        object.layer.cornerRadius = 5
-        object.layer.masksToBounds = true
+//        object.setTitle("抢答失败", for: UIControl.State.normal);
+//        object.setTitle("抢答失败", for: UIControl.State.highlighted);
+//        object.setTitleColor(UIColor.white, for: UIControl.State.normal)
+//        object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+//        object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
+//        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
+//        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
+//        object.layer.cornerRadius = 5
+//        object.layer.masksToBounds = true
+        object.setImage(UIImage(named: "answer"), for: UIControl.State.normal)
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
     }()
@@ -91,16 +115,17 @@ class HGGamingController: UIViewController {
         view.backgroundColor = UIColor.white
         view.addSubview(gamingView)
         view.addSubview(remainingL)
-        view.addSubview(successButton)
-        view.addSubview(failureButton)
+        view.addSubview(answerButton)
         view.addSubview(userL)
         
+        self.gamingView.addGestureRecognizer(self.longPress)
+        self.gamingView.addGestureRecognizer(self.tapGesture)
         remainingL.text = "剩余牌: \(cardcnt ?? 0)"
         //userL.text = userinfo?.Username
         
         gamingView.snp.makeConstraints { (make) in
             make.left.equalTo(30)
-            make.right.equalTo(successButton.snp.left).offset(-10)
+            make.right.equalTo(answerButton.snp.left).offset(-10)
             make.top.equalTo(10)
             make.bottom.equalTo(-10)
         }
@@ -117,16 +142,10 @@ class HGGamingController: UIViewController {
             make.right.equalTo(-20)
         }
         
-        successButton.snp.makeConstraints { (make) in
+        answerButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(remainingL)
-            make.centerY.equalTo(gamingView.snp.centerY).offset(-32)
-            make.size.equalTo(CGSize(width: 120, height: 44))
-        }
-        
-        failureButton.snp.makeConstraints { (make) in
-            make.centerX.equalTo(remainingL)
-            make.centerY.equalTo(gamingView.snp.centerY).offset(32)
-            make.size.equalTo(CGSize(width: 120, height: 44))
+            make.centerY.equalTo(gamingView.snp.centerY)
+            make.size.equalTo(CGSize(width: 120, height: 120))
         }
         //打印表示用来一张牌的五位数。
         print(gamingView.random())
@@ -166,14 +185,6 @@ class HGGamingController: UIViewController {
 
     override var canEdgePanBack: Bool {
         return false
-    }
-    
-    /// 点击时随机显示一张牌（需要改成服务器发牌）
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        if touches.first?.view?.isDescendant(of: gamingView) ?? false {
-            print(gamingView.random())
-        }
     }
 
 }
