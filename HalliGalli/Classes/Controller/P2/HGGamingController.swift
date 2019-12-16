@@ -21,6 +21,7 @@ class HGGamingController: UIViewController {
     fileprivate lazy var longPress: UILongPressGestureRecognizer = {
         let object = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(sender:)))
         object.minimumPressDuration = 1
+        
         return object
     }()
     
@@ -31,7 +32,14 @@ class HGGamingController: UIViewController {
     
     /// 长按事件
     @objc fileprivate func longPressAction(sender: UILongPressGestureRecognizer) {
-        print("Long Press")
+        if(sender.state == UIGestureRecognizer.State.began ){
+            //在这里加入撤销牌的动作
+            print("Longpress begin")
+        }
+        else if(sender.state == UIGestureRecognizer.State.ended){
+            //这里不变
+            print("Longpress end")
+        }
     }
     
     /// 点击事件
