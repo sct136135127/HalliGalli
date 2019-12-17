@@ -1,20 +1,24 @@
 PODS:
+  - Alamofire (4.9.1)
   - CocoaAsyncSocket (7.6.3)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
+  - Alamofire
   - CocoaAsyncSocket
   - SnapKit
 
 SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+    - Alamofire
     - CocoaAsyncSocket
     - SnapKit
 
 SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 3a00de8c0802c38d2800e6619c84ae962fe387a3
+PODFILE CHECKSUM: e68ea51390738be902357c930e417cd8c6a791c6
 
 COCOAPODS: 1.8.4

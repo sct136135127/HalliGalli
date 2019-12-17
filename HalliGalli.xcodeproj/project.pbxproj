@@ -10,6 +10,8 @@
 		1875E45723A295F700637C64 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1875E45623A295F700637C64 /* StatusBarManager.swift */; };
 		18954ED5238E507D0059434B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED4238E507D0059434B /* UserInfo.swift */; };
 		18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED6238E98B30059434B /* HGgameoverController.swift */; };
+		18D4A6E923A900720095884C /* AlamofireReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4A6E823A900720095884C /* AlamofireReachability.swift */; };
+		18D4A6EB23A934950095884C /* HGExitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4A6EA23A934950095884C /* HGExitViewController.swift */; };
 		C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6129B89238D460B0053AEA0 /* AppDelegate.swift */; };
 		C6129B8F238D460B0053AEA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6129B8D238D460B0053AEA0 /* Main.storyboard */; };
 		C6129B91238D460D0053AEA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6129B90238D460D0053AEA0 /* Assets.xcassets */; };
@@ -55,6 +57,8 @@
 		18954ED4238E507D0059434B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		18954ED6238E98B30059434B /* HGgameoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGgameoverController.swift; sourceTree = "<group>"; };
 		18BBDC18238E386300D12F9C /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = "<group>"; };
+		18D4A6E823A900720095884C /* AlamofireReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireReachability.swift; sourceTree = "<group>"; };
+		18D4A6EA23A934950095884C /* HGExitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGExitViewController.swift; sourceTree = "<group>"; };
 		9054A6C4989F75FF50C07883 /* Pods-HalliGalli.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HalliGalli.release.xcconfig"; path = "Target Support Files/Pods-HalliGalli/Pods-HalliGalli.release.xcconfig"; sourceTree = "<group>"; };
 		C6129B86238D460B0053AEA0 /* HalliGalli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HalliGalli.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6129B89238D460B0053AEA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				C6129BC1238D49E50053AEA0 /* HGNavigationController.swift */,
+				18D4A6E823A900720095884C /* AlamofireReachability.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 				C6129BBC238D49300053AEA0 /* HGRoomListController.swift */,
 				C6129BCB238D4F200053AEA0 /* HGRoomWaitController.swift */,
 				C6F0E00D23A7439000DE5E1D /* HGPopViewController.swift */,
+				18D4A6EA23A934950095884C /* HGExitViewController.swift */,
 			);
 			path = P1;
 			sourceTree = "<group>";
@@ -474,10 +480,12 @@
 				C6129BC7238D4B9C0053AEA0 /* UIImage+Extension.swift in Sources */,
 				C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */,
 				C6129BCA238D4BF20053AEA0 /* CommonDefine.swift in Sources */,
+				18D4A6E923A900720095884C /* AlamofireReachability.swift in Sources */,
 				C6129BCC238D4F200053AEA0 /* HGRoomWaitController.swift in Sources */,
 				C6129B8A238D460B0053AEA0 /* AppDelegate.swift in Sources */,
 				C6129BBF238D49400053AEA0 /* HGGamingController.swift in Sources */,
 				F53065D8239DE72E0067EE05 /* Player.swift in Sources */,
+				18D4A6EB23A934950095884C /* HGExitViewController.swift in Sources */,
 				F53065DA239DEDAB0067EE05 /* Server.swift in Sources */,
 				C6129BBB238D49220053AEA0 /* HGHomeViewController.swift in Sources */,
 			);
@@ -585,7 +593,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -640,7 +648,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -657,14 +665,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = S4JU4SSYFB;
+				DEVELOPMENT_TEAM = SRL8N44GQM;
 				INFOPLIST_FILE = HalliGalli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "https---github.com-sct136135127-HalliGalli";
+				PRODUCT_BUNDLE_IDENTIFIER = cs.nju.HalliGalli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -678,14 +686,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = S4JU4SSYFB;
+				DEVELOPMENT_TEAM = SRL8N44GQM;
 				INFOPLIST_FILE = HalliGalli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "https---github.com-sct136135127-HalliGalli";
+				PRODUCT_BUNDLE_IDENTIFIER = cs.nju.HalliGalli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
