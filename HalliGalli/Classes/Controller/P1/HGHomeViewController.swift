@@ -13,7 +13,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     //MARK: 需要补充注释
     
-    private var statusBarStyle:UIStatusBarStyle = .lightContent{
+    private var statusBarStyle:UIStatusBarStyle = .default{
         didSet{
             self.setNeedsStatusBarAppearanceUpdate();
         }

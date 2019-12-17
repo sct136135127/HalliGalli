@@ -77,11 +77,29 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         return playerinfo_array.count
     }
     
-    //MARK: 戴 待完善
     ///按照人数分发牌 一人16张 6人则每人15张
     func Arrange_Cards_By_People(){
-        //let person_num = Server.Person_Num()
+        let person_num = Person_Num()
+        let num:[Int] = Array(1...90)
+        let newarray = num.sorted(by: {(_,_)->Bool in arc4random() < arc4random()})
         
+        if person_num == 6 {
+            for i in 0..<6 {
+                var temp_card:[String] = []
+                for n in 0..<15 {
+                    temp_card.append(Cards[newarray[i*15+n] - 1])
+                }
+                playerinfo_array[i].cards = temp_card
+            }
+        }else {
+            for i in 0..<person_num {
+                var temp_card:[String] = []
+                for n in 0..<16 {
+                    temp_card.append(Cards[newarray[i*16+n] - 1])
+                }
+                playerinfo_array[i].cards = temp_card
+            }
+        }
     }
 
 //MARK: - UDP

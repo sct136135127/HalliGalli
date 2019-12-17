@@ -9,15 +9,12 @@
 import UIKit
 
 //MARK:第二阶段
-class HGGamingController: UIViewController {
 
-    /// 玩家信息
-    public var userinfo: UserInfo?
-    //  游戏进行所在的房间
-    public var roominfo: RoomInfo?
-    //玩家手上的牌数
-    public var cardcnt:Int?
+class HGGamingController: UIViewController {
     
+    //MARK: 补充注释
+    
+    ///长按手势识别
     fileprivate lazy var longPress: UILongPressGestureRecognizer = {
         let object = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(sender:)))
         object.minimumPressDuration = 1
@@ -30,21 +27,29 @@ class HGGamingController: UIViewController {
         return object
     }()
     
+    //MARK: 待完成
     /// 长按事件
     @objc fileprivate func longPressAction(sender: UILongPressGestureRecognizer) {
         if(sender.state == UIGestureRecognizer.State.began ){
-            //在这里加入撤销牌的动作
-            print("Longpress begin")
+            //撤销牌
+            
+            print("撤销成功")
+            //print("Longpress begin")
         }
         else if(sender.state == UIGestureRecognizer.State.ended){
             //这里不变
-            print("Longpress end")
+            //print("Longpress end")
         }
     }
     
+    //MARK: 待完成
     /// 点击事件
     @objc fileprivate func tapAction(sender: UITapGestureRecognizer) {
-        self.gamingView.random()
+        //请求翻牌
+        
+        
+        //self.gamingView.Show_Card(content: <#T##String#>)
+        print("翻牌成功")
     }
 
     /*
@@ -111,7 +116,11 @@ class HGGamingController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cardcnt=16//暂自定义初始每人16张，后面需要改，由server发牌决定
+        //服务器发牌
+        server.Arrange_Cards_By_People()
+        
+        //TImer监听和更新
+        
         setupUI()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -128,8 +137,12 @@ class HGGamingController: UIViewController {
         
         self.gamingView.addGestureRecognizer(self.longPress)
         self.gamingView.addGestureRecognizer(self.tapGesture)
-        remainingL.text = "剩余牌: \(cardcnt ?? 0)"
-        //userL.text = userinfo?.Username
+        
+        if player.room_num == "6" {
+            remainingL.text = "剩余牌: 15"
+        }else {
+            remainingL.text = "剩余牌: 16"
+        }
         
         gamingView.snp.makeConstraints { (make) in
             make.left.equalTo(30)
@@ -155,10 +168,12 @@ class HGGamingController: UIViewController {
             make.centerY.equalTo(gamingView.snp.centerY)
             make.size.equalTo(CGSize(width: 120, height: 120))
         }
-        //打印表示用来一张牌的五位数。
-        print(gamingView.random())
+        
+        //更新牌封面
+        gamingView.Show_Card(content: "00000")
     }
     
+    //MARK: 待完成
     //按钮行为
     @objc fileprivate func doAction(sender: UIButton) {
 //        if sender ==  successButton {//如果点击抢答成功
@@ -189,6 +204,9 @@ class HGGamingController: UIViewController {
 //            }))
 //            present(controller, animated: true, completion: nil)
 //        }
+        if sender == answerButton {
+            //按下抢答按钮
+        }
     }
 
     override var canEdgePanBack: Bool {

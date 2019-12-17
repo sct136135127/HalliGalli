@@ -45,6 +45,8 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
 //        print(userinfo.identifier)
 //        print(userinfo.net_mask)
         
+        //清除房间列表
+        room_list.removeAll()
     }
     
     ///按照时间差更新房间列表
@@ -67,8 +69,6 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
             room_list.remove(at: record[i] - i)
         }
         
-        //清除房间列表
-        room_list.removeAll()
     }
 
 //MARK: - UDP

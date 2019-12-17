@@ -20,25 +20,30 @@ class HGGamingView: UIView {
         setupUI()
     }
     
-    /// 牌的五个位置随机显示五个水果（或者不显示），imageviews0-4分别表示左上、右上、中、左下，右下五个位置显示的水果。
-    @discardableResult
-    public func random() -> String {
-        var result: String = ""
-        for i in 0...4 {
-            let random = arc4random() % 5
-            result = result + "\(random)"
-            UIView.transition(with: self.imageViews[i], duration: 0.25, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: {
-                if random == 0 {
-                    self.imageViews[i].image = nil
-                } else {
-                    self.imageViews[i].image = UIImage(named: "image\(random)")
+    
+    /// 牌的五个位置显示五个水果（或者不显示水果显示封面），imageviews0-4分别表示左上、右上、中、左下，右下五个位置显示的水果。
+    public func Show_Card(content:String){
+        if content == "00000"{
+            //MARK: 待补充
+            //显示牌封面
+            
+            
+            
+        }else {
+            var n = 0
+            for i in content {
+                UIView.transition(with: self.imageViews[n], duration: 0.25, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: {
+                    if i == "0" {
+                        self.imageViews[n].image = nil
+                    } else {
+                        self.imageViews[n].image = UIImage(named: "image"+String(i))
+                    }
+                }) { (flag) in
+                    
                 }
-            }) { (flag) in
-                
+                n += 1
             }
         }
-        
-        return result
     }
     
     /// 图片数组

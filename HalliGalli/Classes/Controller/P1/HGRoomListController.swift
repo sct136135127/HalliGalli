@@ -116,7 +116,6 @@ class HGRoomListController: UIViewController {
     @objc func Update_Roominfo(){
         player.Update_Roomlist_Info()
         dataSource = player.room_list
-        //print(dataSource)
         
         //dataSource发生变化 更新到tableview
         tableView.reloadData()
