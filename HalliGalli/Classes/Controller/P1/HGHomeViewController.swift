@@ -13,6 +13,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     //MARK: 需要补充注释
     
+    ///状态栏bar的文字样式
     private var statusBarStyle:UIStatusBarStyle = .default{
         didSet{
             self.setNeedsStatusBarAppearanceUpdate();
@@ -114,6 +115,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         
         player.Update_User_NetInfo()
         
+        ///增加点击屏幕收回键盘事件
         let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewClick))
         backgroundImageView.addGestureRecognizer(singleTapGesture)
         backgroundImageView.isUserInteractionEnabled = true

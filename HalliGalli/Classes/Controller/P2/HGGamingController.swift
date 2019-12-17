@@ -14,6 +14,90 @@ class HGGamingController: UIViewController {
     
     //MARK: 补充注释
     
+    ///（撤销）撤销自己翻牌的动画（把左边翻着的牌收回右边牌堆）
+    fileprivate func chexiao() {
+         UIView.transition(with: self.paidui,duration: 0.25, options: UIView.AnimationOptions.transitionCurlDown, animations: {
+                }) { (flag) in
+                }
+         UIView.transition(with: self.gamingView,duration: 0.5, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+            self.gamingView.Show_Card(content: "12304")//MARK: 此处需要更改要显示的牌的数字，显示左边翻着的第二张牌，因为牌顶的被收回去了
+         }) { (flag) in
+         }
+         //self.gamingView.Show_Card(content: <#T##String#>)
+         print("撤销翻牌")
+     }
+    
+    
+    ///（收牌）本人抢答成功，收牌到牌堆的动画
+    fileprivate func shoupai() {
+        UIView.transition(with: self.paidui,duration: 0.25, options: UIView.AnimationOptions.transitionCurlDown, animations: {
+            //这里可以加一些收牌时的行为
+               }) { (flag) in
+               }
+        UIView.transition(with: self.gamingView,duration: 0.5, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+           self.gamingView.Show_Card(content: "12304")//MARK:此处需要更改要显示的牌的数字，显示左边翻着的第二张牌，因为牌顶的被收回去了
+        }) { (flag) in
+            
+        }
+
+        //self.gamingView.Show_Card(content: <#T##String#>)
+        print("抢答成功，收牌")
+    }
+    
+    ///（翻牌）玩家自己从牌堆里翻牌
+    fileprivate func fanpai() {
+        UIView.transition(with: self.paidui,duration: 0.25, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+            //这里可以加一些翻牌时的行为
+               }) { (flag) in
+               }
+        UIView.transition(with: self.gamingView,duration: 0.5, options: UIView.AnimationOptions.transitionCurlDown, animations: {
+            //这里可以加一些翻牌时的行为
+           self.gamingView.Show_Card(content: "12304")//MARK:此处需要更改要显示的牌的数字，显示新的翻出来的牌
+        }) { (flag) in
+            
+        }
+
+        //self.gamingView.Show_Card(content: <#T##String#>)
+        print("翻牌成功")
+    }
+    
+    ///（发牌）其他玩家抢答成功，本玩家把左边翻着的牌顶的牌发出去给他
+    fileprivate func fapai() {
+        UIView.transition(with: self.gamingView,duration: 0.5, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+           self.gamingView.Show_Card(content: "12304")//MARK:此处需要显示左边翻着的第二张牌，因为牌顶的被拿走了
+        }) { (flag) in
+            
+        }
+
+        //self.gamingView.Show_Card(content: <#T##String#>)
+        print("翻牌成功")
+    }
+    
+    
+    ///（发牌2）自己抢答失败，从牌堆里发出去三张牌
+    fileprivate func fapai2() {
+        UIView.transition(with: self.paidui,duration: 0.5, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+            //这里可以写抢答失败后发生的行为，比如剩余牌数-3之类的
+        }) { (flag) in
+            
+        }
+
+        //self.gamingView.Show_Card(content: <#T##String#>)
+        print("抢答失败，从牌堆里发出去三张牌")
+    }
+    
+    ///（收牌2）别人抢答失败，本玩家牌堆里收到一张抢答失败的玩家给的牌
+        fileprivate func shoupai2() {
+        UIView.transition(with: self.paidui,duration: 0.25, options: UIView.AnimationOptions.transitionCurlDown, animations: {
+            //这里可以加一些收牌时的行为
+               }) { (flag) in
+            }
+
+        //self.gamingView.Show_Card(content: <#T##String#>)
+        print("别人抢答失败，本人收牌成功")
+    }
+    
+    
     ///长按手势识别
     fileprivate lazy var longPress: UILongPressGestureRecognizer = {
         let object = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(sender:)))
@@ -46,10 +130,7 @@ class HGGamingController: UIViewController {
     /// 点击事件
     @objc fileprivate func tapAction(sender: UITapGestureRecognizer) {
         //请求翻牌
-        
-        
-        //self.gamingView.Show_Card(content: <#T##String#>)
-        print("翻牌成功")
+        fanpai()
     }
 
     /*
@@ -69,6 +150,7 @@ class HGGamingController: UIViewController {
     }()
  */
     
+    ///抢答按钮设置
     fileprivate lazy var answerButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
 //        object.setTitle("抢答失败", for: UIControl.State.normal);
@@ -80,6 +162,9 @@ class HGGamingController: UIViewController {
 //        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
 //        object.layer.cornerRadius = 5
 //        object.layer.masksToBounds = true
+        object.imageView?.contentMode=UIView.ContentMode.scaleToFill
+        object.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill;//水平方向拉伸
+        object.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill;//垂直方向拉伸
         object.setImage(UIImage(named: "answer"), for: UIControl.State.normal)
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
@@ -104,11 +189,24 @@ class HGGamingController: UIViewController {
         return object
     }()
     
+    ///显示牌堆
+    fileprivate lazy var paidui: UIImageView = {
+        let object = UIImageView()
+        object.layer.cornerRadius = 5
+        object.layer.masksToBounds = true
+        object.contentMode = UIView.ContentMode.scaleToFill
+        object.image=UIImage(named: "paidui")
+        object.backgroundColor = UIColor(hex: 0xF7FAFA)
+        return object
+    }()
+    
     ///显示牌的label
     fileprivate lazy var gamingView: HGGamingView = {
         let object = HGGamingView()
         object.layer.cornerRadius = 5
         object.layer.masksToBounds = true
+        object.layer.borderWidth=1
+        object.layer.borderColor=UIColor.black.cgColor
         object.backgroundColor = UIColor(hex: 0xF7FAFA)
         return object
     }()
@@ -134,14 +232,14 @@ class HGGamingController: UIViewController {
         view.addSubview(remainingL)
         view.addSubview(answerButton)
         view.addSubview(userL)
-        
+        view.addSubview(paidui)
         self.gamingView.addGestureRecognizer(self.longPress)
         self.gamingView.addGestureRecognizer(self.tapGesture)
         
         if player.room_num == "6" {
-            remainingL.text = "剩余牌: 15"
+            remainingL.text = "15"
         }else {
-            remainingL.text = "剩余牌: 16"
+            remainingL.text = "16"
         }
         
         gamingView.snp.makeConstraints { (make) in
@@ -151,8 +249,13 @@ class HGGamingController: UIViewController {
             make.bottom.equalTo(-10)
         }
         
+        paidui.snp.makeConstraints{(make)in
+            make.centerX.equalTo(remainingL)
+            make.top.equalTo(remainingL.snp.bottom).offset(2)
+            make.size.equalTo(CGSize(width: 80, height: 100))
+        }
         remainingL.snp.makeConstraints { (make) in
-            make.top.equalTo(gamingView).offset(8)
+            make.top.equalTo(5)
             make.left.equalTo(gamingView.snp.right).offset(20)
             make.right.equalTo(-20)
         }
@@ -165,8 +268,8 @@ class HGGamingController: UIViewController {
         
         answerButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(remainingL)
-            make.centerY.equalTo(gamingView.snp.centerY)
-            make.size.equalTo(CGSize(width: 120, height: 120))
+            make.centerY.equalTo(gamingView.snp.centerY).offset(20)
+            make.size.equalTo(CGSize(width: 180, height: 180))
         }
         
         //更新牌封面
