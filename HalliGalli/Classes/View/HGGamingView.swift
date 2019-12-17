@@ -24,30 +24,28 @@ class HGGamingView: UIView {
     /// 牌的五个位置显示五个水果（或者不显示水果显示封面），imageviews0-4分别表示左上、右上、中、左下，右下五个位置显示的水果。
     public func Show_Card(content:String){
         if content == "00000"{
-            //MARK: 待补充
             //显示牌封面
-            
-            
-            
+            self.imageViews[0].image=nil
+            self.imageViews[1].image=nil
+            self.imageViews[2].image=UIImage(named: "pastedcard")
+            self.imageViews[3].image=nil
+            self.imageViews[4].image=nil
         }else {
             var n = 0
             for i in content {
-                UIView.transition(with: self.imageViews[n], duration: 0.25, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: {
                     if i == "0" {
                         self.imageViews[n].image = nil
                     } else {
                         self.imageViews[n].image = UIImage(named: "image"+String(i))
                     }
-                }) { (flag) in
-                    
+                n+=1
                 }
-                n += 1
             }
         }
-    }
+    
     
     /// 图片数组
-    fileprivate lazy var imageViews: [UIImageView] = {
+    fileprivate var imageViews: [UIImageView] = {
         return [UIImageView(), UIImageView(), UIImageView(), UIImageView(), UIImageView()]
     }()
     

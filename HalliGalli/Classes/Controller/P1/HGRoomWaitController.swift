@@ -69,8 +69,9 @@ class HGRoomWaitController: UIViewController {
         return object
     }()
     
+    ///状态栏bar的文字样式
     override var preferredStatusBarStyle:UIStatusBarStyle{
-        return .lightContent;
+        return .default;
     }
     
     override var prefersStatusBarHidden:Bool{

@@ -4,12 +4,13 @@
 //
 //  Created by apple on 2019/12/16.
 //  Copyright © 2019 HalliGalli. All rights reserved.
-//
+//  游戏规则的弹窗
 
 import UIKit
 
 class HGPopViewController: UIViewController {
 
+    ///弹窗的属性样式
     fileprivate lazy var contentView: UIView = {
         let object = UIView()
         object.backgroundColor = UIColor.white
@@ -18,6 +19,7 @@ class HGPopViewController: UIViewController {
         return object
     }()
     
+    ///弹窗的label文字（字体内容）
     fileprivate lazy var contentLabel: UILabel = {
         let object = UILabel()
         object.textColor = UIColor.lightGray
