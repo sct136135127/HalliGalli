@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,UITextFieldDelegate {
 
     var window: UIWindow?
-
-
+    var reachabilityManager=NetworkReachabilityManager(host:"www.baidu.com")
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        AlamofireReachability.reachability.networkReachability(reachabilityManager!){(status) in
+            switch status{
+            case .notReachable:
+                print("没网")
+            case .ethernetOrWiFi:
+                print("wifi")
+            case .unknown:
+                print("未知")
+            case .wwan:
+                print("蜂窝网络")
+            }
+        }
+        
         return true
     }
 

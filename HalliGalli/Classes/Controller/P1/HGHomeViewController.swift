@@ -8,11 +8,12 @@
 
 import UIKit
 import SnapKit
-
+import Alamofire
 class HGHomeViewController: UIViewController,UITextFieldDelegate {
-    
+
+
     //MARK: 需要补充注释
-    
+
     ///状态栏bar的文字样式
     private var statusBarStyle:UIStatusBarStyle = .default{
         didSet{
@@ -64,7 +65,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         object.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
         object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
-         object.layer.cornerRadius = 5
+         object.layer.cornerRadius = 10
         object.layer.masksToBounds = true
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
@@ -80,7 +81,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
         object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
         object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
-        object.layer.cornerRadius = 5
+        object.layer.cornerRadius = 10
         object.layer.masksToBounds = true
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
@@ -89,11 +90,15 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     /// 规则说明按钮
     fileprivate lazy var aboutButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
-        object.setTitle("游戏规则", for: UIControl.State.normal);
-        object.setTitle("游戏规则", for: UIControl.State.highlighted);
-        object.setTitleColor(UIColor.blue, for: UIControl.State.normal)
-        object.setTitleColor(UIColor.blue, for: UIControl.State.highlighted)
-        object.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.regular)
+        object.setTitle("关于游戏", for: UIControl.State.normal);
+        object.setTitle("关于游戏", for: UIControl.State.highlighted);
+        object.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+        object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
+        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
+        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
+        object.layer.cornerRadius = 10
+        object.layer.masksToBounds = true
         object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
         return object;
     }()
@@ -102,6 +107,8 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     ///背景图片
     fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
+        object.backgroundColor=UIColor.orange
+        object.alpha=0.8
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage(named: "home_background")
         return object
@@ -109,7 +116,19 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let appDelegate=UIApplication.shared.delegate as! AppDelegate
+        let manager = appDelegate.reachabilityManager
+        let status=manager!.networkReachabilityStatus
+        switch status {
+        case .notReachable:
+            present(HGExitViewController(), animated: true, completion: nil)
+        case .unknown:
+            present(HGExitViewController(), animated: true, completion: nil)
+        case .reachable(.ethernetOrWiFi):
+            print("wifi")
+        case .reachable(.wwan):
+            present(HGExitViewController(), animated: true, completion: nil)
+        }
         idtextfield.delegate = self
         self.modalPresentationCapturesStatusBarAppearance = true
         
@@ -138,7 +157,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     }
     
     func setupUI() {
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.orange
         view.addSubview(backgroundImageView)
         view.addSubview(joinRoomButton)
         view.addSubview(createRoomButton)
@@ -146,29 +165,36 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         view.addSubview(idtextfield)
         //用snap约束设置各个UI组件的布局
         backgroundImageView.snp.makeConstraints { (make) in
-            make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+            //make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom:0, right: 0))
+            make.right.equalTo(0)
+            make.top.equalTo(50)
+            make.bottom.equalTo(50)
+            make.left.equalTo(-50)
         }
         
         joinRoomButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().offset(25)
+            make.centerY.equalToSuperview().offset(-80)
             make.size.equalTo(createRoomButton)
-            make.right.equalTo(view.snp.centerX).offset(-40)
+            make.right.equalTo(-40)
             make.size.equalTo(CGSize(width: 100, height: 44))
         }
         
         createRoomButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().offset(25)
-            make.left.equalTo(view.snp.centerX).offset(40)
+            make.centerY.equalToSuperview()
+            make.right.equalTo(-40)
         }
         
         aboutButton.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(createRoomButton.snp.bottom).offset(40)
+            make.right.equalTo(-40)
+            make.size.equalTo(createRoomButton)
+            make.centerY.equalToSuperview().offset(80)
+            //make.top.equalTo(createRoomButton.snp.bottom).offset(40)
         }
         
         idtextfield.snp.makeConstraints{(make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-50)
+            make.top.equalTo(40)
+            make.size.equalTo(CGSize(width: 150, height: 30))
         }
     }
     

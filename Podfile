@@ -6,6 +6,7 @@ target 'HalliGalli' do
   use_frameworks!
 
   pod 'SnapKit'
-  pod 'CocoaAsyncSocket'  
+  pod 'CocoaAsyncSocket'
+  pod 'Alamofire'
 
 end
