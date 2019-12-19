@@ -105,6 +105,38 @@ class HGGamingController: UIViewController {
         player.Send_Card_Flop()
     }
     
+    ///测试淘汰按钮
+    fileprivate lazy var gameovertest: UIButton = {
+        let object = UIButton(type: UIButton.ButtonType.custom)
+            object.setTitle("测试淘汰", for: UIControl.State.normal);
+            object.setTitle("测试淘汰", for: UIControl.State.highlighted);
+            object.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+            object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
+            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
+            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
+            object.layer.cornerRadius = 5
+            object.layer.masksToBounds = true
+            object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
+            return object;
+    }()
+    
+    ///“退出房间”按钮
+    fileprivate lazy var leaveroom: UIButton = {
+        let object = UIButton(type: UIButton.ButtonType.custom)
+            object.setTitle("退出房间", for: UIControl.State.normal);
+            object.setTitle("退出房间", for: UIControl.State.highlighted);
+            object.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+            object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
+            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
+            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
+            object.layer.cornerRadius = 5
+            object.layer.masksToBounds = true
+            object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
+            return object;
+    }()
+    
     ///抢答按钮设置
     fileprivate lazy var answerButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
@@ -168,6 +200,7 @@ class HGGamingController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.modalPresentationStyle = .fullScreen
         //服务器发牌
         if player.status == true {
             server.Arrange_Cards_By_People()
@@ -268,9 +301,12 @@ class HGGamingController: UIViewController {
         view.addSubview(answerButton)
         view.addSubview(userL)
         view.addSubview(paidui)
+        view.addSubview(gameovertest)
+        
         self.gamingView.addGestureRecognizer(self.longPress)
         self.gamingView.addGestureRecognizer(self.tapGesture)
         self.gamingView.addGestureRecognizer(self.doubleclick)
+        
         tapGesture.require(toFail: doubleclick)
         
         gamingView.snp.makeConstraints { (make) in
@@ -296,7 +332,12 @@ class HGGamingController: UIViewController {
             make.left.equalTo(gamingView.snp.right).offset(20)
             make.right.equalTo(-20)
         }
-        
+        gameovertest.snp.makeConstraints{ (make) in
+            make.bottom.equalTo(userL.snp.top)
+            make.left.equalTo(gamingView.snp.right).offset(40)
+            make.width.equalTo(100)
+            make.right.equalTo(-40)
+        }
         answerButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(remainingL)
             make.centerY.equalTo(gamingView.snp.centerY).offset(20)
@@ -312,14 +353,67 @@ class HGGamingController: UIViewController {
         if sender == answerButton {
             //按下抢答按钮
             player.Send_Ring_Calling()
+        }else if sender == self.gameovertest{//被淘汰后的界面变化处理
+            //self.longPress.remove
+            //removeAllSubViews()
+            //view.addSubview(gameover)
+            //gameover.snp.makeConstraints { (make) in
+                       //make.left.equalTo(30)
+                       //make.top.equalTo(10)
+                       //make.bottom.equalTo(-10)
+                   //}
+            
+            ///弹出淘汰提醒窗口界面
+            let secondVC=HGgameoverController()
+            present(secondVC, animated: true, completion: nil)
+            
+            ///"退出房间“按钮出现
+            view.addSubview(leaveroom)
+            leaveroom.snp.makeConstraints{ (make) in
+                make.bottom.equalTo(userL.snp.top)
+                make.left.equalTo(gamingView.snp.right).offset(40)
+                make.width.equalTo(100)
+                make.right.equalTo(-40)
+            }
+            
+            ///跳出被淘汰的提示以后禁用所有组件手势和按钮，不得再进行游戏有关操作，房主停留在游戏界面只能接受确认信息
+            self.gameovertest.removeFromSuperview()
+            self.gamingView.removeGestureRecognizer(self.longPress)
+            self.gamingView.removeGestureRecognizer(self.tapGesture)
+            self.gamingView.removeGestureRecognizer(self.doubleclick)
+            self.answerButton.isEnabled=false
+            
+            /*MARK: 这里需要修改，增加判断是房主还是玩家来处理被淘汰后是否可以点击退出房间
+            //这里判断是否是房主，if是的话
+            self.leaveroom.isEnabled=false
+            并且游戏全部结束后让房主也退出房间
+            self.leaveroom.isEnabled=true
+            //如果不是的话
+            self.leaveroom.isEnabled=true
+            */
+            
+            
+            //navigationController?.popToRootViewController(animated: true);
+            //let OverController = HGgameoverController()
+            //navigationController?.pushViewController(OverController, animated: true)
+        }else if sender == self.leaveroom{//点击退出房间以后返回主页
+            navigationController?.popToRootViewController(animated: true);
         }
+        
     }
 
     override var canEdgePanBack: Bool {
         return false
     }
-
+    /// 移除所有子控件
+    func removeAllSubViews(){
+        if view.subviews.count>0{
+            view.subviews.forEach({$0.removeFromSuperview()})
+        }
+    }
 }
+
+
 
 //        if sender ==  successButton {//如果点击抢答成功
 //
