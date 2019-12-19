@@ -20,7 +20,6 @@ class HGGamingView: UIView {
         setupUI()
     }
     
-    
     /// 牌的五个位置显示五个水果（或者不显示水果显示封面），imageviews0-4分别表示左上、右上、中、左下，右下五个位置显示的水果。
     public func Show_Card(content:String){
         if content == "00000"{

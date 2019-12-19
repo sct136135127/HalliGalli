@@ -9,8 +9,6 @@
 import UIKit
 
 class HGRoomListController: UIViewController {
-
-    //MARK: 补充注释
     
     /// 房间列表刷新时间控制器
     var roomlist_timer: Timer = Timer()
@@ -97,15 +95,6 @@ class HGRoomListController: UIViewController {
         
         //开始接收udp信息
         player.Start_UDP_Receive()
-        
-        /* 测试
-        dataSource = [
-            RoomInfo(roomID: "1", roomAddress: "1", roomCount: 1),
-            RoomInfo(roomID: "2", roomAddress: "2", roomCount: 2),
-            RoomInfo(roomID: "3", roomAddress: "3", roomCount: 8),
-            RoomInfo(roomID: "4", roomAddress: "4", roomCount: 4),
-            RoomInfo(roomID: "5", roomAddress: "5", roomCount: 5),
-            RoomInfo(roomID: "6", roomAddress: "6", roomCount: 7),]*/
         
         //每秒更新房间列表
         roomlist_timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(HGRoomListController.Update_Roominfo), userInfo: nil, repeats: true)

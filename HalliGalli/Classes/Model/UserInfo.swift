@@ -24,7 +24,11 @@ struct UserInfo {
     var tcp_socket:GCDAsyncSocket?
     
     /// 牌堆
-    var cards:[String] = []
+    var cards:[String] = []    
+    /// 翻面牌的数量
+    var card_flop:Int?
+    /// 未翻面牌的数量
+    var card_can_flop:Int?
 
 //MARK: - 获取信息
 

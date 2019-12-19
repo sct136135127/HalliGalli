@@ -12,25 +12,30 @@ import CocoaAsyncSocket
 ///继承 GCDAsyncUdpSocket 和 GCDAsyncSocket
 class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
     
-    /// 玩家信息
+    /// 玩家信息 存id/ip/identifier/netmask
     var userinfo:UserInfo = UserInfo()
     /// true为房主 false为普通玩家
     var status:Bool?
     
     /// 房间列表信息
     var room_list:[RoomInfo] = []
-    ///UDP socket
+    /// UDP socket
     var udp_socket:GCDAsyncUdpSocket?
-    ///UDP error
+    /// UDP error
     var udp_error:String?
-    
-    /// 房间人数
-    var room_num:String?
     
     /// 服务器地址
     var server_ip: String?
     /// TCP socket
     var tcp_socket:GCDAsyncSocket?
+
+    /// 当前房间人数
+    var room_num:String?
+    
+    /// 剩余牌数
+    var card_remain:String?
+    /// 当前牌面上的牌
+    var card_show:String?
     
 //MARK: - 其他
     ///获得本机基本网络信息
@@ -40,7 +45,7 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
         userinfo.GetIdentifier()
         userinfo.ID = "player"
         
-        //MARK:测试
+        //测试
 //        print(userinfo.ip_address)
 //        print(userinfo.identifier)
 //        print(userinfo.net_mask)
@@ -171,7 +176,6 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
             if content.split(separator: "&")[1] == TCPKIND.Update_RoomPlayer_Num.rawValue {
                 //更新房间人数
                 room_num = String(content.split(separator: "&")[2])
-                
             }else if content.split(separator: "&")[1] == TCPKIND.GAME_START.rawValue{
                 //游戏开始
                 room_status = 1
@@ -179,8 +183,47 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
                 //房间解散
                 End_Connect()
                 room_status = -1
-            }else {
+            }else if content.split(separator: "&")[1] == TCPKIND.CARD_FLOP.rawValue{
+                //翻牌信息
+                let card_info = String(content.split(separator: "&")[2])
+                card_show = String(card_info.split(separator: "/")[0])
+                card_remain = String(card_info.split(separator: "/")[1])
+                flash_flag = 1
+            }else if content.split(separator: "&")[1] == TCPKIND.CARD_FLOP_BACK.rawValue{
+                //撤销翻牌信息
+                let card_info = String(content.split(separator: "&")[2])
+                card_show = String(card_info.split(separator: "/")[0])
+                card_remain = String(card_info.split(separator: "/")[1])
+                flash_flag = 2
+            }else if content.split(separator: "&")[1] == TCPKIND.CARD_GIVE_FLOP.rawValue{
+                //发出一张牌
+                let card_info = String(content.split(separator: "&")[2])
+                card_show = String(card_info.split(separator: "/")[0])
+                flash_flag = 3
+            }else if content.split(separator: "&")[1] == TCPKIND.ANSWER_RIGHT.rawValue{
+                //抢答玩家收牌
+                let card_info = String(content.split(separator: "&")[2])
+                let temp_card_show = card_show
+                card_show = String(card_info.split(separator: "/")[0])
+                card_remain = String(card_info.split(separator: "/")[1])
                 
+                if temp_card_show! != "00000" {
+                    flash_flag = 3
+                }
+                
+                flash_flag2 = 1
+            }else if content.split(separator: "&")[1] == TCPKIND.CARD_RECEIVE.rawValue{
+                //其他玩家收牌
+                let card_info = String(content.split(separator: "&")[2])
+                card_remain = String(card_info.split(separator: "/")[1])
+                flash_flag2 = 1
+            }else if content.split(separator: "&")[1] == TCPKIND.ANSWER_WRONG.rawValue{
+                //抢答玩家发牌
+                let card_info = String(content.split(separator: "&")[2])
+                card_remain = String(card_info.split(separator: "/")[1])
+                flash_flag2 = 2
+            }else {
+                print(content.split(separator: "&")[1])
             }
         }
         
@@ -210,5 +253,20 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
     ///发送玩家离开信息
     func Send_Player_Leave(){
         Send_TCP(socket_data: Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.PLAYER_LEAVE.rawValue, INFO: userinfo.UserInfo_into_String())))
+    }
+    
+    ///玩家发送翻牌信息
+    func Send_Card_Flop(){
+        Send_TCP(socket_data: Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.CARD_FLOP.rawValue, INFO: userinfo.UserInfo_into_String())))
+    }
+    
+    ///玩家发送撤销翻牌信息
+    func Send_Card_Flop_Back(){
+        Send_TCP(socket_data: Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.CARD_FLOP_BACK.rawValue, INFO: userinfo.UserInfo_into_String())))
+    }
+    
+    ///玩家抢答
+    func Send_Ring_Calling(){
+         Send_TCP(socket_data: Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.CALLING_RING.rawValue, INFO: userinfo.UserInfo_into_String())))
     }
 }

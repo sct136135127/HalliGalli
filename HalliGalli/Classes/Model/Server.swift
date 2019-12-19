@@ -16,7 +16,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     var room_info:RoomInfo?
     
     ///牌堆变化标志--用于服务器回复信息，抢答优先级
-    var card_change_flag:Bool = false
+    var answer_flag:Bool = false
     
     ///玩家信息组
     var playerinfo_array:[UserInfo] = []
@@ -32,6 +32,13 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     
     ///TCP socket
     var tcp_socket:GCDAsyncSocket?
+    
+    /// 抢答者ID
+    var answer_id:String?
+    /// 抢答者识别码
+    var answer_identifier:String?
+    /// 抢答结果
+    var answer_res:Bool?
     
     ///更新服务器网络信息
     func Update_Server_NetInfo(){
@@ -70,18 +77,20 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         print("broadcast: \(udp_broadcast_address)")
     }
 
-//MARK: - 基本信息
+//MARK: - 基本功能
 
     ///返回总人数
     func Person_Num()->Int{
         return playerinfo_array.count
     }
     
+    //MARK: 随机性可能有些问题 牌堆是不是要重新定一下值
     ///按照人数分发牌 一人16张 6人则每人15张
     func Arrange_Cards_By_People(){
         let person_num = Person_Num()
         let num:[Int] = Array(1...90)
-        let newarray = num.sorted(by: {(_,_)->Bool in arc4random() < arc4random()})
+        let newarray2 = num.sorted(by: {(_,_)->Bool in arc4random() < arc4random()})
+        let newarray = newarray2.sorted(by: {(_,_)->Bool in arc4random() < arc4random()})
         
         if person_num == 6 {
             for i in 0..<6 {
@@ -90,6 +99,8 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                     temp_card.append(Cards[newarray[i*15+n] - 1])
                 }
                 playerinfo_array[i].cards = temp_card
+                playerinfo_array[i].card_flop = 0
+                playerinfo_array[i].card_can_flop = 15
             }
         }else {
             for i in 0..<person_num {
@@ -98,10 +109,148 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                     temp_card.append(Cards[newarray[i*16+n] - 1])
                 }
                 playerinfo_array[i].cards = temp_card
+                playerinfo_array[i].card_flop = 0
+                playerinfo_array[i].card_can_flop = 16
+                
+                print(temp_card)
             }
         }
     }
+    
+    ///翻牌
+    func Card_Flop(userinfo:inout UserInfo)->String{
+        let card_info = userinfo.cards[userinfo.card_flop!]
+        let return_card_info = card_info
+    
+        userinfo.card_can_flop! -= 1
+        userinfo.card_flop! += 1
+        
+        return return_card_info
+    }
+    
+    ///撤销翻牌
+    func Card_Flop_Back(userinfo:inout UserInfo)->String{
+        userinfo.card_can_flop! += 1
+        userinfo.card_flop! -= 1
+        
+        if userinfo.card_flop! == 0 {
+            return "00000"
+        }
+        
+        let card_info = userinfo.cards[userinfo.card_flop! - 1]
+        let return_card_info = card_info
+        return return_card_info
+    }
+    
+    ///抢答成功或失败判断
+    func Judge_Answer()->Bool{
+        var count_array:[String:Int] = ["A":0,"B":0,"C":0,"D":0]
+        
+        for i in playerinfo_array {
+            if i.card_flop != 0{
+                let card_info = i.cards[i.card_flop! - 1]
+                for c in card_info {
+                    switch c {
+                    case "1":
+                        count_array["A"]! += 1
+                    case "2":
+                        count_array["B"]! += 1
+                    case "3":
+                        count_array["C"]! += 1
+                    case "4":
+                        count_array["D"]! += 1
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+        
+        //MARK: 规则 5的倍数
+        if (count_array["A"]!%5 == 0 && count_array["A"] != 0) || (count_array["B"]!%5 == 0 && count_array["B"] != 0) || (count_array["C"]!%5 == 0 && count_array["C"] != 0) || (count_array["D"]!%5 == 0 && count_array["D"] != 0) {
+            return true
+        }
+        
+        return false
+    }
 
+    /// XXX抢答成功 //是否需要洗牌？
+    func Player_Answer_Right(){
+        //牌分配
+        var save_card:[String] = []
+        
+        for i in 0..<playerinfo_array.count {
+            if playerinfo_array[i].card_flop! != 0 && playerinfo_array[i].identifier! != answer_identifier! {
+                save_card.append(playerinfo_array[i].cards[playerinfo_array[i].card_flop! - 1])
+                playerinfo_array[i].card_flop! -= 1
+                playerinfo_array[i].cards.remove(at: playerinfo_array[i].card_flop!)
+                
+                //收牌
+                if playerinfo_array[i].card_flop! == 0 {
+                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: "17", kind: TCPKIND.CARD_GIVE_FLOP.rawValue)
+                }else {
+                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: playerinfo_array[i].cards[playerinfo_array[i].card_flop!-1], num: "17", kind: TCPKIND.CARD_GIVE_FLOP.rawValue)
+                }
+                
+                //MARK: ！判断当前遍历的玩家是否游戏结束
+            }
+        }
+        
+        for i in 0..<playerinfo_array.count {
+            if playerinfo_array[i].identifier! == answer_identifier! {
+                if playerinfo_array[i].card_flop! == 0 {
+                    playerinfo_array[i].cards.append(contentsOf: save_card)
+                    playerinfo_array[i].card_can_flop! += save_card.count
+                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
+                }else {
+                    playerinfo_array[i].card_flop! -= 1
+                    let temp_card = playerinfo_array[i].cards.remove(at: playerinfo_array[i].card_flop!)
+                    playerinfo_array[i].cards.append(contentsOf: save_card)
+                    playerinfo_array[i].card_can_flop! += save_card.count
+                    playerinfo_array[i].card_can_flop! += 1
+                    playerinfo_array[i].cards.append(temp_card)
+                    
+                    if playerinfo_array[i].card_flop! == 0{
+                        Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
+                    }else{
+                        Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: playerinfo_array[i].cards[playerinfo_array[i].card_flop!-1], num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
+                    }
+                }
+        
+                break
+            }
+        }
+    }
+    
+    /// XXX抢答失败
+    func Player_Answer_Wrong(){
+        let person_num = Person_Num() - 1
+        var card_info:[String] = []
+        
+        for i in 0..<playerinfo_array.count {
+            if playerinfo_array[i].identifier! == answer_identifier! {
+                //MARK: 判断该玩家是否失败
+                
+                //剩余牌可以分发
+                for _ in 0..<person_num {
+                    card_info.append(playerinfo_array[i].cards.removeLast())
+                }
+                playerinfo_array[i].card_can_flop! -= person_num
+                
+                Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_WRONG.rawValue)
+            }
+        }
+        
+        for i in 0..<playerinfo_array.count {
+            if playerinfo_array[i].identifier! != answer_identifier! {
+                playerinfo_array[i].cards.append(card_info.removeLast())
+                playerinfo_array[i].card_can_flop! += 1
+                
+                Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.CARD_RECEIVE.rawValue)
+            }
+        }
+    }
+    
 //MARK: - UDP
     
     ///UDP广播
@@ -192,6 +341,14 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         //继续监听该客户端的TCP请求
         newSocket.readData(withTimeout: -1, tag: 0)
         print("与\(newSocket.connectedHost!) 建立连接")
+        
+        //房主加入
+        if Person_Num() == 1 {
+            //更新房主在玩家列表的信息
+            playerinfo_array[0].ID = player.userinfo.ID
+            playerinfo_array[0].identifier = player.userinfo.identifier
+            playerinfo_array[0].ip_address = player.userinfo.ip_address
+        }
     }
     
     //MARK: 待完善
@@ -231,7 +388,62 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 }
                 
                 Send_Room_Num()
-            }else {
+            }else if content.split(separator: "&")[1] == TCPKIND.CARD_FLOP.rawValue{
+                //翻牌
+                let identifier = String(content.split(separator: "&")[2].split(separator: "/")[2])
+                
+                for i in 0..<playerinfo_array.count {
+                    if let info = playerinfo_array[i].identifier {
+                        if info == identifier {
+                            if let _ = playerinfo_array[i].card_can_flop{
+                                if playerinfo_array[i].card_can_flop != 0 {
+                                    //有牌可以翻
+                                    let card_info = Card_Flop(userinfo: &playerinfo_array[i])
+                                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: card_info, num: String(playerinfo_array[i].card_can_flop!),kind:TCPKIND.CARD_FLOP.rawValue)
+                                }
+                            }
+                        }
+                    }
+                }
+            }else if content.split(separator: "&")[1] == TCPKIND.CARD_FLOP_BACK.rawValue{
+                //撤销翻牌
+                let identifier = String(content.split(separator: "&")[2].split(separator: "/")[2])
+                
+                for i in 0..<playerinfo_array.count {
+                    if let info = playerinfo_array[i].identifier {
+                        if info == identifier {
+                            if let _ = playerinfo_array[i].card_flop{
+                                if playerinfo_array[i].card_flop != 0 {
+                                    //有牌可以翻
+                                    let card_info = Card_Flop_Back(userinfo: &playerinfo_array[i])
+                                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: card_info, num: String(playerinfo_array[i].card_can_flop!),kind:TCPKIND.CARD_FLOP_BACK.rawValue)
+                                }
+                            }
+                        }
+                    }
+                }
+            }else if content.split(separator: "&")[1] == TCPKIND.CALLING_RING.rawValue{
+                //接收到抢答信息
+                
+                //第一个抢答者
+                if answer_flag == false {
+                    //防止其他人继续抢答 flag将在弹窗结束后置回false
+                    answer_flag = true
+                    let identifier = String(content.split(separator: "&")[2].split(separator: "/")[2])
+                    
+                    for i in 0..<playerinfo_array.count {
+                        if let info = playerinfo_array[i].identifier {
+                            if info == identifier {
+                                answer_res = Judge_Answer()
+                                answer_id = playerinfo_array[i].ID!
+                                answer_identifier = playerinfo_array[i].identifier!
+                                
+                                //controller show msg
+                                show_answer_flag = true
+                            }
+                        }
+                    }
+                }
                 
             }
         }
@@ -241,7 +453,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         
     }
     
-    //MARK: 待观察
     ///玩家与服务器断连 包括主动断连和被动断连
     func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
         
@@ -274,4 +485,12 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
             Send_TCP_Socket(sock: i.tcp_socket!, socket_data: content)
         }
     }
+    
+    ///发送牌信息 翻面展示的牌/未翻面牌的数量 Kind：信息种类
+    func Send_Card_Info(sock: GCDAsyncSocket,card_info: String,num: String,kind:String){
+        let content:Data = Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: kind, INFO: card_info + "/" + num))
+        
+        Send_TCP_Socket(sock: sock, socket_data: content)
+    }
+    
 }
