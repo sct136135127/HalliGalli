@@ -205,32 +205,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 }
             }
         }
-        
-        for i in 0..<playerinfo_array.count {
-            if playerinfo_array[i].identifier! == answer_identifier! {
-                if playerinfo_array[i].card_flop! == 0 {
-                    playerinfo_array[i].cards.append(contentsOf: save_card)
-                    playerinfo_array[i].card_can_flop! += save_card.count
-                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
-                }else {
-                    playerinfo_array[i].card_flop! -= 1
-                    let temp_card = playerinfo_array[i].cards.remove(at: playerinfo_array[i].card_flop!)
-                    playerinfo_array[i].cards.append(contentsOf: save_card)
-                    playerinfo_array[i].card_can_flop! += save_card.count
-                    playerinfo_array[i].card_can_flop! += 1
-                    playerinfo_array[i].cards.append(temp_card)
-                    
-                    if playerinfo_array[i].card_flop! == 0{
-                        Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
-                    }else{
-                        Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: playerinfo_array[i].cards[playerinfo_array[i].card_flop!-1], num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
-                    }
-                }
-        
-                break
-            }
-        }
-        
         //断连，清理信息
         for i in 0..<fail_list.count {
             playerinfo_array[fail_list[i] - i].tcp_socket!.disconnect()
@@ -257,6 +231,32 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 break
             }
         }
+        for i in 0..<playerinfo_array.count {
+            if playerinfo_array[i].identifier! == answer_identifier! {
+                if playerinfo_array[i].card_flop! == 0 {
+                    playerinfo_array[i].cards.append(contentsOf: save_card)
+                    playerinfo_array[i].card_can_flop! += save_card.count
+                    Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
+                }else {
+                    playerinfo_array[i].card_flop! -= 1
+                    let temp_card = playerinfo_array[i].cards.remove(at: playerinfo_array[i].card_flop!)
+                    playerinfo_array[i].cards.append(contentsOf: save_card)
+                    playerinfo_array[i].card_can_flop! += save_card.count
+                    playerinfo_array[i].card_can_flop! += 1
+                    playerinfo_array[i].cards.append(temp_card)
+                    
+                    if playerinfo_array[i].card_flop! == 0{
+                        Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
+                    }else{
+                        Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: playerinfo_array[i].cards[playerinfo_array[i].card_flop!-1], num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_RIGHT.rawValue)
+                    }
+                }
+        
+                break
+            }
+        }
+        
+        
     }
     
     /// XXX抢答失败
