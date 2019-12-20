@@ -87,6 +87,20 @@ class HGRoomWaitController: UIViewController {
         super.viewDidLoad()
         room_status = 0
         
+        /*let appDelegate=UIApplication.shared.delegate as! AppDelegate
+        let manager = appDelegate.reachabilityManager
+        let status=manager!.networkReachabilityStatus
+        switch status {
+        case .notReachable:
+            present(HGExitViewController(), animated: true, completion: nil)
+        case .unknown:
+            present(HGExitViewController(), animated: true, completion: nil)
+        case .reachable(.ethernetOrWiFi):
+            print("wifi")
+        case .reachable(.wwan):
+            present(HGExitViewController(), animated: true, completion: nil)
+        }*/
+        
         //玩家停止接收UDP信息
         if player.status == false {
             player.Close_UDP_Receive()

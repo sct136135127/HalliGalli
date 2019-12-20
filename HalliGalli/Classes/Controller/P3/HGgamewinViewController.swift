@@ -1,15 +1,15 @@
 //
-//  HGgameoverController.swift
+//  HGgamewinViewController.swift
 //  HalliGalli
 //
-//  Created by apple on 2019/11/27.
+//  Created by apple on 2019/12/20.
 //  Copyright © 2019 HalliGalli. All rights reserved.
-//  淘汰界面
+//  胜利弹窗
 
 import UIKit
 
 //MARK: 第三阶段
-class HGgameoverController:UIViewController{
+class HGgamewinViewController:UIViewController{
     
     ///弹窗的属性样式
         fileprivate lazy var contentView: UIView = {
@@ -46,8 +46,8 @@ class HGgameoverController:UIViewController{
             object.numberOfLines = 0
             
             object.text = """
-            Game
-            Over！
+            You
+            Win！
             """
             return object
         }()
@@ -59,7 +59,7 @@ class HGgameoverController:UIViewController{
         object.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
         object.numberOfLines = 0
         
-        object.text = "房主请停留，其他玩家点击右下角退出房间"
+        object.text = "请点击右下角退出房间"
         return object
     }()
         

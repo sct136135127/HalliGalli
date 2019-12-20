@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1875E45723A295F700637C64 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1875E45623A295F700637C64 /* StatusBarManager.swift */; };
+		1878109D23AB9A7F009E9F38 /* PresentTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1878109C23AB9A7F009E9F38 /* PresentTransition.swift */; };
+		1878109F23ABEA74009E9F38 /* HGgamewinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1878109E23ABEA74009E9F38 /* HGgamewinViewController.swift */; };
 		18954ED5238E507D0059434B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED4238E507D0059434B /* UserInfo.swift */; };
 		18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18954ED6238E98B30059434B /* HGgameoverController.swift */; };
 		18D4A6E923A900720095884C /* AlamofireReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4A6E823A900720095884C /* AlamofireReachability.swift */; };
@@ -54,13 +56,15 @@
 
 /* Begin PBXFileReference section */
 		1875E45623A295F700637C64 /* StatusBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarManager.swift; sourceTree = "<group>"; };
+		1878109C23AB9A7F009E9F38 /* PresentTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentTransition.swift; sourceTree = "<group>"; };
+		1878109E23ABEA74009E9F38 /* HGgamewinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGgamewinViewController.swift; sourceTree = "<group>"; };
 		18954ED4238E507D0059434B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		18954ED6238E98B30059434B /* HGgameoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGgameoverController.swift; sourceTree = "<group>"; };
 		18BBDC18238E386300D12F9C /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = "<group>"; };
 		18D4A6E823A900720095884C /* AlamofireReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireReachability.swift; sourceTree = "<group>"; };
 		18D4A6EA23A934950095884C /* HGExitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HGExitViewController.swift; sourceTree = "<group>"; };
 		9054A6C4989F75FF50C07883 /* Pods-HalliGalli.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HalliGalli.release.xcconfig"; path = "Target Support Files/Pods-HalliGalli/Pods-HalliGalli.release.xcconfig"; sourceTree = "<group>"; };
-		C6129B86238D460B0053AEA0 /* HalliGalli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HalliGalli.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6129B86238D460B0053AEA0 /* 德国心脏病.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "德国心脏病.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6129B89238D460B0053AEA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6129B8E238D460B0053AEA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C6129B90238D460D0053AEA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -149,7 +153,7 @@
 		C6129B87238D460B0053AEA0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6129B86238D460B0053AEA0 /* HalliGalli.app */,
+				C6129B86238D460B0053AEA0 /* 德国心脏病.app */,
 				C6129B9A238D460D0053AEA0 /* HalliGalliTests.xctest */,
 				C6129BA5238D460D0053AEA0 /* HalliGalliUITests.xctest */,
 			);
@@ -224,6 +228,7 @@
 				C6129BC6238D4B9C0053AEA0 /* UIImage+Extension.swift */,
 				C6129BD1238D58B00053AEA0 /* UIViewController+Extension.swift */,
 				1875E45623A295F700637C64 /* StatusBarManager.swift */,
+				1878109C23AB9A7F009E9F38 /* PresentTransition.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -289,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				18954ED6238E98B30059434B /* HGgameoverController.swift */,
+				1878109E23ABEA74009E9F38 /* HGgamewinViewController.swift */,
 			);
 			path = P3;
 			sourceTree = "<group>";
@@ -312,7 +318,7 @@
 			);
 			name = HalliGalli;
 			productName = HalliGalli;
-			productReference = C6129B86238D460B0053AEA0 /* HalliGalli.app */;
+			productReference = C6129B86238D460B0053AEA0 /* 德国心脏病.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C6129B99238D460D0053AEA0 /* HalliGalliTests */ = {
@@ -476,6 +482,7 @@
 				C6129BD2238D58B00053AEA0 /* UIViewController+Extension.swift in Sources */,
 				C6129BC2238D49E50053AEA0 /* HGNavigationController.swift in Sources */,
 				18954ED7238E98B30059434B /* HGgameoverController.swift in Sources */,
+				1878109F23ABEA74009E9F38 /* HGgamewinViewController.swift in Sources */,
 				C6129BBD238D49300053AEA0 /* HGRoomListController.swift in Sources */,
 				C6129BC7238D4B9C0053AEA0 /* UIImage+Extension.swift in Sources */,
 				C6129BD5238D5EDF0053AEA0 /* HGGamingView.swift in Sources */,
@@ -486,6 +493,7 @@
 				C6129BBF238D49400053AEA0 /* HGGamingController.swift in Sources */,
 				F53065D8239DE72E0067EE05 /* Player.swift in Sources */,
 				18D4A6EB23A934950095884C /* HGExitViewController.swift in Sources */,
+				1878109D23AB9A7F009E9F38 /* PresentTransition.swift in Sources */,
 				F53065DA239DEDAB0067EE05 /* Server.swift in Sources */,
 				C6129BBB238D49220053AEA0 /* HGHomeViewController.swift in Sources */,
 			);
@@ -673,7 +681,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sct.nju.HalliGalli;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "德国心脏病";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -694,7 +702,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sct.nju.HalliGalli;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "德国心脏病";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

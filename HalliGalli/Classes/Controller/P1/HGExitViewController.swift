@@ -13,7 +13,7 @@ class HGExitViewController: UIViewController {
     ///弹窗的属性样式
     fileprivate lazy var contentView: UIView = {
         let object = UIView()
-        object.backgroundColor = UIColor.red
+        object.backgroundColor = UIColor.lightGray
         object.layer.cornerRadius = 5
         object.layer.masksToBounds = true
         return object
@@ -22,10 +22,10 @@ class HGExitViewController: UIViewController {
     ///弹窗的label文字（字体内容）
     fileprivate lazy var contentLabel: UILabel = {
         let object = UILabel()
-        object.textColor = UIColor.green
-        object.font = UIFont.systemFont(ofSize: 20)
+        object.textColor = UIColor.red
+        object.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 1))
         object.numberOfLines = 0
-        object.text = "游戏必须打开wifi！请打开Wifi后再重启游戏！"
+        object.text = "游戏必须打开wifi！请给予程序wifi权限并打开Wifi后再重启游戏！"
         return object
     }()
     
@@ -47,7 +47,7 @@ class HGExitViewController: UIViewController {
     fileprivate func didFinishInit() {
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.modalTransitionStyle = .crossDissolve
-        self.modalPresentationStyle = .custom
+        self.modalPresentationStyle = .currentContext
     }
     
     override func viewDidLoad() {
