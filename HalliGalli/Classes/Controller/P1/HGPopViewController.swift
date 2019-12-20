@@ -13,7 +13,7 @@ class HGPopViewController: UIViewController,UIScrollViewDelegate{
     ///弹窗的属性样式
     fileprivate lazy var contentView: UITextView = {
         let object = UITextView()
-        object.textColor = UIColor.red
+        object.textColor = UIColor.black
         object.backgroundColor = UIColor.lightText
         object.textAlignment = .left
         object.isScrollEnabled = true

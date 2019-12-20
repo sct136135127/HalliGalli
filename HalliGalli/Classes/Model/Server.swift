@@ -184,6 +184,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         //失败的玩家
         var fail_list:[Int] = []
         
+        //遍历玩家，收取其他玩家翻面牌堆顶上的一张牌
         for i in 0..<playerinfo_array.count {
             if playerinfo_array[i].card_flop! != 0 && playerinfo_array[i].identifier! != answer_identifier! {
                 save_card.append(playerinfo_array[i].cards[playerinfo_array[i].card_flop! - 1])
@@ -197,7 +198,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                     Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: playerinfo_array[i].cards[playerinfo_array[i].card_flop!-1], num: "17", kind: TCPKIND.CARD_GIVE_FLOP.rawValue)
                 }
                 
-                //MARK: ！判断当前遍历的玩家是否游戏结束
+                //判断当前遍历的玩家是否游戏结束
                 if playerinfo_array[i].card_flop! == 0 && playerinfo_array[i].card_can_flop! == 0 {
                     //玩家游戏结束
                     Send_Game_Info(sock: playerinfo_array[i].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
@@ -205,13 +206,14 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 }
             }
         }
-        //断连，清理信息
+        
+        //与失败玩家断连，清理信息
         for i in 0..<fail_list.count {
             playerinfo_array[fail_list[i] - i].tcp_socket!.disconnect()
             playerinfo_array.remove(at: fail_list[i] - i)
             
-            //判断获胜
-            if playerinfo_array.count <= 2{
+            //判断游戏是否结束
+            if playerinfo_array.count == 2{
                 let Acount = playerinfo_array[0].card_can_flop! + playerinfo_array[0].card_flop!
                 let Bcount = playerinfo_array[1].card_can_flop! + playerinfo_array[1].card_flop!
                 
@@ -231,6 +233,8 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 break
             }
         }
+        
+        //抢答成功的玩家收牌
         for i in 0..<playerinfo_array.count {
             if playerinfo_array[i].identifier! == answer_identifier! {
                 if playerinfo_array[i].card_flop! == 0 {
@@ -265,9 +269,11 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         var card_info:[String] = []
         var fail_flag = -1
         
+        //抢答失败玩家分发牌
         for i in 0..<playerinfo_array.count {
             if playerinfo_array[i].identifier! == answer_identifier! {
-                //MARK: 判断该玩家是否失败
+                //判断该玩家是否失败
+                //未翻面牌不够分发给其他人
                 if playerinfo_array[i].card_can_flop! < person_num {
                     fail_flag = i
                     break
@@ -283,14 +289,14 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
             }
         }
         
-        //玩家失败
+        //玩家游戏失败，TCP断连，清理信息
         if fail_flag != -1 {
             Send_Game_Info(sock: playerinfo_array[fail_flag].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
             playerinfo_array[fail_flag].tcp_socket!.disconnect()
             playerinfo_array.remove(at: fail_flag)
             
             //判断获胜
-            if playerinfo_array.count <= 2{
+            if playerinfo_array.count == 2{
                 let Acount = playerinfo_array[0].card_can_flop! + playerinfo_array[0].card_flop!
                 let Bcount = playerinfo_array[1].card_can_flop! + playerinfo_array[1].card_flop!
                 
@@ -310,6 +316,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
             return
         }
         
+        //分发给其他玩家牌
         for i in 0..<playerinfo_array.count {
             if playerinfo_array[i].identifier! != answer_identifier! {
                 playerinfo_array[i].cards.append(card_info.removeLast())
@@ -420,7 +427,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         }
     }
     
-    //MARK: 待完善
     ///接收已加入player的TCP请求内容
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
         let content:String = String(data:data,encoding: .utf8) ?? "wrong"

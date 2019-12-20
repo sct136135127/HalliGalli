@@ -67,9 +67,14 @@ struct UserInfo {
                                                 nil, socklen_t(0), NI_NUMERICHOST)// == 0
                                     
                                     if let netmask = String.init(validatingUTF8:netmaskName) {
-                                        print("address= \(address),netmask\(netmask)")
-                                        ip_address = address
-                                        net_mask = netmask
+                                        //MARK: 解决疑问
+                                        //防止连接手机热点时被赋奇怪的值（知识认知之外）
+                                        //例如address= 240e:e8:f149:ec1:f2:800:100::,netmaskffff:ffff:ffff:ffff:f8:1c70:100::
+                                        if String(address.split(separator: ":")[0]) == address {
+                                            print("address= \(address),netmask\(netmask)")
+                                            ip_address = address
+                                            net_mask = netmask
+                                        }
                                     }
                                 }
                             }

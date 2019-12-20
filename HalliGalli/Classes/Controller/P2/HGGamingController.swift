@@ -50,14 +50,14 @@ class HGGamingController: UIViewController {
     }
     
     fileprivate func left_pop_card(){
-        UIView.transition(with: self.gamingView,duration: 0.5, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+        UIView.transition(with: self.gamingView,duration: 0.35, options: UIView.AnimationOptions.transitionCurlUp, animations: {
            self.gamingView.Show_Card(content: player.card_show!)
         }) { (flag) in
         }
     }
     
     fileprivate func left_push_card(){
-        UIView.transition(with: self.gamingView,duration: 0.5, options: UIView.AnimationOptions.transitionCurlDown, animations: {
+        UIView.transition(with: self.gamingView,duration: 0.35, options: UIView.AnimationOptions.transitionCurlDown, animations: {
             self.gamingView.Show_Card(content: player.card_show!)
         }) { (flag) in
             
@@ -112,20 +112,20 @@ class HGGamingController: UIViewController {
     }
     
     ///测试淘汰按钮
-    fileprivate lazy var gameovertest: UIButton = {
-        let object = UIButton(type: UIButton.ButtonType.custom)
-            object.setTitle("测试淘汰", for: UIControl.State.normal);
-            object.setTitle("测试淘汰", for: UIControl.State.highlighted);
-            object.setTitleColor(UIColor.white, for: UIControl.State.normal)
-            object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
-            object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
-            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
-            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
-            object.layer.cornerRadius = 5
-            object.layer.masksToBounds = true
-            object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
-            return object;
-    }()
+//    fileprivate lazy var gameovertest: UIButton = {
+//        let object = UIButton(type: UIButton.ButtonType.custom)
+//            object.setTitle("测试淘汰", for: UIControl.State.normal);
+//            object.setTitle("测试淘汰", for: UIControl.State.highlighted);
+//            object.setTitleColor(UIColor.white, for: UIControl.State.normal)
+//            object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+//            object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
+//            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
+//            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
+//            object.layer.cornerRadius = 5
+//            object.layer.masksToBounds = true
+//            object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
+//            return object;
+//    }()
     
     ///“退出房间”按钮
     fileprivate lazy var leaveroom: UIButton = {
@@ -242,34 +242,65 @@ class HGGamingController: UIViewController {
     ///判断玩家游戏是否结束
     @objc func Player_Game_Status(){
         if player.player_game_status == -1 || player.player_game_status == 1{
-            //失败界面
-            ///弹出淘汰提醒窗口界面
+            //游戏结束界面
             
-            if player.player_game_status == -1 {
-                let secondVC=HGgameoverController()
-                present(secondVC, animated: true, completion: nil)
-                print("HG玩家淘汰")
-            }else if player.player_game_status == 1{
-                let secondVC=HGgamewinViewController()
-                present(secondVC, animated: true, completion: nil)
-                print("HG玩家胜利")
-            }
-            
-            ///"退出房间“按钮出现
-            view.addSubview(leaveroom)
-            leaveroom.snp.makeConstraints{ (make) in
-                make.bottom.equalTo(userL.snp.top)
-                make.left.equalTo(gamingView.snp.right).offset(40)
-                make.width.equalTo(100)
-                make.right.equalTo(-40)
-            }
-            
-            ///跳出被淘汰的提示以后禁用所有组件手势和按钮，不得再进行游戏有关操作，房主停留在游戏界面只能接受确认信息
-            //self.gameovertest.removeFromSuperview()
-            self.gamingView.removeGestureRecognizer(self.longPress)
-            self.gamingView.removeGestureRecognizer(self.tapGesture)
-            self.gamingView.removeGestureRecognizer(self.doubleclick)
+            ///删除显示牌的gamingview，禁用抢答按钮
+            self.gamingView.removeFromSuperview()
             self.answerButton.isEnabled=false
+            ///通过动画显示淘汰（OUT）或者胜利（WIN）的效果变化，并重新布局（其他组件保持不变）
+            UIView.transition(with: self.view,duration: 1, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {
+                self.view.addSubview(self.contentView)
+                self.contentView.snp.makeConstraints { (make) in
+                    make.left.equalTo(30)
+                    make.right.equalTo(self.answerButton.snp.left).offset(-10)
+                    make.top.equalTo(10)
+                    make.bottom.equalTo(-10)
+                }
+                self.paidui.snp.makeConstraints{(make)in
+                    make.centerX.equalTo(self.remainingL)
+                    make.top.equalTo(self.remainingL.snp.bottom).offset(2)
+                    make.size.equalTo(CGSize(width: 80, height: 100))
+                }
+                self.remainingL.snp.makeConstraints { (make) in
+                    make.top.equalTo(5)
+                    make.left.equalTo(self.contentView.snp.right).offset(20)
+                    make.right.equalTo(-20)
+                }
+                
+                self.userL.snp.makeConstraints { (make) in
+                    make.bottom.equalTo(self.contentView).offset(-8)
+                    make.left.equalTo(self.contentView.snp.right).offset(20)
+                    make.right.equalTo(-20)
+                }
+    //                self.gameovertest.snp.makeConstraints{ (make) in
+    //                    make.bottom.equalTo(self.userL.snp.top)
+    //                    make.left.equalTo(self.contentView.snp.right).offset(40)
+    //                    make.width.equalTo(100)
+    //                    make.right.equalTo(-40)
+    //                }
+                self.answerButton.snp.makeConstraints { (make) in
+                    make.centerX.equalTo(self.remainingL)
+                    make.centerY.equalTo(self.contentView.snp.centerY).offset(20)
+                    make.size.equalTo(CGSize(width: 180, height: 180))
+                }
+                //self.gameovertest.removeFromSuperview()
+                self.view.addSubview(self.leaveroom)
+                self.leaveroom.snp.makeConstraints{ (make) in
+                    make.bottom.equalTo(self.userL.snp.top)
+                    make.left.equalTo(self.contentView.snp.right).offset(40)
+                    make.width.equalTo(100)
+                    make.right.equalTo(-40)
+                }
+                self.contentView.contentMode = UIView.ContentMode.scaleAspectFit
+                if player.player_game_status == -1 {
+                    self.contentView.image=UIImage(named: "out")
+                    print("HG玩家淘汰")
+                }else if player.player_game_status == 1{
+                    self.contentView.image=UIImage(named: "win")
+                    print("HG玩家胜利")
+                }
+               }) { (flag) in
+            }
             
             if player.status! == true {
                 self.leaveroom.isEnabled = false
@@ -366,7 +397,7 @@ class HGGamingController: UIViewController {
         view.addSubview(answerButton)
         view.addSubview(userL)
         view.addSubview(paidui)
-        view.addSubview(gameovertest)
+        //view.addSubview(gameovertest)
         
         self.gamingView.addGestureRecognizer(self.longPress)
         self.gamingView.addGestureRecognizer(self.tapGesture)
@@ -397,12 +428,12 @@ class HGGamingController: UIViewController {
             make.left.equalTo(gamingView.snp.right).offset(20)
             make.right.equalTo(-20)
         }
-        gameovertest.snp.makeConstraints{ (make) in
-            make.bottom.equalTo(userL.snp.top)
-            make.left.equalTo(gamingView.snp.right).offset(40)
-            make.width.equalTo(100)
-            make.right.equalTo(-40)
-        }
+//        gameovertest.snp.makeConstraints{ (make) in
+//            make.bottom.equalTo(userL.snp.top)
+//            make.left.equalTo(gamingView.snp.right).offset(40)
+//            make.width.equalTo(100)
+//            make.right.equalTo(-40)
+//        }
         answerButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(remainingL)
             make.centerY.equalTo(gamingView.snp.centerY).offset(20)
@@ -418,70 +449,6 @@ class HGGamingController: UIViewController {
         if sender == answerButton {
             //按下抢答按钮
             player.Send_Ring_Calling()
-            
-            }else if sender == self.gameovertest{//被淘汰后的界面变化处理
-           //removeAllSubViews()
-            //view.addSubview(gameover)
-            //gameover.snp.makeConstraints { (make) in
-               //make.left.equalTo(30)
-               //make.top.equalTo(10)
-               //make.bottom.equalTo(-10)
-           //}
-            //navigationController?.popToRootViewController(animated: true);
-            
-            //MARK:这段是新的淘汰后的界面变化
-            ///删除显示牌的gamingview，禁用抢答按钮
-            self.gamingView.removeFromSuperview()
-            self.answerButton.isEnabled=false
-            ///通过动画显示淘汰（OUT）或者胜利（WIN）的效果变化，并重新布局（其他组件保持不变）
-            UIView.transition(with: self.view,duration: 1, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {
-
-                self.view.addSubview(self.contentView)
-                self.contentView.snp.makeConstraints { (make) in
-                    make.left.equalTo(30)
-                    make.right.equalTo(self.answerButton.snp.left).offset(-10)
-                    make.top.equalTo(10)
-                    make.bottom.equalTo(-10)
-                }
-                self.paidui.snp.makeConstraints{(make)in
-                    make.centerX.equalTo(self.remainingL)
-                    make.top.equalTo(self.remainingL.snp.bottom).offset(2)
-                    make.size.equalTo(CGSize(width: 80, height: 100))
-                }
-                self.remainingL.snp.makeConstraints { (make) in
-                    make.top.equalTo(5)
-                    make.left.equalTo(self.contentView.snp.right).offset(20)
-                    make.right.equalTo(-20)
-                }
-                
-                self.userL.snp.makeConstraints { (make) in
-                    make.bottom.equalTo(self.contentView).offset(-8)
-                    make.left.equalTo(self.contentView.snp.right).offset(20)
-                    make.right.equalTo(-20)
-                }
-                self.gameovertest.snp.makeConstraints{ (make) in
-                    make.bottom.equalTo(self.userL.snp.top)
-                    make.left.equalTo(self.contentView.snp.right).offset(40)
-                    make.width.equalTo(100)
-                    make.right.equalTo(-40)
-                }
-                self.answerButton.snp.makeConstraints { (make) in
-                    make.centerX.equalTo(self.remainingL)
-                    make.centerY.equalTo(self.contentView.snp.centerY).offset(20)
-                    make.size.equalTo(CGSize(width: 180, height: 180))
-                }
-                self.gameovertest.removeFromSuperview()
-                self.view.addSubview(self.leaveroom)
-                self.leaveroom.snp.makeConstraints{ (make) in
-                    make.bottom.equalTo(self.userL.snp.top)
-                    make.left.equalTo(self.contentView.snp.right).offset(40)
-                    make.width.equalTo(100)
-                    make.right.equalTo(-40)
-                }
-                self.contentView.contentMode = UIView.ContentMode.scaleAspectFit
-                self.contentView.image=UIImage(named: "out")
-               }) { (flag) in
-               }
         }
         else if sender == self.leaveroom{//点击退出房间以后返回主页
             player.End_Connect()

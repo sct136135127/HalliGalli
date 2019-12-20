@@ -48,6 +48,10 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
         userinfo.GetIdentifier()
         userinfo.ID = "player"
         
+        //手机热点开放者和未连接wifi的人默认赋值地址
+        if userinfo.ip_address == nil {
+            userinfo.ip_address = "172.20.10.1"
+        }
         //测试
 //        print(userinfo.ip_address)
 //        print(userinfo.identifier)
