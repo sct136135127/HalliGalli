@@ -37,6 +37,9 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
     /// 当前牌面上的牌
     var card_show:String?
     
+    /// 玩家是否被淘汰
+    var player_game_status:Int?
+    
 //MARK: - 其他
     ///获得本机基本网络信息
     ///提醒打开wifi
@@ -189,6 +192,7 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
                 card_show = String(card_info.split(separator: "/")[0])
                 card_remain = String(card_info.split(separator: "/")[1])
                 flash_flag = 1
+                print("翻牌信息接收")
             }else if content.split(separator: "&")[1] == TCPKIND.CARD_FLOP_BACK.rawValue{
                 //撤销翻牌信息
                 let card_info = String(content.split(separator: "&")[2])
@@ -222,6 +226,16 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
                 let card_info = String(content.split(separator: "&")[2])
                 card_remain = String(card_info.split(separator: "/")[1])
                 flash_flag2 = 2
+            }else if content.split(separator: "&")[1] == TCPKIND.GAME_FAIL.rawValue{
+                //玩家失败
+                //MARK: 弹窗
+                player_game_status = -1
+                print("玩家失败")
+            }else if content.split(separator: "&")[1] == TCPKIND.GAME_WIN.rawValue{
+                //玩家胜利
+                //MARK: 弹窗
+                player_game_status = 1
+                print("玩家胜利")
             }else {
                 print(content.split(separator: "&")[1])
             }

@@ -31,6 +31,12 @@ class HGGamingController: UIViewController {
     ///动画flag检查
     var flash_flag_timer:Timer = Timer()
     
+    ///检查玩家游戏状态
+    var player_game_status_timer:Timer = Timer()
+    
+    ///检查游戏结束状态
+    var game_status_timer:Timer = Timer()
+    
     fileprivate func right_pop_card(){
         UIView.transition(with: self.paidui,duration: 0.25, options: UIView.AnimationOptions.transitionCurlUp, animations: {
            }) { (flag) in
@@ -106,20 +112,20 @@ class HGGamingController: UIViewController {
     }
     
     ///测试淘汰按钮
-    fileprivate lazy var gameovertest: UIButton = {
-        let object = UIButton(type: UIButton.ButtonType.custom)
-            object.setTitle("测试淘汰", for: UIControl.State.normal);
-            object.setTitle("测试淘汰", for: UIControl.State.highlighted);
-            object.setTitleColor(UIColor.white, for: UIControl.State.normal)
-            object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
-            object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
-            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
-            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
-            object.layer.cornerRadius = 5
-            object.layer.masksToBounds = true
-            object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
-            return object;
-    }()
+//    fileprivate lazy var gameovertest: UIButton = {
+//        let object = UIButton(type: UIButton.ButtonType.custom)
+//            object.setTitle("测试淘汰", for: UIControl.State.normal);
+//            object.setTitle("测试淘汰", for: UIControl.State.highlighted);
+//            object.setTitleColor(UIColor.white, for: UIControl.State.normal)
+//            object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+//            object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
+//            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
+//            object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
+//            object.layer.cornerRadius = 5
+//            object.layer.masksToBounds = true
+//            object.addTarget(self, action: #selector(doAction(sender:)), for: UIControl.Event.touchUpInside)
+//            return object;
+//    }()
     
     ///“退出房间”按钮
     fileprivate lazy var leaveroom: UIButton = {
@@ -140,15 +146,6 @@ class HGGamingController: UIViewController {
     ///抢答按钮设置
     fileprivate lazy var answerButton: UIButton = {
         let object = UIButton(type: UIButton.ButtonType.custom)
-//        object.setTitle("抢答失败", for: UIControl.State.normal);
-//        object.setTitle("抢答失败", for: UIControl.State.highlighted);
-//        object.setTitleColor(UIColor.white, for: UIControl.State.normal)
-//        object.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
-//        object.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
-//        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor), for: UIControl.State.normal)
-//        object.setBackgroundImage(UIImage.imageFromColor(color: kMainThemeColor.withAlphaComponent(0.5)), for: UIControl.State.highlighted)
-//        object.layer.cornerRadius = 5
-//        object.layer.masksToBounds = true
         object.imageView?.contentMode=UIView.ContentMode.scaleToFill
         object.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill;//水平方向拉伸
         object.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill;//垂直方向拉伸
@@ -201,11 +198,17 @@ class HGGamingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
+        
+        player.player_game_status = 0
+        
         //服务器发牌
         if player.status == true {
             server.Arrange_Cards_By_People()
+            server.game_end_flag = false
             
             answer_flag_timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(HGGamingController.Answer_Judge_Show), userInfo: nil, repeats: true)
+            
+            game_status_timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(HGGamingController.Game_Status), userInfo: nil, repeats: true)
         }
         
         if player.room_num == "6" {
@@ -219,7 +222,57 @@ class HGGamingController: UIViewController {
         
         flash_flag_timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(HGGamingController.Flash_Making), userInfo: nil, repeats: true)
         
+        player_game_status_timer = Timer.scheduledTimer(timeInterval: 0.5,target: self,selector: #selector(HGGamingController.Player_Game_Status),userInfo: nil,repeats: true)
+        
         setupUI()
+    }
+    
+    ///判断玩家游戏是否结束
+    @objc func Player_Game_Status(){
+        if player.player_game_status == -1 || player.player_game_status == 1{
+            //失败界面
+            ///弹出淘汰提醒窗口界面
+            
+            if player.player_game_status == -1 {
+                let secondVC=HGgameoverController()
+                present(secondVC, animated: true, completion: nil)
+                print("HG玩家淘汰")
+            }else if player.player_game_status == 1{
+                let secondVC=HGgamewinViewController()
+                present(secondVC, animated: true, completion: nil)
+                print("HG玩家胜利")
+            }
+            
+            ///"退出房间“按钮出现
+            view.addSubview(leaveroom)
+            leaveroom.snp.makeConstraints{ (make) in
+                make.bottom.equalTo(userL.snp.top)
+                make.left.equalTo(gamingView.snp.right).offset(40)
+                make.width.equalTo(100)
+                make.right.equalTo(-40)
+            }
+            
+            ///跳出被淘汰的提示以后禁用所有组件手势和按钮，不得再进行游戏有关操作，房主停留在游戏界面只能接受确认信息
+            //self.gameovertest.removeFromSuperview()
+            self.gamingView.removeGestureRecognizer(self.longPress)
+            self.gamingView.removeGestureRecognizer(self.tapGesture)
+            self.gamingView.removeGestureRecognizer(self.doubleclick)
+            self.answerButton.isEnabled=false
+            
+            if player.status! == true {
+                self.leaveroom.isEnabled = false
+            }else {
+                self.leaveroom.isEnabled = true
+            }
+            
+            player_game_status_timer.invalidate()
+        }
+    }
+    
+    @objc func Game_Status(){
+        if server.game_end_flag == true {
+             self.leaveroom.isEnabled = true
+        }
     }
     
     ///判断抢答弹窗
@@ -301,7 +354,7 @@ class HGGamingController: UIViewController {
         view.addSubview(answerButton)
         view.addSubview(userL)
         view.addSubview(paidui)
-        view.addSubview(gameovertest)
+        //view.addSubview(gameovertest)
         
         self.gamingView.addGestureRecognizer(self.longPress)
         self.gamingView.addGestureRecognizer(self.tapGesture)
@@ -332,12 +385,12 @@ class HGGamingController: UIViewController {
             make.left.equalTo(gamingView.snp.right).offset(20)
             make.right.equalTo(-20)
         }
-        gameovertest.snp.makeConstraints{ (make) in
-            make.bottom.equalTo(userL.snp.top)
-            make.left.equalTo(gamingView.snp.right).offset(40)
-            make.width.equalTo(100)
-            make.right.equalTo(-40)
-        }
+//        gameovertest.snp.makeConstraints{ (make) in
+//            make.bottom.equalTo(userL.snp.top)
+//            make.left.equalTo(gamingView.snp.right).offset(40)
+//            make.width.equalTo(100)
+//            make.right.equalTo(-40)
+//        }
         answerButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(remainingL)
             make.centerY.equalTo(gamingView.snp.centerY).offset(20)
@@ -353,50 +406,29 @@ class HGGamingController: UIViewController {
         if sender == answerButton {
             //按下抢答按钮
             player.Send_Ring_Calling()
-        }else if sender == self.gameovertest{//被淘汰后的界面变化处理
-            //self.longPress.remove
-            //removeAllSubViews()
-            //view.addSubview(gameover)
-            //gameover.snp.makeConstraints { (make) in
-                       //make.left.equalTo(30)
-                       //make.top.equalTo(10)
-                       //make.bottom.equalTo(-10)
-                   //}
             
-            ///弹出淘汰提醒窗口界面
-            let secondVC=HGgameoverController()
-            present(secondVC, animated: true, completion: nil)
-            
-            ///"退出房间“按钮出现
-            view.addSubview(leaveroom)
-            leaveroom.snp.makeConstraints{ (make) in
-                make.bottom.equalTo(userL.snp.top)
-                make.left.equalTo(gamingView.snp.right).offset(40)
-                make.width.equalTo(100)
-                make.right.equalTo(-40)
-            }
-            
-            ///跳出被淘汰的提示以后禁用所有组件手势和按钮，不得再进行游戏有关操作，房主停留在游戏界面只能接受确认信息
-            self.gameovertest.removeFromSuperview()
-            self.gamingView.removeGestureRecognizer(self.longPress)
-            self.gamingView.removeGestureRecognizer(self.tapGesture)
-            self.gamingView.removeGestureRecognizer(self.doubleclick)
-            self.answerButton.isEnabled=false
-            
-            /*MARK: 这里需要修改，增加判断是房主还是玩家来处理被淘汰后是否可以点击退出房间
-            //这里判断是否是房主，if是的话
-            self.leaveroom.isEnabled=false
-            并且游戏全部结束后让房主也退出房间
-            self.leaveroom.isEnabled=true
-            //如果不是的话
-            self.leaveroom.isEnabled=true
-            */
-            
-            
-            //navigationController?.popToRootViewController(animated: true);
-            //let OverController = HGgameoverController()
-            //navigationController?.pushViewController(OverController, animated: true)
+//            }else if sender == self.gameovertest{//被淘汰后的界面变化处理
+//            //self.longPress.remove
+//            //removeAllSubViews()
+//            //view.addSubview(gameover)
+//            //gameover.snp.makeConstraints { (make) in
+//               //make.left.equalTo(30)
+//               //make.top.equalTo(10)
+//               //make.bottom.equalTo(-10)
+//           //}
+//
+//            //navigationController?.popToRootViewController(animated: true);
+//            //let OverController = HGgameoverController()
+//            //navigationController?.pushViewController(OverController, animated: true)
+//        }
         }else if sender == self.leaveroom{//点击退出房间以后返回主页
+            player.End_Connect()
+            update_card_num.invalidate()
+            flash_flag_timer.invalidate()
+            if player.status == true {
+                answer_flag_timer.invalidate()
+                game_status_timer.invalidate()
+            }
             navigationController?.popToRootViewController(animated: true);
         }
         
@@ -412,25 +444,3 @@ class HGGamingController: UIViewController {
         }
     }
 }
-
-
-
-//        if sender ==  successButton {//如果点击抢答成功
-//
-//        } else if sender == failureButton {//如果点击抢答失败
-//            let controller = UIAlertController(title: "温馨提示", message: "\(userinfo?.Username ?? "你")  抢答失败", preferredStyle: UIAlertController.Style.alert)
-//            controller.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (action) in //确定抢答失败后的行为
-//                self.cardcnt = self.cardcnt! - 1
-//                if self.cardcnt ?? 0 <= 0{//如果该玩家没牌了，判断其淘汰，进入淘汰界面
-//                    self.roominfo?.count=(self.roominfo?.count)!-1 //房间玩家数减1
-//                    self.navigationController?.pushViewController(HGgameoverController(), animated: true)
-//                }else{
-//                self.remainingL.text = "剩余牌: \(self.cardcnt ?? 0)"
-//                }
-//            }))
-//
-//            controller.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.destructive, handler: { (action) in
-//
-//            }))
-//            present(controller, animated: true, completion: nil)
-//        }

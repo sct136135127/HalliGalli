@@ -40,6 +40,9 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     /// 抢答结果
     var answer_res:Bool?
     
+    /// 游戏结束标志
+    var game_end_flag:Bool?
+    
     ///更新服务器网络信息
     func Update_Server_NetInfo(){
         server_info = player.userinfo
@@ -178,6 +181,8 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     func Player_Answer_Right(){
         //牌分配
         var save_card:[String] = []
+        //失败的玩家
+        var fail_list:[Int] = []
         
         for i in 0..<playerinfo_array.count {
             if playerinfo_array[i].card_flop! != 0 && playerinfo_array[i].identifier! != answer_identifier! {
@@ -193,6 +198,11 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 }
                 
                 //MARK: ！判断当前遍历的玩家是否游戏结束
+                if playerinfo_array[i].card_flop! == 0 && playerinfo_array[i].card_can_flop! == 0 {
+                    //玩家游戏结束
+                    Send_Game_Info(sock: playerinfo_array[i].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                    fail_list.append(i)
+                }
             }
         }
         
@@ -220,16 +230,48 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 break
             }
         }
+        
+        //断连，清理信息
+        for i in 0..<fail_list.count {
+            playerinfo_array[fail_list[i] - i].tcp_socket!.disconnect()
+            playerinfo_array.remove(at: fail_list[i] - i)
+            
+            //判断获胜
+            if playerinfo_array.count <= 2{
+                let Acount = playerinfo_array[0].card_can_flop! + playerinfo_array[0].card_flop!
+                let Bcount = playerinfo_array[1].card_can_flop! + playerinfo_array[1].card_flop!
+                
+                //可能出现二者同牌数量的情况
+                if Acount >= Bcount {
+                    Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
+                    Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                }else {
+                    Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
+                    Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                }
+                
+                //MARK: 游戏结束
+                game_end_flag = true
+                Stop_ALL_TCP()
+                
+                break
+            }
+        }
     }
     
     /// XXX抢答失败
     func Player_Answer_Wrong(){
         let person_num = Person_Num() - 1
         var card_info:[String] = []
+        var fail_flag = -1
         
         for i in 0..<playerinfo_array.count {
             if playerinfo_array[i].identifier! == answer_identifier! {
                 //MARK: 判断该玩家是否失败
+                if playerinfo_array[i].card_can_flop! < person_num {
+                    fail_flag = i
+                    break
+                }
                 
                 //剩余牌可以分发
                 for _ in 0..<person_num {
@@ -239,6 +281,33 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 
                 Send_Card_Info(sock: playerinfo_array[i].tcp_socket!, card_info: "00000", num: String(playerinfo_array[i].card_can_flop!), kind: TCPKIND.ANSWER_WRONG.rawValue)
             }
+        }
+        
+        //玩家失败
+        if fail_flag != -1 {
+            Send_Game_Info(sock: playerinfo_array[fail_flag].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+            playerinfo_array[fail_flag].tcp_socket!.disconnect()
+            playerinfo_array.remove(at: fail_flag)
+            
+            //判断获胜
+            if playerinfo_array.count <= 2{
+                let Acount = playerinfo_array[0].card_can_flop! + playerinfo_array[0].card_flop!
+                let Bcount = playerinfo_array[1].card_can_flop! + playerinfo_array[1].card_flop!
+                
+                //可能出现二者同牌数量的情况
+                if Acount >= Bcount {
+                    Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
+                    Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                }else {
+                    Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
+                    Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                }
+                
+                //MARK: 游戏结束
+                game_end_flag = true
+                Stop_ALL_TCP()
+            }
+            return
         }
         
         for i in 0..<playerinfo_array.count {
@@ -477,7 +546,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         }
     }
     
-    ///发送游戏结束信息
+    ///发送房间关闭信息
     func Send_Room_Close(){
         let content:Data = Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: TCPKIND.ROOM_CLOSE.rawValue, INFO: String(-1)))
         
@@ -493,4 +562,10 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         Send_TCP_Socket(sock: sock, socket_data: content)
     }
     
+    ///发送游戏结果信息
+    func Send_Game_Info(sock: GCDAsyncSocket,kind:String){
+        let content:Data = Tcp_Socket_ChangeInto_Data(tcp_socket: TCP_SOCKET(TCP_KIND: kind, INFO: "00000" + "/" + "0"))
+        
+        Send_TCP_Socket(sock: sock, socket_data: content)
+    }
 }
