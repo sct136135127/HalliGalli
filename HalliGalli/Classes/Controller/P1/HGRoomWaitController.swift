@@ -65,7 +65,7 @@ class HGRoomWaitController: UIViewController {
     fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
         object.contentMode = UIView.ContentMode.scaleAspectFill
-        object.image = UIImage.imageFromColor(color: UIColor.lightGray, inSize: self.view.bounds.size)
+        object.image = UIImage.imageFromColor(color: UIColor.white, inSize: self.view.bounds.size)
         return object
     }()
     

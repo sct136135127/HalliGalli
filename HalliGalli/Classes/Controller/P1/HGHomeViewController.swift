@@ -104,7 +104,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     ///背景图片
     fileprivate lazy var backgroundImageView: UIImageView = {
         let object = UIImageView()
-        object.backgroundColor=UIColor.orange
+        object.backgroundColor=UIColor.white
         object.alpha=0.8
         object.contentMode = UIView.ContentMode.scaleAspectFill
         object.image = UIImage(named: "home_background")
@@ -154,7 +154,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     }
     
     func setupUI() {
-        view.backgroundColor = UIColor.orange
+        view.backgroundColor = UIColor.white
         view.addSubview(backgroundImageView)
         view.addSubview(joinRoomButton)
         view.addSubview(createRoomButton)
