@@ -113,7 +113,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appDelegate=UIApplication.shared.delegate as! AppDelegate
+        /*let appDelegate=UIApplication.shared.delegate as! AppDelegate
         let manager = appDelegate.reachabilityManager
         let status=manager!.networkReachabilityStatus
         switch status {
@@ -125,7 +125,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
             print("wifi")
         case .reachable(.wwan):
             present(HGExitViewController(), animated: true, completion: nil)
-        }
+        }*/
         idtextfield.delegate = self
         self.modalPresentationCapturesStatusBarAppearance = true
         
