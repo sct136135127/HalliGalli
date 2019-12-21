@@ -142,8 +142,16 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     @objc func imageViewClick(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             //print("收回键盘")
+            if let id = self.idtextfield.text {
+                if id.lengthOfBytes(using: .utf8) == 0{
+                    player.userinfo.ID = "player"
+                }else {
+                    player.userinfo.ID=self.idtextfield.text
+                }
+            }
             idtextfield.resignFirstResponder()
         }
+        
         sender.cancelsTouchesInView = false
     }
     
@@ -163,8 +171,8 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         //用snap约束设置各个UI组件的布局
         backgroundImageView.snp.makeConstraints { (make) in
             //make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom:0, right: 0))
-            make.right.equalTo(0)
-            make.top.equalTo(50)
+            make.right.equalTo(-50)
+            make.top.equalTo(-75)
             make.bottom.equalTo(50)
             make.left.equalTo(-50)
         }
@@ -189,8 +197,8 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         }
         
         idtextfield.snp.makeConstraints{(make) in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(40)
+            make.centerX.equalTo(backgroundImageView)
+            make.bottom.equalTo(-75)
             make.size.equalTo(CGSize(width: 150, height: 30))
         }
     }
