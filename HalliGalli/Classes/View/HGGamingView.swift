@@ -42,7 +42,6 @@ class HGGamingView: UIView {
             }
         }
     
-    
     /// 图片数组
     fileprivate var imageViews: [UIImageView] = {
         return [UIImageView(), UIImageView(), UIImageView(), UIImageView(), UIImageView()]

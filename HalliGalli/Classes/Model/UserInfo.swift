@@ -32,7 +32,9 @@ struct UserInfo {
 
 //MARK: - 获取信息
 
-    //待理解
+    
+    
+    //MARK: 待理解
     ///获取本机ip和子网掩码
     mutating func GetIPNetmask()
     {

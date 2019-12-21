@@ -37,7 +37,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         //设置边框样式为圆角矩形
         object.borderStyle = UITextField.BorderStyle.roundedRect
         object.backgroundColor=UIColor.white
-        object.placeholder="请输入用户名"
+        object.placeholder="请输入昵称"
         object.adjustsFontSizeToFitWidth=true
         object.minimumFontSize=10
         object.textAlignment = .left
@@ -47,7 +47,6 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         object.layer.borderWidth=2.0
         object.layer.cornerRadius=5.0
         object.clearButtonMode = .always
-        //object.becomeFirstResponder()
         object.keyboardType = .default
         object.returnKeyType = UIReturnKeyType.done
         return object
@@ -113,19 +112,7 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*let appDelegate=UIApplication.shared.delegate as! AppDelegate
-        let manager = appDelegate.reachabilityManager
-        let status=manager!.networkReachabilityStatus
-        switch status {
-        case .notReachable:
-            present(HGExitViewController(), animated: true, completion: nil)
-        case .unknown:
-            present(HGExitViewController(), animated: true, completion: nil)
-        case .reachable(.ethernetOrWiFi):
-            print("wifi")
-        case .reachable(.wwan):
-            present(HGExitViewController(), animated: true, completion: nil)
-        }*/
+        
         idtextfield.delegate = self
         self.modalPresentationCapturesStatusBarAppearance = true
         
@@ -171,40 +158,58 @@ class HGHomeViewController: UIViewController,UITextFieldDelegate {
         //用snap约束设置各个UI组件的布局
         backgroundImageView.snp.makeConstraints { (make) in
             //make.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom:0, right: 0))
-            make.right.equalTo(-50)
-            make.top.equalTo(-75)
-            make.bottom.equalTo(50)
+            make.centerX.equalToSuperview().offset(0)
+            make.centerY.equalToSuperview().offset(0)
+            make.right.equalTo(50)
+            make.top.equalTo(-60)
+            make.bottom.equalTo(40)
             make.left.equalTo(-50)
         }
         
         joinRoomButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview().offset(-80)
-            make.size.equalTo(createRoomButton)
-            make.right.equalTo(-40)
+//            make.centerX.equalTo(backgroundImageView)
+//            make.centerY.equalTo(backgroundImageView)
+//            make.bottom.equalTo(-20)
+//            make.size.equalTo(CGSize(width: 100, height: 44))
+            make.centerX.equalToSuperview().offset(-150)
+            make.bottom.equalTo(-30)
             make.size.equalTo(CGSize(width: 100, height: 44))
         }
         
         createRoomButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.right.equalTo(-40)
+//            make.centerX.equalTo(backgroundImageView)
+            make.centerX.equalToSuperview().offset(0)
+            make.bottom.equalTo(-30)
+            make.size.equalTo(CGSize(width: 100, height: 44))
+//            make.centerX.equalToSuperview()
+//            make.centerX.equalTo(backgroundImageView)
+//            make.centerY.equalTo(backgroundImageView)
+//            make.size.equalTo(joinRoomButton)
         }
         
         aboutButton.snp.makeConstraints { (make) in
-            make.right.equalTo(-40)
-            make.size.equalTo(createRoomButton)
-            make.centerY.equalToSuperview().offset(80)
-            //make.top.equalTo(createRoomButton.snp.bottom).offset(40)
+//            make.right.equalTo(-20)
+//            make.size.equalTo(joinRoomButton)
+//            make.size.equalTo(CGSize(width: 100, height: 44))
+//            make.centerY.equalToSuperview().offset(80)
+//            make.top.equalTo(createRoomButton.snp.bottom).offset(40)
+            make.centerX.equalToSuperview().offset(150)
+            make.bottom.equalTo(-30)
+            make.size.equalTo(CGSize(width: 100, height: 44))
         }
         
         idtextfield.snp.makeConstraints{(make) in
-            make.centerX.equalTo(backgroundImageView)
-            make.bottom.equalTo(-75)
+//            make.centerX.equalTo(backgroundImageView)
+            make.centerX.equalToSuperview().offset(0)
+            make.bottom.equalTo(createRoomButton.snp.bottom).offset(-65)
             make.size.equalTo(CGSize(width: 150, height: 30))
+//            make.top.equalTo(30)
+//            make.right.equalTo(-20)
+//            make.right.equalTo(320)
         }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         //点击软键盘上的return后的行为：更新用户名并收回键盘
         if let id = textField.text {
             if id.lengthOfBytes(using: .utf8) == 0{

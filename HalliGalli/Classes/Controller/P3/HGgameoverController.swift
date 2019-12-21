@@ -8,7 +8,7 @@
 
 import UIKit
 
-//MARK: 第三阶段
+//MARK: 第三阶段 未使用
 class HGgameoverController:UIViewController{
     
     ///弹窗的属性样式
@@ -35,7 +35,6 @@ class HGgameoverController:UIViewController{
             return object;
         }()*/
     
-        //MARK: 规则待补全
         ///弹窗的label文字（字体内容）
         fileprivate lazy var contentLabel: UILabel = {
             let object = UILabel()

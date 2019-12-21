@@ -87,20 +87,6 @@ class HGRoomWaitController: UIViewController {
         super.viewDidLoad()
         room_status = 0
         
-        /*let appDelegate=UIApplication.shared.delegate as! AppDelegate
-        let manager = appDelegate.reachabilityManager
-        let status=manager!.networkReachabilityStatus
-        switch status {
-        case .notReachable:
-            present(HGExitViewController(), animated: true, completion: nil)
-        case .unknown:
-            present(HGExitViewController(), animated: true, completion: nil)
-        case .reachable(.ethernetOrWiFi):
-            print("wifi")
-        case .reachable(.wwan):
-            present(HGExitViewController(), animated: true, completion: nil)
-        }*/
-        
         //玩家停止接收UDP信息
         if player.status == false {
             player.Close_UDP_Receive()
@@ -127,7 +113,14 @@ class HGRoomWaitController: UIViewController {
         if player.status == false {
             countL.text = "已加入人数: \(player.room_num ?? "wrong")  你是玩家，请等待房主开始游戏"
         }else{
-            countL.text = "已加入人数: \(player.room_num ?? "wrong")  你是房主"
+            countL.text = "已加入人数: \(player.room_num ?? "wrong")  你是房主，请等待玩家加入"
+            if player.room_num != nil {
+                if Int(player.room_num!)! >= 3 {
+                    startButton.isEnabled = true
+                }else {
+                    startButton.isEnabled = false
+                }
+            }
         }
         
     }
@@ -165,20 +158,8 @@ class HGRoomWaitController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(leaveButton)
         view.addSubview(countL)
-        if player.status == false {
-            //如果当前用户身份是普通玩家，不能点击开始
-            startButton.isEnabled=false
-            
-        }else{
-            //如果当前用户身份是房主，可以点击开始
-            if (server.room_info?.roomCount)! < 3{//如果房间人数小于3，不能点开始
-                // MARK: debug结束之后修改
-                startButton.isEnabled=true
-                //startButton.isEnabled=false
-            }else{//房间人数大于等于3可以开始
-                startButton.isEnabled=true
-            }
-        }
+        
+        startButton.isEnabled=false
         
         //snp布置布局
         backgroundImageView.snp.makeConstraints { (make) in

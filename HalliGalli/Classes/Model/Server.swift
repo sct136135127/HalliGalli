@@ -47,11 +47,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
     func Update_Server_NetInfo(){
         server_info = player.userinfo
         
-        //MARK:测试
-//        print(userinfo.ip_address)
-//        print(userinfo.identifier)
-//        print(userinfo.net_mask)
-        
         //添加房主信息 更新房间信息
         //playerinfo_array.append(player.userinfo)
         room_info = RoomInfo(roomID: server_info.ID ?? "error", roomAddress: server_info.ip_address ?? "error", roomCount: 1)
@@ -70,7 +65,7 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         }
     }
     
-    ///计算UDP广播地址
+    ///UDP广播地址
     func Udp_broadcast_address(){
         //let ip = server_info.ip_address
         //let netmask = server_info.net_mask
@@ -87,7 +82,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         return playerinfo_array.count
     }
     
-    //MARK: 随机性可能有些问题 牌堆是不是要重新定一下值
     ///按照人数分发牌 一人16张 6人则每人15张
     func Arrange_Cards_By_People(){
         let person_num = Person_Num()
@@ -218,12 +212,15 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 let Bcount = playerinfo_array[1].card_can_flop! + playerinfo_array[1].card_flop!
                 
                 //可能出现二者同牌数量的情况
-                if Acount >= Bcount {
+                if Acount > Bcount {
                     Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
                     Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
-                }else {
+                }else if Acount < Bcount{
                     Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
                     Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                }else {
+                    Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
+                    Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
                 }
                 
                 //MARK: 游戏结束
@@ -301,12 +298,15 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
                 let Bcount = playerinfo_array[1].card_can_flop! + playerinfo_array[1].card_flop!
                 
                 //可能出现二者同牌数量的情况
-                if Acount >= Bcount {
+                if Acount > Bcount {
                     Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
                     Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
-                }else {
+                }else if Acount < Bcount{
                     Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
                     Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_FAIL.rawValue)
+                }else {
+                    Send_Game_Info(sock: playerinfo_array[1].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
+                    Send_Game_Info(sock: playerinfo_array[0].tcp_socket!, kind: TCPKIND.GAME_WIN.rawValue)
                 }
                 
                 //MARK: 游戏结束
@@ -384,7 +384,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         }
     }
     
-    //MARK: 待测试 可能会由于房主回到主界面而崩溃！
     ///房主离开时断开所有连接 游戏结束时断开所有连接
     func Stop_ALL_TCP(){
         for i in playerinfo_array {
@@ -401,7 +400,6 @@ class Server: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate {
         sock.write(socket_data, withTimeout: -1, tag: 0)
     }
     
-    //MARK: 待测试
     //接收TCP Socket
     ///接收新player的加入TCP
     func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {

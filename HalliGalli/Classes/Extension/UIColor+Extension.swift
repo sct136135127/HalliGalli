@@ -11,7 +11,6 @@ import UIKit
 
 extension UIColor {
     /// Init from UInt64 e.g. 0x333333
-    ///
     /// - Parameters:
     ///   - hex: UInt64
     ///   - alpha: alpha
@@ -25,7 +24,6 @@ extension UIColor {
     }
     
     /// 随机颜色
-    ///
     /// - Returns: UIColor
     static func randomColor() -> UIColor {
         let r = CGFloat(arc4random_uniform(256))

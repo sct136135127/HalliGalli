@@ -174,7 +174,6 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
         tcp_socket?.write(socket_data, withTimeout: -1, tag: 0)
     }
     
-    //MARK: 待完善
     /// 接收TCP socket
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
         //读取和解读信息，处理信息
@@ -232,12 +231,10 @@ class Player: NSObject, GCDAsyncUdpSocketDelegate, GCDAsyncSocketDelegate{
                 flash_flag2 = 2
             }else if content.split(separator: "&")[1] == TCPKIND.GAME_FAIL.rawValue{
                 //玩家失败
-                //MARK: 弹窗
                 player_game_status = -1
                 print("玩家失败")
             }else if content.split(separator: "&")[1] == TCPKIND.GAME_WIN.rawValue{
                 //玩家胜利
-                //MARK: 弹窗
                 player_game_status = 1
                 print("玩家胜利")
             }else {

@@ -24,7 +24,6 @@ var answer_flag_timer:Timer = Timer()
 
 class HGGamingController: UIViewController {
     
-    //MARK: 记得终止
     ///更新剩余牌数的信息
     var update_card_num:Timer = Timer()
     
@@ -50,14 +49,14 @@ class HGGamingController: UIViewController {
     }
     
     fileprivate func left_pop_card(){
-        UIView.transition(with: self.gamingView,duration: 0.35, options: UIView.AnimationOptions.transitionCurlUp, animations: {
+        UIView.transition(with: self.gamingView,duration: 0.4, options: UIView.AnimationOptions.transitionCurlUp, animations: {
            self.gamingView.Show_Card(content: player.card_show!)
         }) { (flag) in
         }
     }
     
     fileprivate func left_push_card(){
-        UIView.transition(with: self.gamingView,duration: 0.35, options: UIView.AnimationOptions.transitionCurlDown, animations: {
+        UIView.transition(with: self.gamingView,duration: 0.4, options: UIView.AnimationOptions.transitionCurlDown, animations: {
             self.gamingView.Show_Card(content: player.card_show!)
         }) { (flag) in
             

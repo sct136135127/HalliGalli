@@ -24,7 +24,7 @@ class HGRoomListController: UIViewController {
         object.tableFooterView = UIView()
         object.showsVerticalScrollIndicator = false
         object.showsHorizontalScrollIndicator = false
-        object.layer.cornerRadius = 5
+        object.layer.cornerRadius = 10
         object.layer.masksToBounds = true
         return object
     }()
@@ -52,7 +52,7 @@ class HGRoomListController: UIViewController {
         object.text = "房间列表"
         object.textAlignment = .center
         object.textColor = kMainThemeColor
-        object.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
+        object.font = UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.medium)
         return object
     }()
     

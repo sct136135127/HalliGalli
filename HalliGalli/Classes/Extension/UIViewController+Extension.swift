@@ -11,7 +11,7 @@ import UIKit
 
 extension UIViewController {
     
-    /// 能否侧滑返回,
+    /// 能否侧滑返回
     @objc  var canEdgePanBack: Bool {
         return true
     }

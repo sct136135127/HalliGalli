@@ -12,7 +12,6 @@ import UIKit
 extension UIImage {
     
     /// Init from UIColor
-    ///
     /// - Parameter color: UIColor
     /// - Returns: UIImage
     public class func imageFromColor(color: UIColor) -> UIImage? {
@@ -21,7 +20,6 @@ extension UIImage {
     
     
     /// Init from UIColor and CGSize
-    ///
     /// - Parameters:
     ///   - color: UIColor
     ///   - size: CGSize
