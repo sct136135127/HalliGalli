@@ -216,7 +216,7 @@ extension HGRoomListController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.detailTextLabel?.font=UIFont.monospacedDigitSystemFont(ofSize: 25, weight: .heavy)
         cell.detailTextLabel?.text="\(currentInfo.roomCount ?? 0)/6"
-        if selectedRoomInfo != nil && currentInfo.roomID == selectedRoomInfo?.roomID {
+        if selectedRoomInfo != nil && currentInfo.roomAddress == selectedRoomInfo?.roomAddress {
             cell.textLabel?.textColor = kMainThemeColor
         } else {
             cell.textLabel?.textColor = UIColor.black
